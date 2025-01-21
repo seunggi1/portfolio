@@ -1,4 +1,4 @@
-import { type HTMLAttributes } from 'react';
+import type { JSX, HTMLAttributes } from 'react';
 
 export function Button({
 	className,
@@ -10,7 +10,7 @@ export function Button({
 		<button
 			// TODO: 시멘틱 컬러 시스템 적용
 			className={[
-				'ui-bg-cyan-300 ui-text-white hover:ui-bg-cyan-400',
+				'ui-p-2 ui-bg-cyan-300 ui-text-white hover:ui-bg-cyan-400 ui-rounded-lg ',
 				className,
 			].join(' ')}
 			onClick={onClick}
