@@ -9,7 +9,7 @@ export function Button({
 	return (
 		<button
 			className={[
-				'ui-p-2 ui-bg-primary ui-text-white hover:ui-bg-primary-light ui-rounded-lg',
+				'p-2 bg-primary text-white hover:bg-primary-light rounded-lg',
 				className,
 			].join(' ')}
 			onClick={onClick}

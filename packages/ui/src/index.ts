@@ -1,2 +1,2 @@
-export { Button } from './Button';
-export { Card } from './card';
+export { Button } from './button';
+export { default as Card } from './card';
