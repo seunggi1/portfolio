@@ -1,43 +1,56 @@
+import { Routine } from '@/types/routine';
 import { Card } from '@repo/ui/common';
-import { Flame } from 'lucide-react';
+import { Cat, Flame } from 'lucide-react';
+import Image from 'next/image';
 
 const items = new Array(5).fill(0);
 
-export default function RoutineList() {
+type Props = {
+	routines: Routine[];
+};
+
+export default function RoutineList({ routines }: Props) {
 	return (
-		<section className="p-2 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
-			{items.map((_, i) => (
+		<section className="max-w-screen-xl m-auto px-8 pt-4 grid gap-x-4 gap-y-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+			{routines.map((routine, i) => (
 				<Card key={i}>
 					<Card.CardHeader>
-						<div className="bg-primary text-white w-full h-[7rem] flex items-center justify-center">{`루틴이미지 #${i + 1}`}</div>
+						<div className="text-white w-full h-[8rem] flex items-center justify-center relative">
+							<Image
+								src={routine.imageURL ?? '/push-up.png'}
+								alt="doing pull-up man"
+								className="absolute"
+								fill={true}
+							/>
+						</div>
 					</Card.CardHeader>
 					<Card.CardBody>
 						<div className="">
-							<p className="font-bold">초보자 상체 루틴</p>
-							<p>20분 총 5개의 운동</p>
+							<p className="font-bold">{routine.name}</p>
+							<p>
+								{`약 ${routine.totalMinutes}분 총 ${routine.totalExerciseCount}개의 운동 `}
+							</p>
 							<div className="flex ">
-								{items.map((v, i) => (
-									<Flame
-										className="-ml-[0.4rem]"
-										key={i}
-										fill="#e25822"
-										color="#e68a19"
-									/>
-								))}
+								{Array.from({ length: routine.difficultyLevel }).map(
+									(_, flameIndex) => (
+										<Flame
+											className="-ml-[0.4rem]"
+											key={flameIndex}
+											fill="#EE3A34"
+											color="#EE3A34"
+										/>
+									)
+								)}
 							</div>
 							<div className="flex mt-2 gap-1">
-								<button className="bg-secondary p-1 rounded-full text-xs w-8">
-									전신
-								</button>
-								<button className="bg-secondary p-1 rounded-full text-xs w-8">
-									어깨
-								</button>
-								<button className="bg-secondary p-1 rounded-full text-xs w-8">
-									가슴
-								</button>
-								<button className="bg-secondary p-1 rounded-full text-xs w-8">
-									등
-								</button>
+								{routine.categoryNames.map((categoryName, i) => (
+									<button
+										key={categoryName}
+										className="bg-secondary p-1 rounded-full text-xs w-8"
+									>
+										{categoryName}
+									</button>
+								))}
 							</div>
 						</div>
 					</Card.CardBody>
