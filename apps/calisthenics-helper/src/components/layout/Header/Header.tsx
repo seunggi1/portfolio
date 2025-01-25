@@ -4,10 +4,12 @@ import { Menu } from 'lucide-react';
 
 export default function Header() {
 	return (
-		<header className="flex items-center justify-between p-4 border-b-2">
-			<Menu />
-			<Logo />
-			<Button>로그인</Button>
+		<header className="border-b px-4 py-2">
+			<div className="max-w-screen-xl m-auto flex items-center justify-between ">
+				<Menu />
+				<Logo />
+				<Button>로그인</Button>
+			</div>
 		</header>
 	);
 }
