@@ -1,5 +1,5 @@
 import { Routine } from '@/types/routine';
-import { Card } from '@repo/ui/common';
+import { Button, Card } from '@repo/ui/common';
 import { Cat, Flame } from 'lucide-react';
 import Image from 'next/image';
 
@@ -44,12 +44,15 @@ export default function RoutineList({ routines }: Props) {
 							</div>
 							<div className="flex mt-2 gap-1">
 								{routine.categoryNames.map((categoryName, i) => (
-									<button
+									<Button
 										key={categoryName}
-										className="bg-secondary p-1 rounded-full text-xs w-8"
+										color="secondary"
+										borderRadius="full"
+										size="xs"
+										className="max-w-10"
 									>
 										{categoryName}
-									</button>
+									</Button>
 								))}
 							</div>
 						</div>

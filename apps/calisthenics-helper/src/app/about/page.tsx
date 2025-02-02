@@ -23,7 +23,9 @@ export default function Home() {
 				</span>
 				<span>그럼 맨몸운동 헬퍼와 함께 맨몸운동의 세계로 빠져 볼까요?</span>
 			</h2>
-			<Button onClick={handleClick}>시작해보기</Button>
+			<Button color="primary" borderRadius="md" onClick={handleClick}>
+				시작해보기
+			</Button>
 		</section>
 	);
 }

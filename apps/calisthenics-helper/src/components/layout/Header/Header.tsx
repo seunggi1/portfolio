@@ -8,7 +8,9 @@ export default function Header() {
 			<div className="max-w-screen-xl m-auto flex items-center justify-between ">
 				<Menu />
 				<Logo />
-				<Button>로그인</Button>
+				<Button color="primary" borderRadius="md">
+					로그인
+				</Button>
 			</div>
 		</header>
 	);
