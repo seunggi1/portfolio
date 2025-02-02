@@ -20,7 +20,7 @@ export default function RootLayout({
 	children: ReactNode;
 }>) {
 	return (
-		<html lang="kr">
+		<html lang="kr" data-theme="corporate">
 			<body className={`${karla} antialiased`}>
 				<Layout>{children}</Layout>
 			</body>
