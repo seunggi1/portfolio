@@ -1,6 +1,37 @@
 import type { JSX, HTMLAttributes } from 'react';
 import type { BorderRadius, Color, Size } from '../types';
 
+export function Button({
+	className,
+	children,
+	onClick,
+	color = 'primary',
+	borderRadius = 'md',
+	size = 'md',
+	...props
+}: {
+	color?: Color;
+	borderRadius?: BorderRadius;
+	size?: Size;
+} & HTMLAttributes<HTMLButtonElement>): JSX.Element {
+	return (
+		<button
+			className={[
+				'btn',
+				createButtonSize(size),
+				createButtonColor(color),
+				createBorderRadius(borderRadius),
+				className,
+			].join(' ')}
+			onClick={onClick}
+			type="button"
+			{...props}
+		>
+			{children}
+		</button>
+	);
+}
+
 function createButtonColor(color: Color): string {
 	switch (color) {
 		case 'primary':
@@ -40,35 +71,4 @@ function createButtonSize(borderRadius: Size): string {
 		default:
 			return '';
 	}
-}
-
-export function Button({
-	className,
-	children,
-	onClick,
-	color = 'primary',
-	borderRadius = 'md',
-	size = 'md',
-	...props
-}: {
-	color?: Color;
-	borderRadius?: BorderRadius;
-	size?: Size;
-} & HTMLAttributes<HTMLButtonElement>): JSX.Element {
-	return (
-		<button
-			className={[
-				'btn',
-				createButtonSize(size),
-				createButtonColor(color),
-				createBorderRadius(borderRadius),
-				className,
-			].join(' ')}
-			onClick={onClick}
-			type="button"
-			{...props}
-		>
-			{children}
-		</button>
-	);
 }
