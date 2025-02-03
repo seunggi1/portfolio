@@ -1,9 +1,9 @@
 import { getServiceClient } from '@/services/serviceClient';
+import { NextResponse } from 'next/server';
 
-export async function GET(req: Request) {
+export async function GET() {
 	const client = await getServiceClient();
+	const routines = await client.getRoutines(1);
 
-	const data = await client.getRoutines(1);
-
-	return Response.json({ data });
+	return NextResponse.json(routines);
 }
