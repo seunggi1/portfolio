@@ -5,6 +5,7 @@ import { createHttpClient } from '@/utils/httpClient';
 import { Button } from '@repo/ui/common';
 import { Flame } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type Props = {
@@ -74,16 +75,25 @@ export default function RoutineDetail({ id }: Props) {
 							</Button>
 						))}
 					</div>
-					<Button>시작하기</Button>
+					<Link href={`/routines/${id}/run`}>
+						<Button className="w-full">시작하기</Button>
+					</Link>
 				</div>
 			</div>
 			<div className="basis-[40%] w-full text-center">
 				<h2 className="p-2 text-2xl font-bold">운동 구성</h2>
 				<ul>
 					{exerciseSets.map(
-						({ id, name, repetitionCount, restTime, sets, totalTime }) => (
+						({
+							id,
+							exerciseName,
+							repetitionCount,
+							restTime,
+							sets,
+							totalTime,
+						}) => (
 							<li key={id} className="flex flex-col p-2 border-t">
-								<span className="font-bold">{name}</span>
+								<span className="font-bold">{exerciseName}</span>
 								<span>{`총 ${sets}세트`}</span>
 								<span>{`반복 횟수 : ${repetitionCount}회`}</span>
 								<span>{`운동 시간 : ${totalTime}초`}</span>

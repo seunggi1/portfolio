@@ -11,10 +11,12 @@ export type Routine = {
 export type ExerciseSet = {
 	id: string;
 	name: string;
+	exerciseName: string;
 	sets: number;
 	repetitionCount: number;
 	totalTime: number;
 	restTime: number;
+	order: number;
 };
 
 export type RoutineDetail = Routine & { exerciseSets: ExerciseSet[] };
