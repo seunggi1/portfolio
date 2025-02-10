@@ -14,8 +14,8 @@ export type ExerciseSet = {
 	exerciseName: string;
 	sets: number;
 	repetitionCount: number;
-	totalTime: number;
-	restTime: number;
+	exerciseSeconds: number;
+	restSeconds: number;
 	order: number;
 };
 
