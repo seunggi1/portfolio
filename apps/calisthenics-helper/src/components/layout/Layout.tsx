@@ -7,9 +7,9 @@ type Props = {
 
 export default function Layout({ children }: Props) {
 	return (
-		<>
+		<body className="flex flex-col h-screen min-h-screen">
 			<Header />
-			<main>{children}</main>
-		</>
+			<main className="grow">{children}</main>
+		</body>
 	);
 }
