@@ -1,4 +1,4 @@
-import RoutineRun from '@/components/routine/RoutineRun';
+import RoutineRun from '@/components/routine/routine-run/RoutineRun';
 
 type Props = {
 	params: Promise<{ id: string }>;

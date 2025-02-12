@@ -2,10 +2,9 @@ import { ExerciseSet } from '@/types/routine';
 import useTimer from '@/hooks';
 import { Button } from '@repo/ui/common';
 import RoutineProgressBar from './RoutineProgressBar';
-import { CirclePause, CirclePlay, CircleStop } from 'lucide-react';
-import StopIcon from '../common/icon/StopIcon';
-import PlayIcon from '../common/icon/PlayIcon';
-import PauseIcon from '../common/icon/PauseIcon';
+import StopIcon from '@/components/common/icon/StopIcon';
+import PlayIcon from '@/components/common/icon/PlayIcon';
+import PauseIcon from '@/components/common/icon/PauseIcon';
 
 type Props = {
 	exerciseSet: ExerciseSet;
