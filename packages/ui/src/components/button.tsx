@@ -1,5 +1,5 @@
 import type { JSX, HTMLAttributes } from 'react';
-import type { BorderRadius, Color, Size } from '../types';
+import type { BorderRadius, Color, Size } from '@/types';
 
 export function Button({
 	className,
@@ -18,9 +18,9 @@ export function Button({
 		<button
 			className={[
 				'btn',
-				createButtonSize(size),
-				createButtonColor(color),
-				createBorderRadius(borderRadius),
+				getSizeClass(size),
+				getColorClass(color),
+				getBorderRadiusClass(borderRadius),
 				className,
 			].join(' ')}
 			onClick={onClick}
@@ -32,16 +32,18 @@ export function Button({
 	);
 }
 
-function createButtonColor(color: Color): string {
+function getColorClass(color: Color): string {
 	switch (color) {
 		case 'primary':
 			return 'btn-primary';
 		case 'secondary':
 			return 'btn-secondary';
+		default:
+			return 'btn-primary';
 	}
 }
 
-function createBorderRadius(borderRadius: BorderRadius): string {
+function getBorderRadiusClass(borderRadius: BorderRadius): string {
 	switch (borderRadius) {
 		case 'sm':
 			return 'rounded-sm';
@@ -56,7 +58,7 @@ function createBorderRadius(borderRadius: BorderRadius): string {
 	}
 }
 
-function createButtonSize(borderRadius: Size): string {
+function getSizeClass(borderRadius: Size): string {
 	switch (borderRadius) {
 		case 'xs':
 			return 'btn-xs';
