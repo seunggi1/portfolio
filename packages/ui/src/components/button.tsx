@@ -38,8 +38,15 @@ function getColorClass(color: Color): string {
 			return 'btn-primary';
 		case 'secondary':
 			return 'btn-secondary';
+		case 'info':
+			return 'btn-info';
+		case 'success':
+			return 'btn-success';
+		case 'warning':
+			return 'btn-warning';
+		case 'error':
 		default:
-			return 'btn-primary';
+			return 'btn-error';
 	}
 }
 
