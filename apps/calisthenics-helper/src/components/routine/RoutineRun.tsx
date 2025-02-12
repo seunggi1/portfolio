@@ -1,12 +1,14 @@
 'use client';
 
-import RoutineProgress from './RoutineProgress';
+import RoutineProgress from './RoutineRunner';
 import RoutinePrepare from './RoutinePrepare';
 import { useRoutine } from '@/hooks';
 
 type Props = {
 	id: string;
 };
+
+const PREPARE_SECONDS = 5;
 
 export default function RoutineRun({ id }: Props) {
 	const {
@@ -26,30 +28,30 @@ export default function RoutineRun({ id }: Props) {
 		return <> 운동 정보를 불러오는 중입니다...</>;
 	}
 
-	if (isPrepare) {
-		return (
-			<RoutinePrepare
-				prepareSeconds={5}
-				onPrepare={() => onChangeIsPrepare(true)}
-			/>
-		);
-	}
-
 	if (isEnd) {
 		return <>운동이 종료되었습니다.</>;
 	}
 
 	return (
 		<>
-			<RoutineProgress
-				exerciseSet={routine}
-				isPause={isPause}
-				onToggleIsPause={onToggleIsPause}
-				onNext={onNext}
-				onEnd={() => onChangeIsEnd(true)}
-				currentSet={currentSet}
-				isRest={isRest}
-			/>
+			{!isPrepare && (
+				<RoutinePrepare
+					prepareSeconds={PREPARE_SECONDS}
+					onPrepare={() => onChangeIsPrepare(true)}
+				/>
+			)}
+
+			{isPrepare && (
+				<RoutineProgress
+					exerciseSet={routine}
+					isPause={isPause}
+					onToggleIsPause={onToggleIsPause}
+					onNext={onNext}
+					onEnd={() => onChangeIsEnd(true)}
+					currentSet={currentSet}
+					isRest={isRest}
+				/>
+			)}
 		</>
 	);
 }
