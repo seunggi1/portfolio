@@ -1,4 +1,4 @@
-import RoutineDetail from '@/components/routine/RoutineDetail';
+import RoutineDetail from '@/components/routine/routine-detail/RoutineDetail';
 
 type Props = {
 	params: Promise<{ id: string }>;
