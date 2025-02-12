@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import RecommandRoutineBanner from './RecommandRoutineBanner';
 import CategoryFilterTab from './CategoryFilterTab';
 import RoutineCards from './RoutineCards';
-import { Routine } from '@/types/routine';
+import type { Routine } from '@/types/routine';
 import { createHttpClient } from '@/utils/httpClient';
 
 export default function Routines() {

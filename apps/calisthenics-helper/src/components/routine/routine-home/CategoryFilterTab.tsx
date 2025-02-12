@@ -1,5 +1,3 @@
-const items = ['전체', '가슴', '어깨', '하체'];
-
 type Props = {
 	categories: string[];
 };

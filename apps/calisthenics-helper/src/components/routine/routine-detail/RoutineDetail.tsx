@@ -1,12 +1,16 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { type RoutineDetail } from '@/types/routine';
 import { createHttpClient } from '@/utils/httpClient';
 import { Button } from '@repo/ui/common';
-import { Flame } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import RoutineSummary from '../ui/RoutineSummary';
+import RoutineLevel from '../ui/RoutineLevel';
+import RoutineCategories from '../ui/RoutineCategories';
+import ExerciseSetDetails from './ExerciseSetDetails';
 
 type Props = {
 	id: string;
@@ -50,58 +54,20 @@ export default function RoutineDetail({ id }: Props) {
 					)}
 				</div>
 				<div className="flex flex-col gap-1 p-2 mb-4">
-					<h1 className="text-2xl font-bold">{name}</h1>
-					<span className="text-lg">{`약 ${totalMinutes}분 총 ${totalExerciseCount}개의 운동 `}</span>
-					<div className="flex ">
-						{Array.from({ length: difficultyLevel }).map((_, flameIndex) => (
-							<Flame
-								className="-ml-[0.4rem]"
-								key={flameIndex}
-								fill="#EE3A34"
-								color="#EE3A34"
-							/>
-						))}
-					</div>
-					<div className="flex gap-1 mt-2">
-						{categoryNames.map((categoryName, i) => (
-							<Button
-								key={categoryName}
-								color="secondary"
-								borderRadius="full"
-								size="xs"
-								className="max-w-10"
-							>
-								{categoryName}
-							</Button>
-						))}
-					</div>
+					<RoutineSummary
+						name={name}
+						totalExerciseCount={totalExerciseCount}
+						totalMinutes={totalMinutes}
+					/>
+					<RoutineLevel level={difficultyLevel} />
+					<RoutineCategories categoryNames={categoryNames} />
 					<Link href={`/routines/${id}/run`}>
 						<Button className="w-full">시작하기</Button>
 					</Link>
 				</div>
 			</div>
 			<div className="basis-[40%] w-full text-center">
-				<h2 className="p-2 text-2xl font-bold">운동 구성</h2>
-				<ul>
-					{exerciseSets.map(
-						({
-							id,
-							exerciseName,
-							repetitionCount,
-							restSeconds,
-							sets,
-							exerciseSeconds,
-						}) => (
-							<li key={id} className="flex flex-col p-2 border-t">
-								<span className="font-bold">{exerciseName}</span>
-								<span>{`총 ${sets}세트`}</span>
-								<span>{`반복 횟수 : ${repetitionCount}회`}</span>
-								<span>{`운동 시간 : ${exerciseSeconds}초`}</span>
-								<span>{`휴식 시간 : ${restSeconds}초`}</span>
-							</li>
-						)
-					)}
-				</ul>
+				<ExerciseSetDetails exerciseSets={exerciseSets} />
 			</div>
 		</section>
 	);

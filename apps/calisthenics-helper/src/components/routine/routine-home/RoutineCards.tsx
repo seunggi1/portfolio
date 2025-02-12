@@ -1,8 +1,11 @@
-import { Routine } from '@/types/routine';
-import { Button, Card } from '@repo/ui/common';
-import { Flame } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import type { Routine } from '@/types/routine';
+import { Card } from '@repo/ui/common';
+import RoutineLevel from '../ui/RoutineLevel';
+import RoutineCategories from '../ui/RoutineCategories';
+import RoutineSummary from '../ui/RoutineSummary';
 
 type Props = {
 	routines: Routine[];
@@ -11,7 +14,7 @@ type Props = {
 export default function RoutineCards({ routines }: Props) {
 	return (
 		<section className="max-w-screen-xl m-auto px-8 pt-4 grid gap-x-4 gap-y-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-			{routines.map((routine, i) => (
+			{routines.map((routine) => (
 				<Link key={routine.id} href={`/routines/${routine.id}`}>
 					<Card>
 						<Card.CardHeader>
@@ -25,37 +28,13 @@ export default function RoutineCards({ routines }: Props) {
 							</div>
 						</Card.CardHeader>
 						<Card.CardBody>
-							<div className="">
-								<p className="font-bold">{routine.name}</p>
-								<p>
-									{`약 ${routine.totalMinutes}분 총 ${routine.totalExerciseCount}개의 운동 `}
-								</p>
-								<div className="flex ">
-									{Array.from({ length: routine.difficultyLevel }).map(
-										(_, flameIndex) => (
-											<Flame
-												className="-ml-[0.4rem]"
-												key={flameIndex}
-												fill="#EE3A34"
-												color="#EE3A34"
-											/>
-										)
-									)}
-								</div>
-								<div className="flex mt-2 gap-1">
-									{routine.categoryNames.map((categoryName, i) => (
-										<Button
-											key={categoryName}
-											color="secondary"
-											borderRadius="full"
-											size="xs"
-											className="max-w-10"
-										>
-											{categoryName}
-										</Button>
-									))}
-								</div>
-							</div>
+							<RoutineSummary
+								name={routine.name}
+								totalMinutes={routine.totalMinutes}
+								totalExerciseCount={routine.totalExerciseCount}
+							/>
+							<RoutineLevel level={routine.difficultyLevel} />
+							<RoutineCategories categoryNames={routine.categoryNames} />
 						</Card.CardBody>
 					</Card>
 				</Link>
