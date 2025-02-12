@@ -1,10 +1,10 @@
 'use client';
 
-import RecommandRoutineBanner from '@/components/routine/RecommandRoutineBanner';
-import RoutineCards from '@/components/routine/RoutineCards';
-import { Routine } from '@/types/routine';
-import CategoryFilterTab from '@/components/routine/CategoryFilterTab';
 import { useEffect, useState } from 'react';
+import RecommandRoutineBanner from './RecommandRoutineBanner';
+import CategoryFilterTab from './CategoryFilterTab';
+import RoutineCards from './RoutineCards';
+import { Routine } from '@/types/routine';
 import { createHttpClient } from '@/utils/httpClient';
 
 export default function Routines() {
