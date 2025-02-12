@@ -1,5 +1,4 @@
 import useTimer from '@/hooks';
-import Timer from './RoutineProgressBar';
 
 type Props = {
 	prepareSeconds: number;

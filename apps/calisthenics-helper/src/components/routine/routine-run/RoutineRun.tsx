@@ -1,8 +1,8 @@
 'use client';
 
+import { useRoutine } from '@/hooks';
 import RoutineProgress from './RoutineRunner';
 import RoutinePrepare from './RoutinePrepare';
-import { useRoutine } from '@/hooks';
 
 type Props = {
 	id: string;

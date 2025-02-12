@@ -1,10 +1,8 @@
-import { ExerciseSet } from '@/types/routine';
+import type { ExerciseSet } from '@/types/routine';
 import useTimer from '@/hooks';
 import { Button } from '@repo/ui/common';
 import RoutineProgressBar from './RoutineProgressBar';
-import StopIcon from '@/components/common/icon/StopIcon';
-import PlayIcon from '@/components/common/icon/PlayIcon';
-import PauseIcon from '@/components/common/icon/PauseIcon';
+import { PauseIcon, PlayIcon, StopIcon } from '@/components/common/icon';
 
 type Props = {
 	exerciseSet: ExerciseSet;

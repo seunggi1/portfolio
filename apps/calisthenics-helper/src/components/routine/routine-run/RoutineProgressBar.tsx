@@ -1,5 +1,5 @@
 import { Progress } from '@repo/ui/common';
-import { Color } from '@repo/ui/types';
+import type { Color } from '@repo/ui/types';
 
 type Props = {
 	seconds: number;
