@@ -4,6 +4,7 @@ import { useRoutines } from '@/hooks';
 import RecommandRoutineBanner from './RecommandRoutineBanner';
 import CategoryFilterTab from './CategoryFilterTab';
 import RoutineCards from './RoutineCards';
+import RoutineCardsSkeleton from './RoutineCardsSkeleton';
 
 export default function Routines() {
 	const { routines, error, isLoading } = useRoutines();
@@ -14,7 +15,11 @@ export default function Routines() {
 		<>
 			<RecommandRoutineBanner />
 			<CategoryFilterTab categories={categories} />
-			<RoutineCards routines={routines} />
+			{isLoading ? (
+				<RoutineCardsSkeleton />
+			) : (
+				<RoutineCards routines={routines} />
+			)}
 		</>
 	);
 }
