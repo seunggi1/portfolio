@@ -1,31 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
 import { type RoutineDetail } from '@/types/routine';
-import { createHttpClient } from '@/utils/httpClient';
 import { Button } from '@repo/ui/common';
 import RoutineSummary from '../ui/RoutineSummary';
 import RoutineLevel from '../ui/RoutineLevel';
 import RoutineCategories from '../ui/RoutineCategories';
 import ExerciseSetDetails from './ExerciseSetDetails';
+import useRoutineDetail from '@/hooks/useRoutineDetail';
 
 type Props = {
 	id: string;
 };
 
 export default function RoutineDetail({ id }: Props) {
-	const [routine, setRoutine] = useState<RoutineDetail>();
+	const { routineDetail, isLoading, error } = useRoutineDetail(id);
 
-	useEffect(() => {
-		createHttpClient<RoutineDetail>(`/routines/api/${id}`)
-			.get()
-			.then(setRoutine);
-	}, []);
-
-	if (!routine) {
+	if (isLoading || !routineDetail) {
 		return (
 			<section>
 				<span>데이터를 불러오는 중입니다.</span>
@@ -41,7 +33,7 @@ export default function RoutineDetail({ id }: Props) {
 		totalExerciseCount,
 		totalMinutes,
 		imageURL,
-	} = routine;
+	} = routineDetail;
 
 	return (
 		<section className="max-w-screen-xl m-auto md:flex gap-x-2">
