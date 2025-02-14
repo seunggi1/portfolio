@@ -1,6 +1,5 @@
-import { RoutineDetail } from '@/types/routine';
-import { createHttpClient } from '@/utils/httpClient';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import useRoutineDetail from './useRoutineDetail';
 
 export type RoutineState = {
 	isPrepare: boolean;
@@ -17,17 +16,9 @@ const DEFAULT_STATE: RoutineState = {
 };
 
 export default function useRoutine(id: string) {
-	const [routine, setRoutine] = useState<RoutineDetail>();
+	const { routineDetail, isLoading, error } = useRoutineDetail(id);
 	const [routineState, setRoutineState] = useState<RoutineState>(DEFAULT_STATE);
 	const { selectedIndex, set, isRest } = routineState.currentExercise;
-
-	useEffect(() => {
-		createHttpClient<RoutineDetail>(`/routines/api/${id}`)
-			.get()
-			.then((routine) => {
-				setRoutine(routine);
-			});
-	}, []);
 
 	const onChangeIsPrepare = (isPrepare: boolean) => {
 		setRoutineState((r) => ({ ...r, isPrepare }));
@@ -42,7 +33,7 @@ export default function useRoutine(id: string) {
 	};
 
 	const onNext = () => {
-		if (!routine) {
+		if (!routineDetail) {
 			return;
 		}
 
@@ -58,10 +49,10 @@ export default function useRoutine(id: string) {
 		};
 
 		const nextSet = set + 1;
-		const maxSets = routine.exerciseSets[selectedIndex].sets;
+		const maxSets = routineDetail.exerciseSets[selectedIndex].sets;
 
 		const nextSelectedIndex = selectedIndex + 1;
-		const maxIndex = routine?.exerciseSets.length;
+		const maxIndex = routineDetail?.exerciseSets.length;
 
 		if (isRest && nextSet > maxSets && nextSelectedIndex === maxIndex) {
 			onChangeIsEnd(true);
@@ -84,7 +75,9 @@ export default function useRoutine(id: string) {
 	};
 
 	return {
-		routine: routine?.exerciseSets[selectedIndex],
+		isLoading,
+		error,
+		routine: routineDetail?.exerciseSets[selectedIndex],
 		isPrepare: routineState.isPrepare,
 		isPause: routineState.isPause,
 		isEnd: routineState.isEnd,

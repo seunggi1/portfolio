@@ -22,9 +22,11 @@ export default function RoutineRun({ id }: Props) {
 		onChangeIsPrepare,
 		onToggleIsPause,
 		onChangeIsEnd,
+		isLoading,
+		error,
 	} = useRoutine(id);
 
-	if (!routine) {
+	if (isLoading || !routine) {
 		return <> 운동 정보를 불러오는 중입니다...</>;
 	}
 
