@@ -9,6 +9,7 @@ import RoutineLevel from '../ui/RoutineLevel';
 import RoutineCategories from '../ui/RoutineCategories';
 import ExerciseSetDetails from './ExerciseSetDetails';
 import useRoutineDetail from '@/hooks/useRoutineDetail';
+import RoutineDetailSkeleton from './RoutineDetailSkeleton';
 
 type Props = {
 	id: string;
@@ -18,11 +19,7 @@ export default function RoutineDetail({ id }: Props) {
 	const { routineDetail, isLoading, error } = useRoutineDetail(id);
 
 	if (isLoading || !routineDetail) {
-		return (
-			<section>
-				<span>데이터를 불러오는 중입니다.</span>
-			</section>
-		);
+		return <RoutineDetailSkeleton />;
 	}
 
 	const {
@@ -36,31 +33,33 @@ export default function RoutineDetail({ id }: Props) {
 	} = routineDetail;
 
 	return (
-		<section className="max-w-screen-xl m-auto md:flex gap-x-2">
-			<div className="basis-[60%] w-full">
-				<div className="flex items-center justify-center text-white bg-black h-80">
-					{imageURL ? (
-						<Image src={imageURL} alt={name} />
-					) : (
-						<span className="text-4xl font-bold">{name}</span>
-					)}
+		<>
+			<section className="max-w-screen-xl m-auto md:flex gap-x-2">
+				<div className="basis-[60%] w-full">
+					<div className="flex items-center justify-center text-white bg-black h-80">
+						{imageURL ? (
+							<Image src={imageURL} alt={name} />
+						) : (
+							<span className="text-4xl font-bold">{name}</span>
+						)}
+					</div>
+					<div className="flex flex-col gap-1 p-2 mb-4">
+						<RoutineSummary
+							name={name}
+							totalExerciseCount={totalExerciseCount}
+							totalMinutes={totalMinutes}
+						/>
+						<RoutineLevel level={difficultyLevel} />
+						<RoutineCategories categoryNames={categoryNames} />
+						<Link href={`/routines/${id}/run`}>
+							<Button className="w-full">시작하기</Button>
+						</Link>
+					</div>
 				</div>
-				<div className="flex flex-col gap-1 p-2 mb-4">
-					<RoutineSummary
-						name={name}
-						totalExerciseCount={totalExerciseCount}
-						totalMinutes={totalMinutes}
-					/>
-					<RoutineLevel level={difficultyLevel} />
-					<RoutineCategories categoryNames={categoryNames} />
-					<Link href={`/routines/${id}/run`}>
-						<Button className="w-full">시작하기</Button>
-					</Link>
+				<div className="basis-[40%] w-full text-center">
+					<ExerciseSetDetails exerciseSets={exerciseSets} />
 				</div>
-			</div>
-			<div className="basis-[40%] w-full text-center">
-				<ExerciseSetDetails exerciseSets={exerciseSets} />
-			</div>
-		</section>
+			</section>
+		</>
 	);
 }
