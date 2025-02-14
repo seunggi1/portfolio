@@ -1,5 +1,5 @@
-import { getRemainSecondsFromUnixTime, getUnixTime } from '@/utils/time';
 import { useEffect, useState } from 'react';
+import { getRemainSecondsFromUnixTime, getUnixTime } from '@/utils/time';
 
 type Props = {
 	seconds: number;

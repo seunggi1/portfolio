@@ -1,7 +1,7 @@
 'use client';
-import { Button } from '@repo/ui/common';
+
 import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { Button } from '@repo/ui/common';
 
 export default function Home() {
 	const router = useRouter();

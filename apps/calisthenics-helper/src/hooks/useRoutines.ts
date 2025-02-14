@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
 import { fetchRoutines } from '@/api/Routines';
 import { Routine } from '@/types/routine';
-import { useQuery } from '@tanstack/react-query';
 
 const QUERY_KEY = 'Routines';
 

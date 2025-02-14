@@ -28,9 +28,3 @@ export async function fetchRoutineDetailById(
 
 	return res.data;
 }
-
-export async function fetchRoutineById(id: string): Promise<Routine> {
-	const res = await HttpClientBuilder.get(getRoutineURL(id)).call<Routine>();
-
-	return res.data;
-}
