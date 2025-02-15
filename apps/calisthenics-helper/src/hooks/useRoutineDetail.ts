@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchRoutineDetailById } from '@/api/Routines';
 import type { RoutineDetail } from '@/types/routine';
-
-const QUERY_KEY = 'RoutineDetail';
+import { fetchRoutineDetailById, routineKeys } from '@/api/Routines';
 
 export default function useRoutineDetail(id: string) {
 	const { data, isLoading, error } = useQuery<RoutineDetail>({
-		queryKey: [QUERY_KEY, id],
+		queryKey: routineKeys.detail(id),
 		queryFn: async () => fetchRoutineDetailById(id),
 	});
 

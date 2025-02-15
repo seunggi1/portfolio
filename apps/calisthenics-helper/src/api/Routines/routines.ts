@@ -1,5 +1,5 @@
 import type { Routine, RoutineDetail } from '@/types/routine';
-import { HttpClientBuilder } from './httpClient';
+import { HttpClientBuilder } from '../httpClient';
 
 function getRoutineURL(id?: string) {
 	const ROUTINE_URL = 'routines/api';
