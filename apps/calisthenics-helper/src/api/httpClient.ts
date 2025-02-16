@@ -1,8 +1,5 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
-
-type HttpMethod = 'GET' | 'POST' | 'UPDATE' | 'PATCH' | 'DELETE';
-
-type HttpParams = Record<string, string | number>;
+import type { HttpMethod, HttpParams } from '@/types/http';
 
 class HttpClient {
 	readonly method: HttpMethod;
