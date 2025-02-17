@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Header from './header';
 import Providers from '@/providers';
+import { Toaster } from '@/lib/toast/Toaster';
 
 type Props = {
 	children: ReactNode;
@@ -12,6 +13,7 @@ export default function Layout({ children }: Props) {
 			<Providers>
 				<Header />
 				<main className="grow">{children}</main>
+				<Toaster />
 			</Providers>
 		</body>
 	);
