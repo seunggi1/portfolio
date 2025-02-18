@@ -2,7 +2,7 @@ import type { Routine, RoutineDetail } from '@/types/routine';
 import { HttpClientBuilder } from '../httpClient';
 
 function getRoutineURL(id?: string) {
-	const ROUTINE_URL = 'routines/api';
+	const ROUTINE_URL = 'api/routines';
 
 	const urls = [ROUTINE_URL];
 
