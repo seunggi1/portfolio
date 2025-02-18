@@ -58,6 +58,11 @@ export class HttpClientBuilder {
 		return this;
 	}
 
+	data(data: unknown): HttpClientBuilder {
+		this._instance.data = data;
+		return this;
+	}
+
 	timeout(timeout: number): HttpClientBuilder {
 		this._instance.timeout = timeout;
 		return this;
