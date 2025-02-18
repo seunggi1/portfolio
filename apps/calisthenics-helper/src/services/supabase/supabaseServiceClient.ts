@@ -1,6 +1,7 @@
 import { ExerciseSet, Routine, RoutineDetail } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
-import { SupabaseClient } from '@supabase/supabase-js';
+import { Session, SupabaseClient } from '@supabase/supabase-js';
+import { randomUUID } from 'node:crypto';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
@@ -29,5 +30,46 @@ export class SupabaseServiceClient implements ServiceClient {
 		}
 
 		return null;
+	}
+
+	async signIn(email: string): Promise<boolean> {
+		try {
+			const { data, error } = await this.client.auth.signInWithOtp({
+				email,
+				options: {
+					data: {
+						display_name: email.split('@')[0] + randomUUID().slice(0, 4),
+					},
+					shouldCreateUser: true,
+				},
+			});
+
+			console.log(data, error);
+			return error === null;
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+	async verifyUserToken(token: string): Promise<boolean> {
+		try {
+			const { data, error } = await this.client.auth.verifyOtp({
+				token_hash: token,
+				type: 'email',
+			});
+			console.log(data, error);
+			return error === null;
+		} catch (error) {
+			console.log(error);
+
+			return false;
+		}
+	}
+
+	async signOut(): Promise<void> {
+		const { error } = await this.client.auth.signOut();
+
+		return;
 	}
 }
