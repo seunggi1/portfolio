@@ -1,4 +1,4 @@
-import type { JSX, HTMLAttributes } from 'react';
+import type { JSX, ButtonHTMLAttributes } from 'react';
 import type { BorderRadius, Color, Size } from '@/types';
 
 export function Button({
@@ -8,12 +8,13 @@ export function Button({
 	color = 'primary',
 	borderRadius = 'md',
 	size = 'md',
+	type = 'button',
 	...props
 }: {
 	color?: Color;
 	borderRadius?: BorderRadius;
 	size?: Size;
-} & HTMLAttributes<HTMLButtonElement>): JSX.Element {
+} & ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
 	return (
 		<button
 			className={[
@@ -24,7 +25,7 @@ export function Button({
 				className,
 			].join(' ')}
 			onClick={onClick}
-			type="button"
+			type={type === 'button' ? 'button' : 'submit'}
 			{...props}
 		>
 			{children}
