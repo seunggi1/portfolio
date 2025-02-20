@@ -1,7 +1,6 @@
 import { ExerciseSet, Routine, RoutineDetail } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
-import { Session, SupabaseClient } from '@supabase/supabase-js';
-import { randomUUID } from 'node:crypto';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
@@ -32,22 +31,47 @@ export class SupabaseServiceClient implements ServiceClient {
 		return null;
 	}
 
+	async checkDisplayNameExists(searchDisplayName: string): Promise<boolean> {
+		const { data, error, count } = await this.client
+			.rpc('displayName', {
+				searchDisplayName,
+			})
+			.single<string>();
+
+		return data === searchDisplayName;
+	}
+	async checkEmailExists(searchEmail: string): Promise<boolean> {
+		const { data, error, count } = await this.client
+			.rpc('email', {
+				searchEmail,
+			})
+			.single<string>();
+
+		return data === searchEmail;
+	}
+
+	async signUp(email: string, displayName: string): Promise<boolean> {
+		const { data, error } = await this.client.auth.signInWithOtp({
+			email,
+			options: {
+				data: {
+					display_name: displayName,
+				},
+				shouldCreateUser: true,
+			},
+		});
+
+		return error === null;
+	}
+
 	async signIn(email: string): Promise<boolean> {
 		try {
 			const { data, error } = await this.client.auth.signInWithOtp({
 				email,
-				options: {
-					data: {
-						display_name: email.split('@')[0] + randomUUID().slice(0, 4),
-					},
-					shouldCreateUser: true,
-				},
 			});
 
-			console.log(data, error);
 			return error === null;
 		} catch (error) {
-			console.log(error);
 			return false;
 		}
 	}
@@ -58,11 +82,8 @@ export class SupabaseServiceClient implements ServiceClient {
 				token_hash: token,
 				type: 'email',
 			});
-			console.log(data, error);
 			return error === null;
 		} catch (error) {
-			console.log(error);
-
 			return false;
 		}
 	}
