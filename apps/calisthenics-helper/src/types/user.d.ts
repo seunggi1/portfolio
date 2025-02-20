@@ -11,3 +11,11 @@ type SignUpFormResponse = {
 	errors: SignUpData;
 	inputs: SignUpData;
 };
+
+type SignInData = Partial<Pick<User, 'email'>>;
+
+type SignInFormResponse = {
+	success: boolean;
+	errors: SignInData;
+	inputs: SignInData;
+};
