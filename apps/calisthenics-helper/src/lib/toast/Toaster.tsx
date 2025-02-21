@@ -9,7 +9,7 @@ export function Toaster() {
 	return (
 		<div className="toast toast-end text-wrap">
 			{toasts.map((toast) => (
-				<ToastItem {...toast} />
+				<ToastItem key={toast.id} {...toast} />
 			))}
 		</div>
 	);
