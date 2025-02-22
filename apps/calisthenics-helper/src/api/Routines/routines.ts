@@ -14,17 +14,18 @@ function getRoutineURL(id?: string) {
 }
 
 export async function fetchRoutines(): Promise<Routine[]> {
-	const res = await HttpClientBuilder.get(getRoutineURL()).call<Routine[]>();
+	const { data } =
+		await HttpClientBuilder.get(getRoutineURL()).call<Routine[]>();
 
-	return res.data;
+	return data || [];
 }
 
 export async function fetchRoutineDetailById(
 	id: string
 ): Promise<RoutineDetail> {
-	const res = await HttpClientBuilder.get(
+	const { data } = await HttpClientBuilder.get(
 		getRoutineURL(id)
 	).call<RoutineDetail>();
 
-	return res.data;
+	return data;
 }

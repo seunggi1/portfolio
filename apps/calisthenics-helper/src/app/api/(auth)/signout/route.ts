@@ -1,12 +1,13 @@
-import { getServiceClient } from '@/services';
 import { NextResponse } from 'next/server';
+import { getServiceClient } from '@/services';
+import { handleErrorResponse } from '@/utils/error';
 
 export async function GET() {
-	const client = await getServiceClient();
 	try {
+		const client = await getServiceClient();
 		await client.signOut();
-		return NextResponse.json(true);
+		return NextResponse.json({});
 	} catch (error) {
-		return NextResponse.json(false, { status: 400 });
+		return handleErrorResponse(error as Error);
 	}
 }

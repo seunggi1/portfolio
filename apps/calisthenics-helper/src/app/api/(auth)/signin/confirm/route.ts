@@ -1,14 +1,23 @@
-import { getServiceClient } from '@/services';
 import { NextRequest, NextResponse } from 'next/server';
+import { getServiceClient } from '@/services';
+import { handleErrorResponse } from '@/utils/error';
+import { ValidatorError } from '@/types/error';
 
 export async function GET(request: NextRequest) {
-	const client = await getServiceClient();
-
 	const token = request.nextUrl.searchParams.get('token_hash');
-	let result: boolean = false;
-	if (token) {
-		result = await client.verifyUserToken(token);
+
+	if (!token) {
+		return handleErrorResponse(new ValidatorError('Invalid Token'));
 	}
 
-	return NextResponse.redirect(new URL(result ? '/' : '/signin', request.url));
+	try {
+		const client = await getServiceClient();
+		const result = await client.verifyUserToken(token);
+
+		return NextResponse.redirect(
+			new URL(result ? '/' : '/signin', request.url)
+		);
+	} catch (error) {
+		return handleErrorResponse(error as Error);
+	}
 }

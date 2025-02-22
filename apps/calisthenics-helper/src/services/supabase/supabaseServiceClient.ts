@@ -65,27 +65,20 @@ export class SupabaseServiceClient implements ServiceClient {
 	}
 
 	async signIn(email: string): Promise<boolean> {
-		try {
-			const { data, error } = await this.client.auth.signInWithOtp({
-				email,
-			});
+		const { data, error } = await this.client.auth.signInWithOtp({
+			email,
+		});
 
-			return error === null;
-		} catch (error) {
-			return false;
-		}
+		return error === null;
 	}
 
 	async verifyUserToken(token: string): Promise<boolean> {
-		try {
-			const { data, error } = await this.client.auth.verifyOtp({
-				token_hash: token,
-				type: 'email',
-			});
-			return error === null;
-		} catch (error) {
-			return false;
-		}
+		const { data, error } = await this.client.auth.verifyOtp({
+			token_hash: token,
+			type: 'email',
+		});
+
+		return error === null;
 	}
 
 	async signOut(): Promise<void> {
