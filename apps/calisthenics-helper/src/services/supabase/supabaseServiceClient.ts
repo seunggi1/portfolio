@@ -1,6 +1,7 @@
 import { ExerciseSet, Routine, RoutineDetail } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { User } from '@/types/auth';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
@@ -81,9 +82,28 @@ export class SupabaseServiceClient implements ServiceClient {
 		return error === null;
 	}
 
-	async signOut(): Promise<void> {
+	async signOut(): Promise<boolean> {
 		const { error } = await this.client.auth.signOut();
 
-		return;
+		return error === null;
+	}
+
+	async getUser(): Promise<User | null> {
+		const { data: session, error: sessionError } =
+			await this.client.auth.getUser();
+
+		if (!session || !session.user) {
+			return null;
+		}
+
+		const { data: user, error } = await this.client
+			.rpc('profile', { userID: session.user.id })
+			.single<User>();
+
+		if (!user) {
+			return null;
+		}
+
+		return user;
 	}
 }

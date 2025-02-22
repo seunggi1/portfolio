@@ -1,7 +1,6 @@
-import { Button } from '@repo/ui/common';
 import Logo from './Logo';
 import { Menu } from 'lucide-react';
-import Link from 'next/link';
+import Auth from './Auth/Auth';
 
 export default function Header() {
 	return (
@@ -9,11 +8,7 @@ export default function Header() {
 			<div className="flex items-center justify-between max-w-screen-xl m-auto ">
 				<Menu />
 				<Logo />
-				<Link href={'/signin'}>
-					<Button color="primary" borderRadius="md">
-						로그인
-					</Button>
-				</Link>
+				<Auth />
 			</div>
 		</header>
 	);

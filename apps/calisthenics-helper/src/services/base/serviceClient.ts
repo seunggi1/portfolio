@@ -1,4 +1,6 @@
+import { User } from '@/types/auth';
 import type { Routine, RoutineDetail } from '@/types/routine';
+
 export interface ServiceClient {
 	getRoutines: (page: number) => Promise<Routine[]>;
 	getRoutineById: (Id: string) => Promise<RoutineDetail | null>;
@@ -8,5 +10,6 @@ export interface ServiceClient {
 	signUp: (email: string, displayName: string) => Promise<boolean>;
 	signIn: (email: string) => Promise<boolean>;
 	verifyUserToken: (token: string) => Promise<boolean>;
-	signOut: () => Promise<void>;
+	getUser(): Promise<User | null>;
+	signOut: () => Promise<boolean>;
 }

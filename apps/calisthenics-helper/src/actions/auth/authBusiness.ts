@@ -1,4 +1,5 @@
 import { getServiceClient } from '@/services';
+import { User } from '@/types/auth';
 
 export async function checkDisplayName(displayName: string): Promise<boolean> {
 	const client = await getServiceClient();
@@ -32,4 +33,15 @@ export async function signOut(): Promise<boolean> {
 	client.signOut();
 
 	return true;
+}
+
+export async function getUser(): Promise<User | null> {
+	try {
+		const client = await getServiceClient();
+		const user = await client.getUser();
+
+		return user;
+	} catch (error) {
+		return null;
+	}
 }
