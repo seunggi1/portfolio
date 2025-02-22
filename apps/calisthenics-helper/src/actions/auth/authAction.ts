@@ -1,6 +1,11 @@
 'use server';
 
-import { checkDisplayName, checkEmail, signUp, signIn } from '@/api/auth/auth';
+import {
+	checkDisplayName,
+	checkEmail,
+	signUp,
+	signIn,
+} from '@/actions/auth/authBusiness';
 
 export async function createUser(
 	prevState: SignUpFormResponse,
