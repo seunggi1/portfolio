@@ -6,6 +6,7 @@ import {
 	signUp,
 	signIn,
 } from '@/actions/auth/authBusiness';
+import { validateSignInData, validateSignUpData } from '@/schemas/auth';
 import type { SignInFormResponse, SignUpFormResponse } from '@/types/auth';
 
 export async function createUser(
@@ -18,22 +19,18 @@ export async function createUser(
 	};
 
 	const state: SignUpFormResponse = {
-		...prevState,
-		errors: { ...prevState.errors },
-		inputs: { ...prevState.inputs },
+		success: prevState.success,
+		inputs: { displayName, email },
+		errors: {},
 	};
 
-	state.inputs.displayName = displayName;
-	state.inputs.email = email;
+	const errors = validateSignUpData({ displayName, email });
 
-	if (!displayName || displayName.length <= 2 || displayName.length > 8) {
-		state.errors.displayName = '별명은 최소 3자이상 8미만으로 작성해야합니다.';
-		return state;
-	}
-
-	if (!email) {
-		state.errors.email = '이메일 형식이 올바르지않습니다.';
-		return state;
+	if (errors) {
+		return {
+			...state,
+			errors: errors,
+		};
 	}
 
 	if (await checkDisplayName(displayName)) {
@@ -62,15 +59,17 @@ export async function sendSignInEmail(
 	const { email } = {
 		email: formData.get('email') as string,
 	};
-
 	const state: SignUpFormResponse = {
-		...prevState,
-		errors: { ...prevState.errors },
-		inputs: { ...prevState.inputs },
+		success: prevState.success,
+		errors: {},
+		inputs: { email },
 	};
 
-	if (!email) {
-		state.errors.email = '이메일 형식이 올바르지않습니다.';
+	const errors = validateSignInData({ email });
+
+	if (errors) {
+		state.errors = errors;
+
 		return state;
 	}
 
