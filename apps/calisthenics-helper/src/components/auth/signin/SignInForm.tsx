@@ -1,8 +1,9 @@
 'use client';
 
-import { Button } from '@repo/ui/common';
 import Link from 'next/link';
 import { useActionState } from 'react';
+import type { SignInFormResponse } from '@/types/auth';
+import { Button } from '@repo/ui/common';
 
 type Props = {
 	action: (

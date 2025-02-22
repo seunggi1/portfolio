@@ -6,6 +6,7 @@ import {
 	signUp,
 	signIn,
 } from '@/actions/auth/authBusiness';
+import type { SignInFormResponse, SignUpFormResponse } from '@/types/auth';
 
 export async function createUser(
 	prevState: SignUpFormResponse,

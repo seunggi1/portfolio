@@ -1,7 +1,8 @@
 'use client';
 
-import { Button } from '@repo/ui/common';
 import { useActionState } from 'react';
+import { SignUpFormResponse } from '@/types/auth';
+import { Button } from '@repo/ui/common';
 
 type Props = {
 	action: (
