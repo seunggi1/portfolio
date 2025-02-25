@@ -1,4 +1,4 @@
-import { ExerciseSet, Routine, RoutineDetail } from '@/types/routine';
+import { Exercise, Routine, RoutineDetail } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { User } from '@/types/auth';
@@ -14,22 +14,19 @@ export class SupabaseServiceClient implements ServiceClient {
 		return data ?? [];
 	}
 	async getRoutineById(id: string): Promise<RoutineDetail | null> {
-		const routineRPC = this.client
+		const { data, error, count } = await this.client
 			.rpc('routine', { routineID: id })
-			.returns<Routine[]>()
-			.single();
+			.single<RoutineDetail>();
 
-		const exerciseSetsRPC = this.client
-			.rpc('exerciseSets', { routineID: id })
-			.returns<ExerciseSet[]>();
-
-		const results = await Promise.all([routineRPC, exerciseSetsRPC]);
-
-		if (results.every((r) => r.status === 200 && r.data)) {
-			return { ...results[0].data!, exerciseSets: results[1].data! };
+		if (error || count === 0) {
+			return null;
 		}
 
-		return null;
+		data.exercises = Array.from(
+			new Map(data.exercises.map((e) => [e.id, e])).values()
+		).sort((a, b) => a.order - b.order);
+
+		return data;
 	}
 
 	async checkDisplayNameExists(searchDisplayName: string): Promise<boolean> {

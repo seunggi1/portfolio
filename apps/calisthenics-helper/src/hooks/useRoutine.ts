@@ -49,10 +49,10 @@ export default function useRoutine(id: string) {
 		};
 
 		const nextSet = set + 1;
-		const maxSets = routineDetail.exerciseSets[selectedIndex].sets;
+		const maxSets = routineDetail.totalSets;
 
 		const nextSelectedIndex = selectedIndex + 1;
-		const maxIndex = routineDetail?.exerciseSets.length;
+		const maxIndex = routineDetail?.exercises.length;
 
 		if (isRest && nextSet > maxSets && nextSelectedIndex === maxIndex) {
 			onChangeIsEnd(true);
@@ -75,9 +75,10 @@ export default function useRoutine(id: string) {
 	};
 
 	return {
+		routineDetail,
 		isLoading,
 		error,
-		routine: routineDetail?.exerciseSets[selectedIndex],
+		exercise: routineDetail?.exercises[selectedIndex],
 		isPrepare: routineState.isPrepare,
 		isPause: routineState.isPause,
 		isEnd: routineState.isEnd,

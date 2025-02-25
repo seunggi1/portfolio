@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-
 import type { Routine } from '@/types/routine';
 import { Card } from '@repo/ui/common';
 import RoutineLevel from '../ui/RoutineLevel';
@@ -28,11 +27,7 @@ export default function RoutineCards({ routines }: Props) {
 							</div>
 						</Card.CardHeader>
 						<Card.CardBody>
-							<RoutineSummary
-								name={routine.name}
-								totalMinutes={routine.totalMinutes}
-								totalExerciseCount={routine.totalExerciseCount}
-							/>
+							<RoutineSummary {...routine} />
 							<RoutineLevel level={routine.difficultyLevel} />
 							<RoutineCategories categoryNames={routine.categoryNames} />
 						</Card.CardBody>

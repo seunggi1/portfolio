@@ -12,7 +12,8 @@ const PREPARE_SECONDS = 5;
 
 export default function RoutineRun({ id }: Props) {
 	const {
-		routine,
+		routineDetail,
+		exercise,
 		isEnd,
 		isPause,
 		isPrepare,
@@ -26,7 +27,7 @@ export default function RoutineRun({ id }: Props) {
 		error,
 	} = useRoutine(id);
 
-	if (isLoading || !routine) {
+	if (isLoading || !exercise || !routineDetail) {
 		return <> 운동 정보를 불러오는 중입니다...</>;
 	}
 
@@ -45,7 +46,8 @@ export default function RoutineRun({ id }: Props) {
 
 			{isPrepare && (
 				<RoutineProgress
-					exerciseSet={routine}
+					{...routineDetail}
+					execise={exercise}
 					isPause={isPause}
 					onToggleIsPause={onToggleIsPause}
 					onNext={onNext}

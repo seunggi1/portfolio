@@ -3,20 +3,20 @@ export type Routine = {
 	name: string;
 	imageURL: string | null;
 	difficultyLevel: number;
+	totalSets: number;
+	restSeconds: number;
 	categoryNames: string[];
 	totalExerciseCount: number;
 	totalMinutes: number;
 };
 
-export type ExerciseSet = {
+export type Exercise = {
 	id: string;
 	name: string;
-	exerciseName: string;
-	sets: number;
+	secondsPerRep: number;
 	repetitionCount: number;
-	exerciseSeconds: number;
-	restSeconds: number;
+	nextDelaySeconds: number;
 	order: number;
 };
 
-export type RoutineDetail = Routine & { exerciseSets: ExerciseSet[] };
+export type RoutineDetail = Routine & { exercises: Exercise[] };

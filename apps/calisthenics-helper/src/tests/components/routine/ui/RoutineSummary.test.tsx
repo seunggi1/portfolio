@@ -8,10 +8,17 @@ describe('Routine Summary Tests', () => {
 		name,
 		totalExerciseCount,
 		totalMinutes,
-	}: Pick<Routine, 'name' | 'totalMinutes' | 'totalExerciseCount'> = {
+		restSeconds,
+		totalSets,
+	}: Pick<
+		Routine,
+		'name' | 'totalMinutes' | 'totalExerciseCount' | 'restSeconds' | 'totalSets'
+	> = {
 		name: '전신운동',
 		totalExerciseCount: 12,
 		totalMinutes: 60,
+		restSeconds: 60,
+		totalSets: 3,
 	};
 
 	beforeAll(() => {
@@ -20,6 +27,8 @@ describe('Routine Summary Tests', () => {
 				name={name}
 				totalExerciseCount={totalExerciseCount}
 				totalMinutes={totalMinutes}
+				restSeconds={restSeconds}
+				totalSets={totalSets}
 			/>
 		);
 	});

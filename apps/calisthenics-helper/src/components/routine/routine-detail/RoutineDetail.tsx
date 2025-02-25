@@ -25,7 +25,6 @@ export default function RoutineDetail({ id }: Props) {
 	const {
 		categoryNames,
 		difficultyLevel,
-		exerciseSets,
 		name,
 		totalExerciseCount,
 		totalMinutes,
@@ -44,11 +43,7 @@ export default function RoutineDetail({ id }: Props) {
 						)}
 					</div>
 					<div className="flex flex-col gap-1 p-2 mb-4">
-						<RoutineSummary
-							name={name}
-							totalExerciseCount={totalExerciseCount}
-							totalMinutes={totalMinutes}
-						/>
+						<RoutineSummary {...routineDetail} />
 						<RoutineLevel level={difficultyLevel} />
 						<RoutineCategories categoryNames={categoryNames} />
 						<Link href={`/routines/${id}/run`}>
@@ -57,7 +52,7 @@ export default function RoutineDetail({ id }: Props) {
 					</div>
 				</div>
 				<div className="basis-[40%] w-full text-center">
-					<ExerciseSetDetails exerciseSets={exerciseSets} />
+					<ExerciseSetDetails {...routineDetail} />
 				</div>
 			</section>
 		</>
