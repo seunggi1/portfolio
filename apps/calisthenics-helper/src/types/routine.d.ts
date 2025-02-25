@@ -16,6 +16,7 @@ export type Exercise = {
 	secondsPerRep: number;
 	repetitionCount: number;
 	nextDelaySeconds: number;
+	totalExerciseSeconds: number;
 	order: number;
 };
 

@@ -8,26 +8,24 @@ type Props = {
 	id: string;
 };
 
-const PREPARE_SECONDS = 5;
-
 export default function RoutineRun({ id }: Props) {
 	const {
 		routineDetail,
-		exercise,
 		isEnd,
 		isPause,
 		isPrepare,
-		currentSet,
-		isRest,
+		exerciseInfo,
+		status,
 		onNext,
 		onChangeIsPrepare,
 		onToggleIsPause,
 		onChangeIsEnd,
+		initSeconds,
 		isLoading,
 		error,
 	} = useRoutine(id);
 
-	if (isLoading || !exercise || !routineDetail) {
+	if (isLoading || !routineDetail) {
 		return <> 운동 정보를 불러오는 중입니다...</>;
 	}
 
@@ -39,7 +37,7 @@ export default function RoutineRun({ id }: Props) {
 		<>
 			{!isPrepare && (
 				<RoutinePrepare
-					prepareSeconds={PREPARE_SECONDS}
+					prepareSeconds={initSeconds!}
 					onPrepare={() => onChangeIsPrepare(true)}
 				/>
 			)}
@@ -47,13 +45,13 @@ export default function RoutineRun({ id }: Props) {
 			{isPrepare && (
 				<RoutineProgress
 					{...routineDetail}
-					execise={exercise}
+					{...exerciseInfo}
 					isPause={isPause}
 					onToggleIsPause={onToggleIsPause}
 					onNext={onNext}
+					initSeconds={initSeconds}
 					onEnd={() => onChangeIsEnd(true)}
-					currentSet={currentSet}
-					isRest={isRest}
+					status={status}
 				/>
 			)}
 		</>

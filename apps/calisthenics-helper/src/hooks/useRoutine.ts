@@ -5,20 +5,45 @@ export type RoutineState = {
 	isPrepare: boolean;
 	isPause: boolean;
 	isEnd: boolean;
-	currentExercise: { selectedIndex: number; set: number; isRest: boolean };
+	currentExercise: {
+		selectedExercise: number;
+		set: number;
+		status: 'exercise' | 'delay' | 'rest';
+	};
 };
 
 const DEFAULT_STATE: RoutineState = {
 	isPrepare: false,
 	isPause: false,
 	isEnd: false,
-	currentExercise: { selectedIndex: 0, set: 1, isRest: false },
+	currentExercise: {
+		selectedExercise: 0,
+		set: 1,
+		status: 'exercise',
+	},
 };
+
+const PREPARE_SECONDS = 5;
 
 export default function useRoutine(id: string) {
 	const { routineDetail, isLoading, error } = useRoutineDetail(id);
 	const [routineState, setRoutineState] = useState<RoutineState>(DEFAULT_STATE);
-	const { selectedIndex, set, isRest } = routineState.currentExercise;
+	const { selectedExercise, set, status } = routineState.currentExercise;
+
+	const initSeconds =
+		routineState.isPrepare === false
+			? PREPARE_SECONDS
+			: routineDetail!.exercises[selectedExercise].totalExerciseSeconds;
+
+	const exerciseInfo = {
+		setInfo: `${set}/${routineDetail?.totalSets}`,
+		secondsPerRep: routineDetail!.exercises[selectedExercise].secondsPerRep,
+		repetitionCount: routineDetail!.exercises[selectedExercise].repetitionCount,
+		statusName:
+			status === 'rest' || status === 'delay'
+				? `다음 : ${routineDetail?.exercises[selectedExercise].name}`
+				: `${routineDetail?.exercises[selectedExercise].name}`,
+	};
 
 	const onChangeIsPrepare = (isPrepare: boolean) => {
 		setRoutineState((r) => ({ ...r, isPrepare }));
@@ -32,58 +57,82 @@ export default function useRoutine(id: string) {
 		setRoutineState((r) => ({ ...r, isPause: !r.isPause }));
 	};
 
-	const onNext = () => {
+	const onNext = (): number => {
 		if (!routineDetail) {
-			return;
+			return 0;
 		}
 
-		const changeCurrentExercise = (
-			selectedIndex: number,
+		const changeExerciseState = (
+			selectedExercise: number,
 			set: number,
-			isRest: boolean
+			status: RoutineState['currentExercise']['status']
 		) => {
 			setRoutineState((r) => ({
 				...r,
-				currentExercise: { selectedIndex, set, isRest },
+				currentExercise: { selectedExercise, set, status },
 			}));
 		};
 
+		const { exercises, totalSets } = routineDetail;
+		const nextExercise = selectedExercise + 1;
 		const nextSet = set + 1;
-		const maxSets = routineDetail.totalSets;
+		const NEW = 0;
 
-		const nextSelectedIndex = selectedIndex + 1;
-		const maxIndex = routineDetail?.exercises.length;
-
-		if (isRest && nextSet > maxSets && nextSelectedIndex === maxIndex) {
+		// 휴식시간 후 혹은 모든 운동이 끝났을 때 남은 세트가 없다면
+		if (
+			(status === 'rest' && nextSet > totalSets) ||
+			(status === 'exercise' &&
+				nextExercise === exercises.length &&
+				nextSet > totalSets)
+		) {
 			onChangeIsEnd(true);
-			return;
+			return 0;
 		}
 
-		if (isRest && nextSet > maxSets && nextSelectedIndex < maxIndex) {
-			changeCurrentExercise(nextSelectedIndex, 1, !isRest);
-			return;
+		// 휴식 시간이 끝난 후 세트가 남아있을 때
+		if (status === 'rest' && nextSet <= totalSets) {
+			const nextTimeSeconds = routineDetail.exercises[NEW].totalExerciseSeconds;
+			changeExerciseState(NEW, nextSet, 'exercise');
+			return nextTimeSeconds;
 		}
 
-		if (isRest && nextSet <= maxSets) {
-			changeCurrentExercise(selectedIndex, nextSet, !isRest);
-			return;
+		// 세트 내 모든 운동이 끝났을 때
+		if (status === 'exercise' && nextExercise === exercises.length) {
+			const nextTimeSeconds = routineDetail.restSeconds;
+			console.log('rest in ', nextTimeSeconds);
+			changeExerciseState(NEW, set, 'rest');
+			return nextTimeSeconds;
 		}
 
-		if (!isRest) {
-			changeCurrentExercise(selectedIndex, set, !isRest);
+		// 다음 운동 대기시간
+		if (status === 'exercise' && nextExercise < exercises.length) {
+			const nextTimeSeconds =
+				routineDetail.exercises[selectedExercise].nextDelaySeconds;
+			changeExerciseState(nextExercise, set, 'delay');
+			return nextTimeSeconds;
 		}
+
+		// 대기시간이 끝난 후 다음 운동 세팅
+		if (status === 'delay') {
+			const nextTimeSeconds =
+				routineDetail.exercises[selectedExercise].totalExerciseSeconds;
+			changeExerciseState(selectedExercise, set, 'exercise');
+			return nextTimeSeconds;
+		}
+
+		return 0;
 	};
 
 	return {
 		routineDetail,
 		isLoading,
 		error,
-		exercise: routineDetail?.exercises[selectedIndex],
 		isPrepare: routineState.isPrepare,
 		isPause: routineState.isPause,
 		isEnd: routineState.isEnd,
-		currentSet: set,
-		isRest,
+		exerciseInfo,
+		status,
+		initSeconds,
 		onChangeIsPrepare,
 		onToggleIsPause,
 		onChangeIsEnd,
