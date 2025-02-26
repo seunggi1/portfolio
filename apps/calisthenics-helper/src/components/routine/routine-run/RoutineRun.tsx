@@ -17,6 +17,7 @@ export default function RoutineRun({ id }: Props) {
 		exerciseInfo,
 		status,
 		onNext,
+		onNextCount,
 		onChangeIsPrepare,
 		onToggleIsPause,
 		onChangeIsEnd,
@@ -49,6 +50,7 @@ export default function RoutineRun({ id }: Props) {
 					isPause={isPause}
 					onToggleIsPause={onToggleIsPause}
 					onNext={onNext}
+					onNextCount={onNextCount}
 					initSeconds={initSeconds}
 					onEnd={() => onChangeIsEnd(true)}
 					status={status}

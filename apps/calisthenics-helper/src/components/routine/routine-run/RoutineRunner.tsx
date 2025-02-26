@@ -1,8 +1,8 @@
-import useTimer from '@/hooks';
 import { Button } from '@repo/ui/common';
 import RoutineProgressBar from './RoutineProgressBar';
 import { PauseIcon, PlayIcon, StopIcon } from '@/components/common/icon';
 import { RoutineState } from '@/hooks/useRoutine';
+import useIntervalTimer from '@/hooks/useIntervalTimer';
 
 type Props = {
 	initSeconds: number;
@@ -15,6 +15,7 @@ type Props = {
 	onToggleIsPause: () => void;
 	onEnd: () => void;
 	onNext: () => number;
+	onNextCount: () => void;
 };
 
 export default function RotineProgress({
@@ -24,16 +25,24 @@ export default function RotineProgress({
 	repetitionCount,
 	setInfo,
 	status,
+	secondsPerRep,
 	onEnd,
 	onToggleIsPause,
 	onNext,
+	onNextCount,
 }: Props) {
-	const { maxSeconds, latestSeconds, pause, start, reset } = useTimer({
-		seconds: initSeconds,
-		onExpire: () => {
-			reset(onNext());
-		},
-	});
+	const { maxSeconds, latestSeconds, pause, start, reset, resetInterval } =
+		useIntervalTimer({
+			initIntervalSeconds: secondsPerRep,
+			onInterval: () => {
+				onNextCount();
+				resetInterval(secondsPerRep);
+			},
+			initExpireSeconds: initSeconds,
+			onExpire: () => {
+				reset(onNext());
+			},
+		});
 
 	const onPause = () => {
 		if (isPause) {
