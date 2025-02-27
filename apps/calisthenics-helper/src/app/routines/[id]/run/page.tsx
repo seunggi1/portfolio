@@ -1,4 +1,4 @@
-import RoutineRun from '@/components/routine/routine-run/RoutineRun';
+import RoutineRunMain from '@/components/routine/routine-run/RoutineRunMain';
 
 type Props = {
 	params: Promise<{ id: string }>;
@@ -9,7 +9,7 @@ export default async function RunPage({ params }: Props) {
 
 	return (
 		<>
-			<RoutineRun id={id} />
+			<RoutineRunMain id={id} />
 		</>
 	);
 }

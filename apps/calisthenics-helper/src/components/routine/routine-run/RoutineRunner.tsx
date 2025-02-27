@@ -1,95 +1,48 @@
-import { Button } from '@repo/ui/common';
+'use client';
+
+import RoutineInfo from './RoutineInfo';
+import { RoutineDetail } from '@/types/routine';
+import { useRoutineRunner } from '@/hooks';
 import RoutineProgressBar from './RoutineProgressBar';
-import { PauseIcon, PlayIcon, StopIcon } from '@/components/common/icon';
-import { RoutineState } from '@/hooks/useRoutine';
-import useIntervalTimer from '@/hooks/useIntervalTimer';
+import RoutineControl from './RoutineControl';
 
 type Props = {
-	initSeconds: number;
-	isPause: boolean;
-	statusName: string;
-	setInfo: string;
-	secondsPerRep: number;
-	repetitionCount: number;
-	status: RoutineState['currentExercise']['status'];
-	onToggleIsPause: () => void;
-	onEnd: () => void;
-	onNext: () => number;
-	onNextCount: () => void;
+	routineDetail: RoutineDetail;
 };
 
-export default function RotineProgress({
-	initSeconds,
-	isPause,
-	statusName,
-	repetitionCount,
-	setInfo,
-	status,
-	secondsPerRep,
-	onEnd,
-	onToggleIsPause,
-	onNext,
-	onNextCount,
-}: Props) {
-	const { maxSeconds, latestSeconds, pause, start, reset, resetInterval } =
-		useIntervalTimer({
-			initIntervalSeconds: secondsPerRep,
-			onInterval: () => {
-				onNextCount();
-				resetInterval(secondsPerRep);
-			},
-			initExpireSeconds: initSeconds,
-			onExpire: () => {
-				reset(onNext());
-			},
-		});
+export default function RoutineRunner({ routineDetail }: Props) {
+	const routine = useRoutineRunner(routineDetail);
 
-	const onPause = () => {
-		if (isPause) {
-			return;
-		}
-		onToggleIsPause();
-		pause();
-	};
+	const {
+		routineState: { isEnd, isPause, state },
+		latestSeconds,
+		maxSeconds,
+		onToggleIsPause,
+		onEnd,
+	} = routine;
 
-	const onStart = () => {
-		if (!isPause) {
-			return;
-		}
-		onToggleIsPause();
-		start();
-	};
+	if (isEnd) {
+		return <>운동이 종료되었습니다.</>;
+	}
 
 	return (
-		<section
-			className={`flex flex-col items-center justify-center gap-4 h-full`}
-		>
-			<p className="text-5xl font-bold">{setInfo}</p>
-			<p className="text-8xl font-bold">{statusName}</p>
-			<p className="text-5xl font-bold">{repetitionCount}회</p>
-			<div>
-				<span className="text-5xl font-bold">{`${Math.ceil(latestSeconds)}`}</span>
-			</div>
-			<RoutineProgressBar
-				seconds={latestSeconds}
-				maxSeconds={maxSeconds}
-				status={status}
-				isPause={isPause}
-			/>
-			<div>
-				<Button className="mr-4" onClick={onEnd} color={'error'}>
-					<StopIcon />
-				</Button>
-				{isPause ? (
-					<Button onClick={onStart} color={'primary'}>
-						<PlayIcon />
-					</Button>
-				) : (
-					<Button onClick={onPause} color={'warning'}>
-						<PauseIcon />
-					</Button>
-				)}
-			</div>
-		</section>
+		<>
+			<section
+				className={`flex flex-col items-center justify-center gap-4 h-full`}
+			>
+				<RoutineInfo state={state} />
+				<RoutineProgressBar
+					isPause={isPause}
+					maxSeconds={maxSeconds}
+					seconds={latestSeconds}
+					status={state.status}
+				/>
+				<RoutineControl
+					isPause={isPause}
+					onEnd={onEnd}
+					onTogglePause={onToggleIsPause}
+				/>
+			</section>
+		</>
 	);
 }

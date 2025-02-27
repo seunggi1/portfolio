@@ -1,4 +1,4 @@
-import { RoutineState } from '@/hooks/useRoutine';
+import { RoutineState } from '@/utils/routine';
 import { Progress } from '@repo/ui/common';
 import type { Color } from '@repo/ui/types';
 
@@ -6,7 +6,7 @@ type Props = {
 	seconds: number;
 	maxSeconds: number;
 	isPause: boolean;
-	status: RoutineState['currentExercise']['status'];
+	status: RoutineState['state']['status'];
 };
 
 export default function RoutineProgressBar({
