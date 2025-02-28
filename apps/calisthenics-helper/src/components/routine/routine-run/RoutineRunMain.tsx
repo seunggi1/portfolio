@@ -19,12 +19,7 @@ export default function RoutineRunMain({ id }: Props) {
 
 	return (
 		<>
-			{!isPrepare && (
-				<RoutinePrepare
-					prepareSeconds={2}
-					onPrepare={() => setIsPrepare(true)}
-				/>
-			)}
+			{!isPrepare && <RoutinePrepare onPrepare={() => setIsPrepare(true)} />}
 			{isPrepare && <RoutineRunner routineDetail={routineDetail} />}
 		</>
 	);

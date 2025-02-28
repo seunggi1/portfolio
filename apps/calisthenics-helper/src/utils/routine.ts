@@ -73,6 +73,15 @@ export class RoutineController {
 				setInfo,
 			});
 		}
+
+		if (this.routineStates.length > 1) {
+			this.routineStates.unshift({
+				status: 'delay',
+				nextExerciseName: (this.routineStates[0] as ExerciseState).name,
+				totalSeconds: 10,
+				setInfo: '운동 시작 대기',
+			});
+		}
 	}
 
 	changeEnd(isEnd: boolean) {

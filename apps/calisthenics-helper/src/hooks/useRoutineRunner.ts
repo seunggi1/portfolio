@@ -11,19 +11,21 @@ import useIntervalTimer from './useIntervalTimer';
 export type RoutineResult = {
 	routineState: RoutineState;
 	maxSeconds: number;
-	latestSeconds: number;
+	remainSeconds: number;
 	onEnd: () => void;
 	onToggleIsPause: () => void;
 };
 
+const INIT_INTERVAL_SECONDS = 1;
+
 export default function useRoutineRunner(
 	routineDetail: RoutineDetail
 ): RoutineResult {
-	const routineRunner = useRef<RoutineController>(
+	const { current: routineController } = useRef<RoutineController>(
 		new RoutineController(routineDetail)
 	);
 	const [routineState, setRoutineState] = useState<RoutineState>(
-		routineRunner.current.createState()
+		routineController.createState()
 	);
 	const { playCount, playStatus } = useRoutineSound();
 
@@ -36,14 +38,14 @@ export default function useRoutineRunner(
 		start: startTimer,
 	} = useIntervalTimer({
 		initExpireSeconds: routineState.state.totalSeconds,
-		initIntervalSeconds: (routineState.state as ExerciseState).secondsPerRep,
+		initIntervalSeconds: INIT_INTERVAL_SECONDS,
 
 		onExpire: () => {
 			if (routineState.isEnd) {
 				return;
 			}
 
-			const nextRoutineState = routineRunner.current.nextState();
+			const nextRoutineState = routineController.nextState();
 			setRoutineState(nextRoutineState);
 			if (
 				(nextRoutineState.state.status === 'delay' ||
@@ -58,9 +60,8 @@ export default function useRoutineRunner(
 			if (routineState.isEnd || routineState.state.status !== 'exercise') {
 				return;
 			}
-			const nextState = routineRunner.current.nextExerciseCount();
+			const nextState = routineController.nextExerciseCount();
 			const state = nextState.state as ExerciseState;
-			console.log(state.count);
 			playCount(state.count);
 			setRoutineState(nextState);
 			resetInterval(state.secondsPerRep);
@@ -68,13 +69,13 @@ export default function useRoutineRunner(
 	});
 
 	const onEnd = () => {
-		routineRunner.current.changeEnd(true);
-		setRoutineState(routineRunner.current.createState());
+		routineController.changeEnd(true);
+		setRoutineState(routineController.createState());
 	};
 
 	const onToggleIsPause = () => {
-		routineRunner.current.toggleIsPause();
-		setRoutineState(routineRunner.current.createState());
+		routineController.toggleIsPause();
+		setRoutineState(routineController.createState());
 		if (routineState.isPause) {
 			startTimer();
 		} else {
@@ -85,7 +86,7 @@ export default function useRoutineRunner(
 	return {
 		routineState,
 		maxSeconds,
-		latestSeconds,
+		remainSeconds: latestSeconds,
 		onEnd,
 		onToggleIsPause,
 	};

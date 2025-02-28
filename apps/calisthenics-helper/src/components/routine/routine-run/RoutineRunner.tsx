@@ -15,7 +15,7 @@ export default function RoutineRunner({ routineDetail }: Props) {
 
 	const {
 		routineState: { isEnd, isPause, state },
-		latestSeconds,
+		remainSeconds,
 		maxSeconds,
 		onToggleIsPause,
 		onEnd,
@@ -34,7 +34,7 @@ export default function RoutineRunner({ routineDetail }: Props) {
 				<RoutineProgressBar
 					isPause={isPause}
 					maxSeconds={maxSeconds}
-					seconds={latestSeconds}
+					seconds={remainSeconds}
 					status={state.status}
 				/>
 				<RoutineControl
