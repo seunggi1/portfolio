@@ -1,20 +1,25 @@
 'use client';
 
-import { useRoutines } from '@/hooks';
+import { useRoutineCategories, useRoutines } from '@/hooks';
 import RecommandRoutineBanner from './RecommandRoutineBanner';
 import CategoryFilterTab from './CategoryFilterTab';
 import RoutineCards from './RoutineCards';
 import RoutineCardsSkeleton from './RoutineCardsSkeleton';
+import CategoryFilterTabSkeleton from './CategoryFilterTabSkeleton';
 
 export default function Routines() {
 	const { routines, error, isLoading } = useRoutines();
-
-	const categories: string[] = ['전체', '등', '가슴', '다리', '어깨', '전신'];
+	const { routineCategories, isLoading: isLoadingRoutineCategories } =
+		useRoutineCategories();
 
 	return (
 		<>
 			<RecommandRoutineBanner />
-			<CategoryFilterTab categories={categories} />
+			{isLoadingRoutineCategories ? (
+				<CategoryFilterTabSkeleton />
+			) : (
+				<CategoryFilterTab categories={routineCategories} />
+			)}
 			{isLoading ? (
 				<RoutineCardsSkeleton />
 			) : (
