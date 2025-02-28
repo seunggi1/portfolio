@@ -1,4 +1,4 @@
-import { Exercise, Routine, RoutineDetail } from '@/types/routine';
+import { RoutineCategory, Routine, RoutineDetail } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { User } from '@/types/auth';
@@ -27,6 +27,14 @@ export class SupabaseServiceClient implements ServiceClient {
 		).sort((a, b) => a.order - b.order);
 
 		return data;
+	}
+
+	async getRoutineCategories(): Promise<RoutineCategory[]> {
+		const { data } = await this.client
+			.rpc('categories')
+			.returns<RoutineCategory[]>();
+
+		return data || [];
 	}
 
 	async checkDisplayNameExists(searchDisplayName: string): Promise<boolean> {

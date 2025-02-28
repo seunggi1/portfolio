@@ -21,3 +21,8 @@ export type Exercise = {
 };
 
 export type RoutineDetail = Routine & { exercises: Exercise[] };
+
+export type RoutineCategory = {
+	id: string;
+	name: string;
+};
