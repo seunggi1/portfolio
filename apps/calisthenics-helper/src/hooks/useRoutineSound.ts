@@ -16,7 +16,7 @@ function getAudio(name: string | number): HTMLAudioElement {
 export default function useRoutineSound() {
 	const countAudio = useRef<HTMLAudioElement[]>([]);
 	const statusAudio = useRef<StatusAudio | null>(null);
-	const [isMute, setIsMute] = useState<boolean>(false);
+	const isMute = useRef<boolean>(false);
 
 	useEffect(() => {
 		const temp: HTMLAudioElement[] = new Array(MAX_ITEM);
@@ -51,19 +51,11 @@ export default function useRoutineSound() {
 		};
 	}, []);
 
-	useEffect(() => {
-		countAudio.current.forEach((a) => {
-			a.muted = isMute;
-		});
-
-		if (statusAudio.current) {
-			Object.values(statusAudio.current).forEach((a) => {
-				a.muted = isMute;
-			});
-		}
-	}, [isMute]);
-
 	const playCount = (count: number) => {
+		if (isMute.current) {
+			return;
+		}
+
 		let targetCount = count % MAX_ITEM;
 		if (countAudio.current[targetCount]) {
 			countAudio.current[targetCount].play().catch((error) => {
@@ -72,7 +64,11 @@ export default function useRoutineSound() {
 		}
 	};
 
-	const playStatus = async (status: keyof StatusAudio) => {
+	const playStatus = (status: keyof StatusAudio) => {
+		if (isMute.current) {
+			return;
+		}
+
 		if (statusAudio.current) {
 			statusAudio.current[status].play().catch((error) => {
 				if (statusAudio.current) {
@@ -82,12 +78,14 @@ export default function useRoutineSound() {
 		}
 	};
 
+	const handleMuteToggle = () => {
+		isMute.current = !isMute.current;
+	};
+
 	return {
 		playCount,
 		playStatus,
-		isMute,
-		handleMuteToggle: () => {
-			setIsMute((m) => !m);
-		},
+		isMute: isMute.current,
+		handleMuteToggle,
 	};
 }
