@@ -71,24 +71,24 @@ export default function useIntervalTimer({
 		intervalLatestSeconds.current,
 	]);
 
-	const start = () => {
+	const handleStart = () => {
 		setIsPause(false);
 		setExpireUnixTime(getUnixTime(latestSeconds));
 		intervalExpireUnixTime.current = getUnixTime(intervalLatestSeconds.current);
 	};
 
-	const pause = () => {
+	const handlePause = () => {
 		setIsPause(true);
 	};
 
-	const reset = (seconds: number) => {
+	const handleReset = (seconds: number) => {
 		setExpireUnixTime(getUnixTime(seconds));
 		setLastestSeconds(seconds);
 		setMaxSeconds(seconds);
 		expireIndex.current++;
 	};
 
-	const resetInterval = (intervalSeconds: number) => {
+	const handleIntervalReset = (intervalSeconds: number) => {
 		intervalExpireUnixTime.current = getUnixTime(intervalSeconds);
 		intervalLatestSeconds.current = intervalSeconds;
 		setIsPause(false);
@@ -97,9 +97,9 @@ export default function useIntervalTimer({
 	return {
 		maxSeconds,
 		latestSeconds,
-		start,
-		pause,
-		reset,
-		resetInterval,
+		handleStart,
+		handlePause,
+		handleReset,
+		handleIntervalReset,
 	};
 }

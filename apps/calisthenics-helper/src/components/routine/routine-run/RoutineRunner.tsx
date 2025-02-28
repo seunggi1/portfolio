@@ -18,9 +18,9 @@ export default function RoutineRunner({ routineDetail }: Props) {
 		remainSeconds,
 		maxSeconds,
 		isMute,
-		onToggleIsPause,
-		onEnd,
-		onToggleIsMute,
+		handleMuteToggle,
+		handlePauseToggle,
+		handleEnd,
 	} = routine;
 
 	if (isEnd) {
@@ -42,9 +42,9 @@ export default function RoutineRunner({ routineDetail }: Props) {
 				<RoutineControl
 					isPause={isPause}
 					isMute={isMute}
-					onToggleIsMute={onToggleIsMute}
-					onEnd={onEnd}
-					onTogglePause={onToggleIsPause}
+					onMuteToggle={handleMuteToggle}
+					onPauseToggle={handlePauseToggle}
+					onEndClick={handleEnd}
 				/>
 			</section>
 		</>

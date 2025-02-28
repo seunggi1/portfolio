@@ -13,9 +13,9 @@ export type RoutineResult = {
 	maxSeconds: number;
 	remainSeconds: number;
 	isMute: boolean;
-	onEnd: () => void;
-	onToggleIsPause: () => void;
-	onToggleIsMute: () => void;
+	handleEnd: () => void;
+	handlePauseToggle: () => void;
+	handleMuteToggle: () => void;
 };
 
 const INIT_INTERVAL_SECONDS = 1;
@@ -29,15 +29,15 @@ export default function useRoutineRunner(
 	const [routineState, setRoutineState] = useState<RoutineState>(
 		routineController.createState()
 	);
-	const { playCount, playStatus, isMute, onToggleIsMute } = useRoutineSound();
+	const { playCount, playStatus, isMute, handleMuteToggle } = useRoutineSound();
 
 	const {
 		latestSeconds,
 		maxSeconds,
-		pause: pauseTimer,
-		reset,
-		resetInterval,
-		start: startTimer,
+		handlePause: onTimerPause,
+		handleReset: onTimerReset,
+		handleIntervalReset: onTimerIntervalReset,
+		handleStart: onTimerStart,
 	} = useIntervalTimer({
 		initExpireSeconds: routineState.state.totalSeconds,
 		initIntervalSeconds: INIT_INTERVAL_SECONDS,
@@ -56,7 +56,7 @@ export default function useRoutineRunner(
 			) {
 				playStatus(nextRoutineState.state.status);
 			}
-			reset(nextRoutineState.state.totalSeconds);
+			onTimerReset(nextRoutineState.state.totalSeconds);
 		},
 		onInterval: () => {
 			if (routineState.isEnd || routineState.state.status !== 'exercise') {
@@ -66,22 +66,22 @@ export default function useRoutineRunner(
 			const state = nextState.state as ExerciseState;
 			playCount(state.count);
 			setRoutineState(nextState);
-			resetInterval(state.secondsPerRep);
+			onTimerIntervalReset(state.secondsPerRep);
 		},
 	});
 
-	const onEnd = () => {
+	const handleEnd = () => {
 		routineController.changeEnd(true);
 		setRoutineState(routineController.createState());
 	};
 
-	const onToggleIsPause = () => {
+	const handlePauseToggle = () => {
 		routineController.toggleIsPause();
 		setRoutineState(routineController.createState());
 		if (routineState.isPause) {
-			startTimer();
+			onTimerStart();
 		} else {
-			pauseTimer();
+			onTimerPause();
 		}
 	};
 
@@ -90,8 +90,8 @@ export default function useRoutineRunner(
 		maxSeconds,
 		remainSeconds: latestSeconds,
 		isMute,
-		onEnd,
-		onToggleIsPause,
-		onToggleIsMute,
+		handleEnd,
+		handlePauseToggle,
+		handleMuteToggle,
 	};
 }

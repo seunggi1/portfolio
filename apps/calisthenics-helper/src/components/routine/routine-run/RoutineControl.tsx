@@ -5,38 +5,38 @@ import { Volume2, VolumeOff } from 'lucide-react';
 type Props = {
 	isPause: boolean;
 	isMute: boolean;
-	onTogglePause: () => void;
-	onEnd: () => void;
-	onToggleIsMute: () => void;
+	onPauseToggle: () => void;
+	onMuteToggle: () => void;
+	onEndClick: () => void;
 };
 
 export default function RoutineControl({
 	isPause,
-	onTogglePause,
 	isMute,
-	onToggleIsMute,
-	onEnd,
+	onPauseToggle,
+	onMuteToggle,
+	onEndClick,
 }: Props) {
 	return (
 		<div className="space-x-4">
-			<Button onClick={onEnd} color={'error'}>
+			<Button onClick={onEndClick} color={'error'}>
 				<StopIcon />
 			</Button>
 			{isPause ? (
-				<Button onClick={onTogglePause} color={'primary'}>
+				<Button onClick={onPauseToggle} color={'primary'}>
 					<PlayIcon />
 				</Button>
 			) : (
-				<Button onClick={onTogglePause} color={'warning'}>
+				<Button onClick={onPauseToggle} color={'warning'}>
 					<PauseIcon />
 				</Button>
 			)}
 			{isMute ? (
-				<Button onClick={onToggleIsMute} color={'warning'}>
+				<Button onClick={onMuteToggle} color={'warning'}>
 					<VolumeOff />
 				</Button>
 			) : (
-				<Button onClick={onToggleIsMute} color={'primary'}>
+				<Button onClick={onMuteToggle} color={'primary'}>
 					<Volume2 />
 				</Button>
 			)}

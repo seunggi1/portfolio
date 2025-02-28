@@ -86,7 +86,7 @@ export default function useRoutineSound() {
 		playCount,
 		playStatus,
 		isMute,
-		onToggleIsMute: () => {
+		handleMuteToggle: () => {
 			setIsMute((m) => !m);
 		},
 	};

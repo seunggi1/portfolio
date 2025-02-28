@@ -1,8 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineRunner from './RoutineRunner';
-import { useState } from 'react';
 import RoutinePrepare from './RoutinePrepare';
 
 type Props = {
@@ -19,7 +19,9 @@ export default function RoutineRunMain({ id }: Props) {
 
 	return (
 		<>
-			{!isPrepare && <RoutinePrepare onPrepare={() => setIsPrepare(true)} />}
+			{!isPrepare && (
+				<RoutinePrepare onPrepareClick={() => setIsPrepare(true)} />
+			)}
 			{isPrepare && <RoutineRunner routineDetail={routineDetail} />}
 		</>
 	);
