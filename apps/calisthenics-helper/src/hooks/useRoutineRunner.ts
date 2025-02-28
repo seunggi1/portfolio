@@ -12,8 +12,10 @@ export type RoutineResult = {
 	routineState: RoutineState;
 	maxSeconds: number;
 	remainSeconds: number;
+	isMute: boolean;
 	onEnd: () => void;
 	onToggleIsPause: () => void;
+	onToggleIsMute: () => void;
 };
 
 const INIT_INTERVAL_SECONDS = 1;
@@ -27,7 +29,7 @@ export default function useRoutineRunner(
 	const [routineState, setRoutineState] = useState<RoutineState>(
 		routineController.createState()
 	);
-	const { playCount, playStatus } = useRoutineSound();
+	const { playCount, playStatus, isMute, onToggleIsMute } = useRoutineSound();
 
 	const {
 		latestSeconds,
@@ -87,7 +89,9 @@ export default function useRoutineRunner(
 		routineState,
 		maxSeconds,
 		remainSeconds: latestSeconds,
+		isMute,
 		onEnd,
 		onToggleIsPause,
+		onToggleIsMute,
 	};
 }

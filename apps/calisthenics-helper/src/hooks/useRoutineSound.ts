@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const MAX_ITEM = 10;
 
@@ -16,6 +16,7 @@ function getAudio(name: string | number): HTMLAudioElement {
 export default function useRoutineSound() {
 	const countAudio = useRef<HTMLAudioElement[]>([]);
 	const statusAudio = useRef<StatusAudio | null>(null);
+	const [isMute, setIsMute] = useState<boolean>(false);
 
 	useEffect(() => {
 		const temp: HTMLAudioElement[] = new Array(MAX_ITEM);
@@ -50,6 +51,18 @@ export default function useRoutineSound() {
 		};
 	}, []);
 
+	useEffect(() => {
+		countAudio.current.forEach((a) => {
+			a.muted = isMute;
+		});
+
+		if (statusAudio.current) {
+			Object.values(statusAudio.current).forEach((a) => {
+				a.muted = isMute;
+			});
+		}
+	}, [isMute]);
+
 	const playCount = (count: number) => {
 		let targetCount = count % MAX_ITEM;
 		if (countAudio.current[targetCount]) {
@@ -72,5 +85,9 @@ export default function useRoutineSound() {
 	return {
 		playCount,
 		playStatus,
+		isMute,
+		onToggleIsMute: () => {
+			setIsMute((m) => !m);
+		},
 	};
 }

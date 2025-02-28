@@ -17,8 +17,10 @@ export default function RoutineRunner({ routineDetail }: Props) {
 		routineState: { isEnd, isPause, state },
 		remainSeconds,
 		maxSeconds,
+		isMute,
 		onToggleIsPause,
 		onEnd,
+		onToggleIsMute,
 	} = routine;
 
 	if (isEnd) {
@@ -39,6 +41,8 @@ export default function RoutineRunner({ routineDetail }: Props) {
 				/>
 				<RoutineControl
 					isPause={isPause}
+					isMute={isMute}
+					onToggleIsMute={onToggleIsMute}
 					onEnd={onEnd}
 					onTogglePause={onToggleIsPause}
 				/>
