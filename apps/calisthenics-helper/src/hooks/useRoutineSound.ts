@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const MAX_ITEM = 10;
 
@@ -21,6 +21,7 @@ export default function useRoutineSound() {
 		const temp: HTMLAudioElement[] = new Array(MAX_ITEM);
 		for (let i = 0; i < MAX_ITEM; i++) {
 			temp[i] = getAudio(i);
+			temp[i].load();
 		}
 
 		countAudio.current = temp;
@@ -31,6 +32,10 @@ export default function useRoutineSound() {
 			pause: getAudio('pause'),
 			delay: getAudio('delay'),
 		};
+
+		Object.values(statusAudio.current).forEach((a) => {
+			a.load();
+		});
 
 		return () => {
 			countAudio.current.forEach((a) => {
@@ -48,13 +53,19 @@ export default function useRoutineSound() {
 	const playCount = (count: number) => {
 		let targetCount = count % MAX_ITEM;
 		if (countAudio.current[targetCount]) {
-			countAudio.current[targetCount].play();
+			countAudio.current[targetCount].play().catch((error) => {
+				countAudio.current[targetCount]?.pause();
+			});
 		}
 	};
 
-	const playStatus = (status: keyof StatusAudio) => {
+	const playStatus = async (status: keyof StatusAudio) => {
 		if (statusAudio.current) {
-			statusAudio.current[status].play();
+			statusAudio.current[status].play().catch((error) => {
+				if (statusAudio.current) {
+					statusAudio.current[status].pause();
+				}
+			});
 		}
 	};
 
