@@ -1,9 +1,11 @@
 'use client';
 
+import { useActionState, useEffect } from 'react';
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
 import type { SignInFormResponse } from '@/types/auth';
 import { Button } from '@repo/ui/common';
+import { useAuth } from '@/hooks';
 
 type Props = {
 	action: (
@@ -17,6 +19,15 @@ export default function SignInForm({ action }: Props) {
 		SignInFormResponse,
 		FormData
 	>(action, { success: false, errors: {}, inputs: {} });
+
+	const { user } = useAuth();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (user) {
+			router.push('/');
+		}
+	}, [user]);
 
 	return (
 		<section className="flex items-center justify-center w-full h-full">

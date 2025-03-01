@@ -19,7 +19,7 @@ export default function RoutineCards({ routines }: Props) {
 						<Card.CardHeader>
 							<div className="text-white w-full h-[8rem] flex items-center justify-center relative">
 								<Image
-									src={routine.imageURL ?? '/push-up.png'}
+									src={routine.imageURL ? routine.imageURL : '/push-up.png'}
 									alt="doing pull-up man"
 									className="absolute"
 									fill={true}
