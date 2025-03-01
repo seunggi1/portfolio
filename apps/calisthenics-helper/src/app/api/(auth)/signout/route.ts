@@ -1,6 +1,6 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
 import { handleErrorResponse } from '@/utils/error';
-import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
 	try {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 			throw new Error('server error');
 		}
 
-		return NextResponse.redirect(new URL('/', request.url));
+		return NextResponse.json<boolean>(true);
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}
