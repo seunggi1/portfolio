@@ -20,10 +20,10 @@ export default function useAuth() {
 		mutationFn: signout,
 		onMutate: () => {
 			queryClient.setQueryData(authKeys.base, () => null);
-			return;
+			return user;
 		},
-		onError: () => {
-			refetch();
+		onError: (error, variable, contetxt) => {
+			queryClient.setQueryData(authKeys.base, () => contetxt);
 		},
 	});
 
