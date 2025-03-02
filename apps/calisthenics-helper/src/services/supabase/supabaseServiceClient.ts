@@ -1,7 +1,13 @@
-import { RoutineCategory, Routine, RoutineDetail } from '@/types/routine';
+import {
+	RoutineCategory,
+	Routine,
+	RoutineDetail,
+	NewRoutine,
+} from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { User } from '@/types/auth';
+import { ValidatorError } from '@/types/error';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
@@ -35,6 +41,33 @@ export class SupabaseServiceClient implements ServiceClient {
 			.returns<RoutineCategory[]>();
 
 		return data || [];
+	}
+
+	async createRoutine(newRoutine: NewRoutine): Promise<boolean> {
+		const user = await this.getUser();
+
+		if (!user) {
+			throw new ValidatorError('invalid user');
+		}
+
+		const { data, error } = await this.client
+			.rpc('insert_routine', {
+				...newRoutine,
+				userID: user.id,
+				exercisesJson: JSON.stringify(newRoutine.exercises),
+				categories: JSON.stringify(newRoutine.categoryIDs),
+			})
+			.returns<Pick<Routine, 'id'>>();
+
+		if (data) {
+			return true;
+		}
+
+		if (error) {
+			throw new Error(error.message);
+		}
+
+		return false;
 	}
 
 	async checkDisplayNameExists(searchDisplayName: string): Promise<boolean> {

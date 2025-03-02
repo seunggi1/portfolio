@@ -26,3 +26,20 @@ export type RoutineCategory = {
 	id: string;
 	name: string;
 };
+
+export type NewExercise = Omit<Exercise, 'id' | 'totalExerciseSeconds'>;
+export type CategoryID = RoutineCategory['id'];
+
+export type NewRoutine = Omit<
+	Routine,
+	'id' | 'totalExerciseCount' | 'totalMinutes' | 'categoryNames' | 'imageURL'
+> & {
+	categoryIDs: CategoryID[];
+	exercises: NewExercise[];
+};
+
+export type NewRoutineFormResponse = {
+	success: boolean;
+	inputs?: NewRoutine;
+	errors?: NewRoutine;
+};
