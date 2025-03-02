@@ -39,8 +39,8 @@ export default function SignUpForm({ action }: Props) {
 							id="displayName"
 							name="displayName"
 							placeholder="최소 3글자 이상 8글자이하"
-							// minLength={3}
-							// maxLength={8}
+							minLength={3}
+							maxLength={8}
 							required
 							defaultValue={inputs.displayName}
 						/>
@@ -67,7 +67,7 @@ export default function SignUpForm({ action }: Props) {
 					</label>
 					<span className="text-error">{errors.email}</span>
 				</div>
-				<Button aria-disabled={isPending} type="submit">
+				<Button disabled={isPending || success} type="submit">
 					회원가입 링크 전송
 				</Button>
 				<span className="text-center text-success">

@@ -15,7 +15,7 @@ type Props = {
 };
 
 export default function SignInForm({ action }: Props) {
-	const [{ success, errors, inputs }, formAction, peding] = useActionState<
+	const [{ success, errors, inputs }, formAction, ispeding] = useActionState<
 		SignInFormResponse,
 		FormData
 	>(action, { success: false, errors: {}, inputs: {} });
@@ -56,7 +56,9 @@ export default function SignInForm({ action }: Props) {
 					</label>
 					<span className="text-error">{errors.email}</span>
 				</div>
-				<Button type="submit">로그인 링크 전송</Button>
+				<Button disabled={ispeding || success} type="submit">
+					로그인 링크 전송
+				</Button>
 				<span className="text-center text-success">
 					{success && '로그인 링크가 전송되었습니다.'}
 				</span>
