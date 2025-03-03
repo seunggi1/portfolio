@@ -27,19 +27,27 @@ export type RoutineCategory = {
 	name: string;
 };
 
+export type NewRoutineBase = Omit<
+	Routine,
+	'id' | 'totalExerciseCount' | 'totalMinutes' | 'categoryNames' | 'imageURL'
+>;
 export type NewExercise = Omit<Exercise, 'id' | 'totalExerciseSeconds'>;
 export type CategoryID = RoutineCategory['id'];
 
-export type NewRoutine = Omit<
-	Routine,
-	'id' | 'totalExerciseCount' | 'totalMinutes' | 'categoryNames' | 'imageURL'
-> & {
+export type NewRoutine = NewRoutineBase & {
 	categoryIDs: CategoryID[];
 	exercises: NewExercise[];
 };
 
+export type NewRoutineErrors = Record<
+	keyof Omit<NewRoutine, 'exercises'>,
+	string
+> & {
+	exercises: Record<keyof NewExercise, string>[];
+};
+
 export type NewRoutineFormResponse = {
 	success: boolean;
-	inputs?: NewRoutine;
-	errors?: NewRoutine;
+	inputs?: Partial<NewRoutine>;
+	errors?: Partial<NewRoutineErrors>;
 };
