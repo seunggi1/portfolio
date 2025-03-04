@@ -4,6 +4,8 @@ import ProfileButton from './ProfileButton';
 import AuthButton from './AuthButton';
 import { Button, Skeleton } from '@repo/ui/common';
 import { useAuth } from '@/hooks';
+import { PlusCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Auth() {
 	const { user, isLoading, handleSignout } = useAuth();
@@ -14,6 +16,9 @@ export default function Auth() {
 				{isLoading && <Skeleton className="w-32 h-12"></Skeleton>}
 				{!isLoading && user && (
 					<>
+						<Link href="/routines/edit">
+							<PlusCircle />
+						</Link>
 						<ProfileButton href="profile" />
 						<Button onClick={handleSignout}>로그아웃</Button>
 					</>
