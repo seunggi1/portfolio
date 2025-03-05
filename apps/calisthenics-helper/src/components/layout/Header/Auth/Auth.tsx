@@ -16,7 +16,7 @@ export default function Auth() {
 				{isLoading && <Skeleton className="w-32 h-12"></Skeleton>}
 				{!isLoading && user && (
 					<>
-						<Link href="/routines/edit">
+						<Link href="/routines/edit?progress=routine">
 							<PlusCircle />
 						</Link>
 						<ProfileButton href="profile" />
