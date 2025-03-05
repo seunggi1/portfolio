@@ -1,148 +1,126 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import {
-	ExerciseFormData,
-	NewExercise,
-	NewRoutineBase,
-	RoutineBaseFormData,
-	RoutineCategory,
-} from '@/types/routine';
-import RoutineBaseForm from './RoutineBaseForm';
-import { validateExercise, validateRoutineBase } from '@/schemas/routine';
-import { useRoutineCategories } from '@/hooks';
-import ExeciseForm from './ExerciseForm';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { NewExercise, NewRoutineBase } from '@/types/routine';
+import RoutineBaseEdit from './RoutineBaseEdit';
+import ExerciseEdit from './ExerciseEdit';
 
-type Step = 'RoutineBase' | 'Exercise' | 'finish';
+const DEFAULT_STATE = {
+	routineBase: {
+		name: '',
+		restSeconds: 10,
+		totalSets: 1,
+		difficultyLevel: 2,
+		categoryIDs: [],
+	},
+	exercise: {
+		name: '',
+		nextDelaySeconds: 10,
+		order: 0,
+		repetitionCount: 10,
+		secondsPerRep: 3,
+	},
+};
 
 export default function RoutineEdit() {
-	const [routineBaseFormData, setRoutineBaseFormData] = useState<
-		Partial<RoutineBaseFormData>
-	>({
-		inputs: { categoryIDs: [] },
-	});
+	const [routineBase, SetRoutineBase] = useState<NewRoutineBase>(
+		DEFAULT_STATE.routineBase
+	);
+	const [exercises, setExercises] = useState<NewExercise[]>([
+		DEFAULT_STATE.exercise,
+	]);
 
-	const { routineCategories } = useRoutineCategories();
-	const [exerciseFormData, setExerciseFormData] = useState<
-		Partial<ExerciseFormData>
-	>({});
-	const [execises, setExercises] = useState<NewExercise[]>([]);
-	const [step, setStep] = useState<Step>('RoutineBase');
+	const [step, setStep] = useState<Step>('routine');
 	const params = useSearchParams();
-	const searchParam = params.toString();
-
-	useEffect(() => {
-		window.history.replaceState(null, '', `?progress=routine`);
-	}, []);
+	const exerciseOrder = +(params.get('order') || 0);
 
 	useEffect(() => {
 		const progress = params.get('progress');
-		console.log(progress);
-		if (!progress || progress === 'routine') {
-			setStep('RoutineBase');
+		if (progress) {
+			setStep(progress as Step);
 		} else {
-			setStep('Exercise');
+			setStep('routine');
 		}
-	}, [searchParam]);
+	}, [params]);
 
-	const handleDataChange = (name: keyof NewRoutineBase, value: string) => {
-		if (name === 'name') {
-			setRoutineBaseFormData((r) => ({
-				...r,
-				inputs: { ...r.inputs, [name]: value },
-			}));
-		} else {
-			setRoutineBaseFormData((r) => ({
-				...r,
-				inputs: { ...r.inputs, [name]: !value ? undefined : +value },
-			}));
-		}
+	const handleRoutineBaseComplete = (routineBase: NewRoutineBase) => {
+		setStep('exercise');
+		SetRoutineBase(routineBase);
+		changeSearchParams({ type: 'exercise', order: exerciseOrder });
 	};
 
-	const handleRoutineCategoryClick = (id: RoutineCategory['id']) => {
-		const prevCatgoriesSet = new Set(routineBaseFormData.inputs?.categoryIDs);
-		let categories = [];
-
-		if (prevCatgoriesSet.has(id)) {
-			categories = Array.from(prevCatgoriesSet).filter(
-				(categoryID) => categoryID !== id
-			);
-		} else {
-			prevCatgoriesSet.add(id);
-			categories = Array.from(prevCatgoriesSet);
-		}
-
-		setRoutineBaseFormData((r) => ({
-			...r,
-			inputs: {
-				...r.inputs,
-				categoryIDs: categories,
-			},
-		}));
+	const handleExerciseComplete = (exercise: NewExercise) => {
+		setExercises((prev) =>
+			prev.map((e) => (e.order === exercise.order ? { ...exercise } : { ...e }))
+		);
 	};
 
-	const handleRoutineBaseSubmit = () => {
-		const errors = validateRoutineBase(routineBaseFormData.inputs);
-
-		if (errors) {
-			return setRoutineBaseFormData((r) => ({ ...r, errors }));
+	const handleExerciseAddClick = () => {
+		const nextOrder = exerciseOrder + 1;
+		if (nextOrder === exercises.length) {
+			setExercises((e) => [
+				...e,
+				{ ...DEFAULT_STATE.exercise, order: nextOrder },
+			]);
 		}
-
-		const urlSearchParams = new URLSearchParams(params.toString());
-		urlSearchParams.set('progress', 'exercise');
-		urlSearchParams.set('order', '0');
-		window.history.pushState(null, '', `?${urlSearchParams.toString()}`);
-		setStep('Exercise');
-		setRoutineBaseFormData((r) => ({ ...r, errors: undefined }));
+		changeSearchParams({ type: 'exercise', order: nextOrder });
 	};
 
-	const handleExerciseDataChange = (name: keyof NewExercise, value: string) => {
-		if (name === 'name') {
-			setExerciseFormData((r) => ({
-				...r,
-				inputs: { ...r.inputs, [name]: value },
-			}));
-		} else {
-			setExerciseFormData((r) => ({
-				...r,
-				inputs: { ...r.inputs, [name]: !value ? undefined : +value },
-			}));
-		}
-	};
-
-	const handleExerciseSubmit = () => {
-		const errors = validateExercise(exerciseFormData.inputs);
-
-		if (errors) {
-			return setExerciseFormData((e) => ({ ...e, errors }));
-		}
-		const exercise = exerciseFormData.inputs as NewExercise;
-		exercise.order = +(params.get('order') || 0);
-		setExercises((e) => [...e, { ...exercise }]);
-		setExerciseFormData((e) => ({ ...e, errors: undefined }));
-
+	const handleFinishClick = () => {
 		setStep('finish');
+		changeSearchParams({ type: 'finish' });
 	};
 
 	return (
 		<>
-			{step === 'RoutineBase' && (
-				<RoutineBaseForm
-					formData={routineBaseFormData}
-					routineCategories={routineCategories}
-					onRoutineCategoryClick={handleRoutineCategoryClick}
-					onDataChange={handleDataChange}
-					onSubmit={handleRoutineBaseSubmit}
+			{step === 'routine' && (
+				<RoutineBaseEdit
+					data={routineBase}
+					onComplete={handleRoutineBaseComplete}
 				/>
 			)}
-			{step === 'Exercise' && (
-				<ExeciseForm
-					onSubmit={handleExerciseSubmit}
-					onDataChange={handleExerciseDataChange}
-					formData={exerciseFormData}
+			{step === 'exercise' && (
+				<ExerciseEdit
+					data={exercises[exerciseOrder]}
+					onComplete={handleExerciseComplete}
+					onAddClick={handleExerciseAddClick}
+					onFinishClick={handleFinishClick}
 				/>
+			)}
+			{step === 'finish' && (
+				<>
+					<span>루틴 설정이 완료됐어요!</span>
+				</>
 			)}
 		</>
 	);
+}
+
+type Step = 'routine' | 'exercise' | 'finish';
+
+type RoutineProgress = {
+	type: 'routine';
+};
+
+type ExerciseProgress = {
+	type: 'exercise';
+	order: number;
+};
+
+type FinishProgress = {
+	type: 'finish';
+};
+
+type Progress = RoutineProgress | ExerciseProgress | FinishProgress;
+
+function changeSearchParams(progress: Progress) {
+	const urlSearchParams = new URLSearchParams();
+	urlSearchParams.set('progress', progress.type);
+
+	if (progress.type === 'exercise') {
+		urlSearchParams.set('order', progress.order.toString());
+	}
+
+	window.history.pushState(null, '', `?${urlSearchParams}`);
 }

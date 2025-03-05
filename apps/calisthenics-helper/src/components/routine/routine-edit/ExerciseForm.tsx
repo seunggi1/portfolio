@@ -8,12 +8,16 @@ type Props = {
 	formData: ExerciseFormData;
 	onDataChange: (name: keyof NewExercise, value: string) => void;
 	onSubmit: () => void;
+	onAdd: () => void;
+	onFinish: () => void;
 };
 
 export default function ExeciseForm({
-	formData: { inputs: data, errors },
+	formData: { success, inputs: data, errors },
 	onDataChange,
 	onSubmit,
+	onAdd,
+	onFinish,
 }: Props) {
 	const exerciseNameof = nameofFactory<NewExercise>();
 
@@ -72,8 +76,27 @@ export default function ExeciseForm({
 					min={5}
 					required
 				/>
-				<div className="mt-4 text-right">
-					<Button type="submit">운동 저장</Button>
+				<div className="flex flex-col gap-4 text-right">
+					{!success && (
+						<Button type="submit" className="hidden">
+							저장
+						</Button>
+					)}
+					{success && (
+						<>
+							<Button
+								disabled={!success}
+								type="button"
+								color={'secondary'}
+								onClick={onAdd}
+							>
+								새로운 운동 추가
+							</Button>
+							<Button type="button" disabled={!success} onClick={onFinish}>
+								다음
+							</Button>
+						</>
+					)}
 				</div>
 			</form>
 		</section>

@@ -110,7 +110,9 @@ export default function RoutineBaseForm({
 				</ul>
 				<span className="text-error">{errors?.categoryIDs}</span>
 				<div className="mt-4 text-right">
-					<Button type="submit">루틴 저장</Button>
+					<Button type="submit" className="w-full">
+						다음
+					</Button>
 				</div>
 			</form>
 		</section>

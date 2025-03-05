@@ -44,11 +44,13 @@ export type RoutineBaseErrors = Record<
 export type ExerciseErrors = Record<keyof NewExercise, string>;
 
 export type RoutineBaseFormData = {
+	success?: boolean;
 	inputs?: Partial<NewRoutineBase>;
 	errors?: Partial<RoutineBaseErrors>;
 };
 
 export type ExerciseFormData = {
+	success?: boolean;
 	inputs?: Partial<NewExercise>;
 	errors?: Partial<ExerciseErrors>;
 };
