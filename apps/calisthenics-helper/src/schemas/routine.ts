@@ -1,5 +1,7 @@
 import {
 	ExerciseFormData,
+	NewExercise,
+	NewRoutine,
 	NewRoutineBase,
 	RoutineBaseFormData,
 } from '@/types/routine';
@@ -36,9 +38,12 @@ const newRoutine: z.ZodType<NewRoutineBase> = z.object({
 	categoryIDs: z.string({}).array().min(1, {
 		message: '최소 1개 이상 카테고리를 선택해야 합니다.',
 	}),
+	description: z
+		.string()
+		.min(5, { message: '설명은 최소 5글자 이상 이어야 합니다.' }),
 });
 
-const newExercise = z.object({
+const newExercise: z.ZodType<NewExercise> = z.object({
 	name: z.string().min(2, {
 		message: '운동 이름은 최소 2글자 이상 이어야 합니다.',
 	}),
@@ -56,8 +61,16 @@ const newExercise = z.object({
 	nextDelaySeconds: z.number().min(5, {
 		message: '다음 운동 준비 시간은 최소 5초 이상 이어야 합니다.',
 	}),
-	// order: z.number().default,
+	order: z.number(),
 });
+
+const exercises = z.object({
+	exercises: newExercise
+		.array()
+		.min(1, { message: '최소 1개 이상에 운동이 필요합니다.' }),
+});
+
+const fullRoutineData = z.intersection(newRoutine, exercises);
 
 export function validateRoutineBase(
 	data: RoutineBaseFormData['inputs']
@@ -84,6 +97,27 @@ export function validateExercise(
 	data: ExerciseFormData['inputs']
 ): ExerciseFormData['errors'] | null {
 	const result = newExercise.safeParse(data);
+
+	if (result.success) {
+		return null;
+	}
+
+	const format = result.error.flatten();
+
+	const errors = Object.fromEntries(
+		Object.entries(format.fieldErrors).map(([name, value]) => [
+			name,
+			value.join(','),
+		])
+	);
+
+	return errors;
+}
+
+export function validateFullRoutineData(
+	data: NewRoutine
+): Record<string, string> | null {
+	const result = fullRoutineData.safeParse(data);
 
 	if (result.success) {
 		return null;

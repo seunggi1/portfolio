@@ -52,10 +52,15 @@ export class SupabaseServiceClient implements ServiceClient {
 
 		const { data, error } = await this.client
 			.rpc('insert_routine', {
-				...newRoutine,
 				userID: user.id,
-				exercisesJson: JSON.stringify(newRoutine.exercises),
-				categories: JSON.stringify(newRoutine.categoryIDs),
+				name: newRoutine.name,
+				imageURL: null,
+				difficultyLevel: newRoutine.difficultyLevel,
+				totalSets: newRoutine.totalSets,
+				restSeconds: newRoutine.restSeconds,
+				description: newRoutine.description,
+				exercisesJson: newRoutine.exercises,
+				categories: newRoutine.categoryIDs,
 			})
 			.returns<Pick<Routine, 'id'>>();
 
