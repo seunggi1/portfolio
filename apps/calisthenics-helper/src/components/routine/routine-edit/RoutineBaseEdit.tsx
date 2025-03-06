@@ -23,7 +23,7 @@ export default function RoutineBaseEdit({ data, onComplete }: Props) {
 	const { routineCategories } = useRoutineCategories();
 
 	const handleDataChange = (name: keyof NewRoutineBase, value: string) => {
-		if (name === 'name') {
+		if (name === 'name' || name === 'description') {
 			setRoutineBaseFormData((r) => ({
 				...r,
 				inputs: { ...r.inputs, [name]: value },

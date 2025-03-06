@@ -5,6 +5,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { NewExercise, NewRoutineBase } from '@/types/routine';
 import RoutineBaseEdit from './RoutineBaseEdit';
 import ExerciseEdit from './ExerciseEdit';
+import RoutineEditFinish from './RoutineEditFinish';
 
 const DEFAULT_STATE = {
 	routineBase: {
@@ -13,6 +14,7 @@ const DEFAULT_STATE = {
 		totalSets: 1,
 		difficultyLevel: 2,
 		categoryIDs: [],
+		description: '',
 	},
 	exercise: {
 		name: '',
@@ -90,7 +92,7 @@ export default function RoutineEdit() {
 			)}
 			{step === 'finish' && (
 				<>
-					<span>루틴 설정이 완료됐어요!</span>
+					<RoutineEditFinish newRoutine={{ ...routineBase, exercises }} />
 				</>
 			)}
 		</>

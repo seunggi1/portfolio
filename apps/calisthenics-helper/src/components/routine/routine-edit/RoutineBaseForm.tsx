@@ -65,6 +65,16 @@ export default function RoutineBaseForm({
 					required
 				/>
 				<FormInput
+					name={nameof('description')}
+					displayName="루틴 설명"
+					value={data?.description ?? ''}
+					type="text"
+					min={5}
+					error={errors?.name}
+					onChange={onInputChange}
+					required
+				/>
+				<FormInput
 					name={nameof('difficultyLevel')}
 					displayName="루틴 난이도"
 					value={data?.difficultyLevel ?? ''}

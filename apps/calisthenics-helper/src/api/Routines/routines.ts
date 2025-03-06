@@ -1,4 +1,9 @@
-import type { RoutineCategory, Routine, RoutineDetail } from '@/types/routine';
+import type {
+	RoutineCategory,
+	Routine,
+	RoutineDetail,
+	NewRoutine,
+} from '@/types/routine';
 import { HttpClientBuilder } from '../httpClient';
 
 function getRoutineURL(...paths: string[]) {
@@ -34,6 +39,14 @@ export async function fetchRoutineCategories(): Promise<RoutineCategory[]> {
 	const { data } = await HttpClientBuilder.get(
 		getRoutineURL('categories')
 	).call<RoutineCategory[]>();
+
+	return data;
+}
+
+export async function createRoutine(newRoutine: NewRoutine): Promise<boolean> {
+	const { data } = await HttpClientBuilder.post(getRoutineURL())
+		.data(newRoutine)
+		.call<boolean>();
 
 	return data;
 }
