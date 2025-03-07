@@ -47,6 +47,18 @@ export type NewRoutine = NewRoutineBase & {
 	exercises: NewExercise[];
 };
 
+export type UpdateRoutine = Omit<
+	Routine,
+	| 'totalExerciseCount'
+	| 'totalMinutes'
+	| 'categoryNames'
+	| 'imageURL'
+	| 'userID'
+> & {
+	categoryIDs: CategoryID[];
+	exercises: NewExercise[];
+};
+
 export type RoutineBaseErrors = Record<
 	keyof Omit<NewRoutineBase, 'exercises'>,
 	string

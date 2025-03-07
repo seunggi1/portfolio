@@ -3,11 +3,12 @@ import {
 	Routine,
 	RoutineDetail,
 	NewRoutine,
+	UpdateRoutine,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { User } from '@/types/auth';
-import { ValidatorError } from '@/types/error';
+import { AuthError, ValidatorError } from '@/types/error';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
@@ -52,15 +53,52 @@ export class SupabaseServiceClient implements ServiceClient {
 
 		const { data, error } = await this.client
 			.rpc('insert_routine', {
-				userID: user.id,
+				user_id: user.id,
 				name: newRoutine.name,
-				imageURL: null,
-				difficultyLevel: newRoutine.difficultyLevel,
-				totalSets: newRoutine.totalSets,
-				restSeconds: newRoutine.restSeconds,
+				image_url: null,
+				difficulty_level: newRoutine.difficultyLevel,
+				total_sets: newRoutine.totalSets,
+				rest_seconds: newRoutine.restSeconds,
 				description: newRoutine.description,
-				exercisesJson: newRoutine.exercises,
+				exercises_data: newRoutine.exercises,
 				categories: newRoutine.categoryIDs,
+			})
+			.returns<Pick<Routine, 'id'>>();
+
+		if (data) {
+			return true;
+		}
+
+		if (error) {
+			throw new Error(error.message);
+		}
+
+		return false;
+	}
+
+	async updateRoutine(updateRoutine: UpdateRoutine): Promise<boolean> {
+		const user = await this.getUser();
+		const originData = await this.getRoutineById(updateRoutine.id);
+
+		if (!user || !originData) {
+			throw new ValidatorError('Invalid Request');
+		}
+
+		if (user.id !== originData.userID) {
+			throw new AuthError('Unauthorized request');
+		}
+
+		const { data, error } = await this.client
+			.rpc('update_routine', {
+				routine_id: updateRoutine.id,
+				update_name: updateRoutine.name,
+				update_image_url: null,
+				update_difficulty_level: updateRoutine.difficultyLevel,
+				update_total_sets: updateRoutine.totalSets,
+				update_rest_seconds: updateRoutine.restSeconds,
+				update_description: updateRoutine.description,
+				update_exercises: updateRoutine.exercises,
+				update_categories: updateRoutine.categoryIDs,
 			})
 			.returns<Pick<Routine, 'id'>>();
 
