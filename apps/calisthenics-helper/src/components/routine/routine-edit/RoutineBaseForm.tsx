@@ -70,7 +70,7 @@ export default function RoutineBaseForm({
 					value={data?.description ?? ''}
 					type="text"
 					min={5}
-					error={errors?.name}
+					error={errors?.description}
 					onChange={onInputChange}
 					required
 				/>
