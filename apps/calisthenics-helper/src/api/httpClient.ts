@@ -36,8 +36,8 @@ export class HttpClientBuilder {
 		return new HttpClientBuilder('POST', url);
 	}
 
-	static update(url: string): HttpClientBuilder {
-		return new HttpClientBuilder('UPDATE', url);
+	static put(url: string): HttpClientBuilder {
+		return new HttpClientBuilder('PUT', url);
 	}
 
 	static patch(url: string): HttpClientBuilder {
