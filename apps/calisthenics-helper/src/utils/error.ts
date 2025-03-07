@@ -1,4 +1,9 @@
-import { ErrorResult, NotFoundError, ValidatorError } from '@/types/error';
+import {
+	AuthError,
+	ErrorResult,
+	NotFoundError,
+	ValidatorError,
+} from '@/types/error';
 import { NextResponse } from 'next/server';
 
 export function ensureError(value: unknown): Error {
@@ -33,6 +38,16 @@ export function handleErrorResponse(error: Error): NextResponse {
 		return NextResponse.json<ErrorResult>(
 			{
 				error: 'Not Found Error',
+				details: error.message,
+			},
+			{ status: 404 }
+		);
+	}
+
+	if (error instanceof AuthError) {
+		return NextResponse.json<ErrorResult>(
+			{
+				error: 'Auth Error',
 				details: error.message,
 			},
 			{ status: 404 }
