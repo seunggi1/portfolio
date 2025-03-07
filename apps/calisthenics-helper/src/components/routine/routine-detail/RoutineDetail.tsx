@@ -10,6 +10,8 @@ import RoutineCategories from '../ui/RoutineCategories';
 import ExerciseSetDetails from './ExerciseSetDetails';
 import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineDetailSkeleton from './RoutineDetailSkeleton';
+import { useAuth } from '@/hooks';
+import RoutineUpdateButton from './RoutineUpdateButton';
 
 type Props = {
 	id: string;
@@ -17,6 +19,7 @@ type Props = {
 
 export default function RoutineDetail({ id }: Props) {
 	const { routineDetail, isLoading, error } = useRoutineDetail(id);
+	const { user } = useAuth();
 
 	if (isLoading || !routineDetail) {
 		return <RoutineDetailSkeleton />;
@@ -49,6 +52,9 @@ export default function RoutineDetail({ id }: Props) {
 						<Link href={`/routines/${id}/run`}>
 							<Button className="w-full">시작하기</Button>
 						</Link>
+						{user && user.id === routineDetail.userID && (
+							<RoutineUpdateButton id={routineDetail.id} />
+						)}
 					</div>
 				</div>
 				<div className="basis-[40%] w-full text-center">

@@ -7,6 +7,11 @@ import RoutineBaseEdit from './RoutineBaseEdit';
 import ExerciseEdit from './ExerciseEdit';
 import RoutineEditFinish from './RoutineEditFinish';
 
+type Props = {
+	updateRoutineBase?: NewRoutineBase;
+	updateExercises?: NewExercise[];
+};
+
 const DEFAULT_STATE = {
 	routineBase: {
 		name: '',
@@ -25,13 +30,16 @@ const DEFAULT_STATE = {
 	},
 };
 
-export default function RoutineEdit() {
+export default function RoutineEdit({
+	updateRoutineBase,
+	updateExercises,
+}: Props) {
 	const [routineBase, SetRoutineBase] = useState<NewRoutineBase>(
-		DEFAULT_STATE.routineBase
+		updateRoutineBase ?? DEFAULT_STATE.routineBase
 	);
-	const [exercises, setExercises] = useState<NewExercise[]>([
-		DEFAULT_STATE.exercise,
-	]);
+	const [exercises, setExercises] = useState<NewExercise[]>(
+		updateExercises ?? [DEFAULT_STATE.exercise]
+	);
 
 	const [step, setStep] = useState<Step>('routine');
 	const params = useSearchParams();
