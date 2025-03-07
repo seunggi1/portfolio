@@ -90,10 +90,10 @@ export default function ExeciseForm({
 								color={'secondary'}
 								onClick={onAdd}
 							>
-								새로운 운동 추가
+								다음 운동 추가/수정
 							</Button>
 							<Button type="button" disabled={!success} onClick={onFinish}>
-								다음
+								다음 페이지로
 							</Button>
 						</>
 					)}

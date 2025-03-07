@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { NewRoutine, Routine } from '@/types/routine';
+import { NewRoutine, Routine, UpdateRoutine } from '@/types/routine';
 import { fetchRoutines, routineKeys } from '@/api/routines';
-import { createRoutine } from '@/api/routines/routines';
+import { createRoutine, updateRoutine } from '@/api/routines/routines';
 
 export default function useRoutines() {
 	const { data, isLoading, error, refetch } = useQuery<Routine[]>({
@@ -20,8 +20,23 @@ export default function useRoutines() {
 		},
 	});
 
+	const {
+		data: updateResult,
+		mutate: updateMutate,
+		isPending: updatePeding,
+	} = useMutation({
+		mutationFn: updateRoutine,
+		onSuccess: () => {
+			refetch();
+		},
+	});
+
 	const handleCreateRoutine = async (newRoutine: NewRoutine) => {
 		createMutate(newRoutine);
+	};
+
+	const handleUpdateRoutine = async (updateRouine: UpdateRoutine) => {
+		updateMutate(updateRouine);
 	};
 
 	return {
@@ -32,6 +47,11 @@ export default function useRoutines() {
 			result: createResult,
 			handleCreateRoutine,
 			isPending: createPending,
+		},
+		update: {
+			result: updateResult,
+			handleUpdateRoutine,
+			isPending: updatePeding,
 		},
 	};
 }

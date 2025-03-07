@@ -3,7 +3,9 @@
 import { use } from 'react';
 import RoutineEdit from '@/components/routine/routine-edit/RoutineEdit';
 import useRoutineDetail from '@/hooks/useRoutineDetail';
-import { useRoutineCategories } from '@/hooks';
+import { useRoutineCategories, useRoutines } from '@/hooks';
+import { NewRoutine } from '@/types/routine';
+import RoutineUpdateFinish from '@/components/routine/routine-edit/RoutineUpdateFinish';
 
 type Props = {
 	params: Promise<{ id: string }>;
@@ -29,6 +31,7 @@ export default function page({ params }: Props) {
 			<RoutineEdit
 				updateRoutineBase={{ ...routineDetail!, categoryIDs }}
 				updateExercises={routineDetail?.exercises}
+				updateID={id}
 			/>
 		</>
 	);

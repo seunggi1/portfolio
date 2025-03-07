@@ -2,14 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { NewExercise, NewRoutineBase } from '@/types/routine';
+import { NewExercise, NewRoutineBase, Routine } from '@/types/routine';
 import RoutineBaseEdit from './RoutineBaseEdit';
 import ExerciseEdit from './ExerciseEdit';
 import RoutineEditFinish from './RoutineEditFinish';
+import RoutineUpdateFinish from './RoutineUpdateFinish';
 
 type Props = {
 	updateRoutineBase?: NewRoutineBase;
 	updateExercises?: NewExercise[];
+	updateID?: Routine['id'];
 };
 
 const DEFAULT_STATE = {
@@ -33,6 +35,7 @@ const DEFAULT_STATE = {
 export default function RoutineEdit({
 	updateRoutineBase,
 	updateExercises,
+	updateID,
 }: Props) {
 	const [routineBase, SetRoutineBase] = useState<NewRoutineBase>(
 		updateRoutineBase ?? DEFAULT_STATE.routineBase
@@ -100,7 +103,13 @@ export default function RoutineEdit({
 			)}
 			{step === 'finish' && (
 				<>
-					<RoutineEditFinish newRoutine={{ ...routineBase, exercises }} />
+					{updateID ? (
+						<RoutineUpdateFinish
+							updateRoutine={{ ...routineBase, exercises, id: updateID }}
+						/>
+					) : (
+						<RoutineEditFinish newRoutine={{ ...routineBase, exercises }} />
+					)}
 				</>
 			)}
 		</>

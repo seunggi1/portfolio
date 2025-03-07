@@ -3,6 +3,7 @@ import type {
 	Routine,
 	RoutineDetail,
 	NewRoutine,
+	UpdateRoutine,
 } from '@/types/routine';
 import { HttpClientBuilder } from '../httpClient';
 
@@ -46,6 +47,16 @@ export async function fetchRoutineCategories(): Promise<RoutineCategory[]> {
 export async function createRoutine(newRoutine: NewRoutine): Promise<boolean> {
 	const { data } = await HttpClientBuilder.post(getRoutineURL())
 		.data(newRoutine)
+		.call<boolean>();
+
+	return data;
+}
+
+export async function updateRoutine(
+	updateRoutine: UpdateRoutine
+): Promise<boolean> {
+	const { data } = await HttpClientBuilder.put(getRoutineURL(updateRoutine.id))
+		.data(updateRoutine)
 		.call<boolean>();
 
 	return data;
