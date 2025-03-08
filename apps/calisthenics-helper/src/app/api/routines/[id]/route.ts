@@ -46,3 +46,17 @@ export async function PUT(
 		return handleErrorResponse(error as Error);
 	}
 }
+
+export async function DELETE(
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
+) {
+	try {
+		const id = (await params).id;
+		const client = await getServiceClient();
+		const result = await client.deleteRoutine(id);
+		return NextResponse.json<boolean>(result);
+	} catch (error) {
+		return handleErrorResponse(error as Error);
+	}
+}

@@ -13,6 +13,7 @@ export interface ServiceClient {
 	getRoutineCategories: () => Promise<RoutineCategory[]>;
 	createRoutine: (newRoutine: NewRoutine) => Promise<boolean>;
 	updateRoutine: (updateRoutine: UpdateRoutine) => Promise<boolean>;
+	deleteRoutine: (routineID: Routine['id']) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
 	checkEmailExists: (searchEmail: string) => Promise<boolean>;
 	signUp: (email: string, displayName: string) => Promise<boolean>;

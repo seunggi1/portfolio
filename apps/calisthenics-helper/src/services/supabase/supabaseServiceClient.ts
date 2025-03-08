@@ -113,6 +113,29 @@ export class SupabaseServiceClient implements ServiceClient {
 		return false;
 	}
 
+	async deleteRoutine(routineID: Routine['id']): Promise<boolean> {
+		const user = await this.getUser();
+		const originData = await this.getRoutineById(routineID);
+
+		if (!user || !originData) {
+			throw new ValidatorError('Invalid Request');
+		}
+
+		if (user.id !== originData.userID) {
+			throw new AuthError('Unauthorized request');
+		}
+
+		const { error, status, statusText } = await this.client.rpc(
+			'delete_routine',
+			{
+				delete_routine_id: routineID,
+				request_user_id: user.id,
+			}
+		);
+
+		return !error;
+	}
+
 	async checkDisplayNameExists(searchDisplayName: string): Promise<boolean> {
 		const { data, error, count } = await this.client
 			.rpc('displayName', {
