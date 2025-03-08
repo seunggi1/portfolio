@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type RoutineDetail } from '@/types/routine';
@@ -12,18 +13,35 @@ import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineDetailSkeleton from './RoutineDetailSkeleton';
 import { useAuth } from '@/hooks';
 import RoutineUpdateButton from './RoutineUpdateButton';
+import Modal from '@/components/common/modal/Modal';
+import { useRouter } from 'next/navigation';
+import { toast } from '@/lib/toast/toast';
 
 type Props = {
 	id: string;
 };
 
 export default function RoutineDetail({ id }: Props) {
-	const { routineDetail, isLoading, error } = useRoutineDetail(id);
+	const { routineDetail, isLoading, error, deleteInfo } = useRoutineDetail(id);
 	const { user } = useAuth();
+	const [openModal, setOpenModal] = useState<boolean>(false);
+	const router = useRouter();
+
+	useEffect(() => {
+		if (deleteInfo.result) {
+			toast.info('루틴이 삭제되었습니다.');
+			router.push('/');
+		}
+	}, [deleteInfo.result]);
 
 	if (isLoading || !routineDetail) {
 		return <RoutineDetailSkeleton />;
 	}
+
+	const handleDelete = () => {
+		deleteInfo.handleRoutineDelete();
+		setOpenModal(false);
+	};
 
 	const {
 		categoryNames,
@@ -53,7 +71,22 @@ export default function RoutineDetail({ id }: Props) {
 							<Button className="w-full">시작하기</Button>
 						</Link>
 						{user && user.id === routineDetail.userID && (
-							<RoutineUpdateButton id={routineDetail.id} />
+							<>
+								<RoutineUpdateButton id={routineDetail.id} />
+								<Button color="error" onClick={() => setOpenModal(true)}>
+									루틴 삭제
+								</Button>
+								{openModal && (
+									<Modal
+										title="정말 루틴을 삭제하시겠습니까?"
+										onClose={() => setOpenModal(false)}
+									>
+										<Button onClick={handleDelete} color="error">
+											삭제
+										</Button>
+									</Modal>
+								)}
+							</>
 						)}
 					</div>
 				</div>

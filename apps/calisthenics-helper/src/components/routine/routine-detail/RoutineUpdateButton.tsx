@@ -10,7 +10,7 @@ type Props = {
 export default function RoutineUpdateButton({ id }: Props) {
 	return (
 		<Link href={`/routines/edit/${id}`}>
-			<Button className="w-full" color={'error'}>
+			<Button className="w-full" color={'warning'}>
 				루틴 수정
 			</Button>
 		</Link>

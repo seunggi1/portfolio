@@ -61,3 +61,13 @@ export async function updateRoutine(
 
 	return data;
 }
+
+export async function deleteRoutine(
+	routineID: Routine['id']
+): Promise<boolean> {
+	const { data } = await HttpClientBuilder.delete(
+		getRoutineURL(routineID)
+	).call<boolean>();
+
+	return data;
+}
