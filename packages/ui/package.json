@@ -4,6 +4,7 @@
 	"sideEffects": [
 		"**/*.css"
 	],
+	"type": "module",
 	"files": [
 		"dist"
 	],
