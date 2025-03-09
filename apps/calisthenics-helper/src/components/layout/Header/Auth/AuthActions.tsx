@@ -1,13 +1,13 @@
 'use client';
 
+import Link from 'next/link';
 import ProfileButton from './ProfileButton';
 import AuthButton from './AuthButton';
 import { Button, Skeleton } from '@repo/ui/common';
 import { useAuth } from '@/hooks';
 import { PlusCircle } from 'lucide-react';
-import Link from 'next/link';
 
-export default function Auth() {
+export default function AuthActions() {
 	const { user, isLoading, handleSignout } = useAuth();
 
 	return (

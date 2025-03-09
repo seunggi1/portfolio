@@ -1,6 +1,6 @@
+import AuthActions from './auth/AuthActions';
 import Logo from './Logo';
 import { Menu } from 'lucide-react';
-import Auth from './Auth/Auth';
 
 export default function Header() {
 	return (
@@ -8,7 +8,7 @@ export default function Header() {
 			<div className="relative flex items-center justify-between max-w-screen-xl m-auto">
 				<Menu />
 				<Logo />
-				<Auth />
+				<AuthActions />
 			</div>
 		</header>
 	);

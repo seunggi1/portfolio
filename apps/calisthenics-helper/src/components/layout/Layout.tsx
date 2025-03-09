@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import Header from './header';
 import Providers from '@/providers';
 import { Toaster } from '@/lib/toast/Toaster';
+import { Header } from './header';
 
 type Props = {
 	children: ReactNode;
