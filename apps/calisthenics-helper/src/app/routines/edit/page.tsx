@@ -1,9 +1,12 @@
 import RoutineEdit from '@/components/routine/routine-edit/RoutineEdit';
+import { Suspense } from 'react';
 
-export default function page() {
+export default async function RoutineEditPage() {
 	return (
 		<>
-			<RoutineEdit />
+			<Suspense fallback={<span>Loading...</span>}>
+				<RoutineEdit />
+			</Suspense>
 		</>
 	);
 }
