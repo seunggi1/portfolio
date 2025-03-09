@@ -172,6 +172,9 @@ export class SupabaseServiceClient implements ServiceClient {
 	async signIn(email: string): Promise<boolean> {
 		const { data, error } = await this.client.auth.signInWithOtp({
 			email,
+			options: {
+				emailRedirectTo: process.env.SITE_URL,
+			},
 		});
 
 		return error === null;
