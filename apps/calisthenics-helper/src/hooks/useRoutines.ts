@@ -1,7 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { NewRoutine, Routine, UpdateRoutine } from '@/types/routine';
-import { fetchRoutines, routineKeys } from '@/api/routines';
-import { createRoutine, updateRoutine } from '@/api/routines/routines';
+import {
+	createRoutine,
+	fetchRoutines,
+	routineKeys,
+	updateRoutine,
+} from '@/api/routines';
 
 export default function useRoutines() {
 	const { data, isLoading, error, refetch } = useQuery<Routine[]>({

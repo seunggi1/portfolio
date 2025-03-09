@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { RoutineDetail } from '@/types/routine';
-import { fetchRoutineDetailById, routineKeys } from '@/api/routines';
-import { deleteRoutine } from '@/api/routines/routines';
-import { useEffect } from 'react';
+import {
+	fetchRoutineDetailById,
+	routineKeys,
+	deleteRoutine,
+} from '@/api/routines';
 
 export default function useRoutineDetail(id: string) {
 	const client = useQueryClient();

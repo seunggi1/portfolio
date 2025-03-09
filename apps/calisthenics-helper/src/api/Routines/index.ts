@@ -1,2 +1,9 @@
-export { fetchRoutineDetailById, fetchRoutines } from './routines';
+export {
+	fetchRoutineDetailById,
+	fetchRoutines,
+	createRoutine,
+	deleteRoutine,
+	fetchRoutineCategories,
+	updateRoutine,
+} from './routines';
 export { routineKeys } from './queries';
