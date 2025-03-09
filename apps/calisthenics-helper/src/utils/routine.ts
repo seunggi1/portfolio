@@ -66,12 +66,14 @@ export class RoutineController {
 				}
 			}
 
-			this.routineStates.push({
-				status: 'rest',
-				totalSeconds: routineDetail.restSeconds,
-				nextExerciseName: firstExeciseName,
-				setInfo,
-			});
+			if (set !== routineDetail.totalSets) {
+				this.routineStates.push({
+					status: 'rest',
+					totalSeconds: routineDetail.restSeconds,
+					nextExerciseName: firstExeciseName,
+					setInfo,
+				});
+			}
 		}
 
 		if (this.routineStates.length > 1) {
