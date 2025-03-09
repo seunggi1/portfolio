@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Header from '@/components/layout/header';
+import { Header } from '@/components/layout/header';
 
 test('Header', () => {
 	render(<Header />);
