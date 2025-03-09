@@ -1,5 +1,5 @@
 import type { JSX, ButtonHTMLAttributes } from 'react';
-import type { BorderRadius, Color, Size } from '@/types';
+import type { BorderRadius, Color, Size } from '../types';
 
 export function Button({
 	className,

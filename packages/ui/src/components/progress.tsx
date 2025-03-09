@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import type { Color, Size } from '@/types';
+import type { Color, Size } from '../types';
 
 export default function Progress({
 	value,

@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import type { Size } from '@/types';
+import type { Size } from '../types';
 
 export default function RadialProgress({
 	children,
