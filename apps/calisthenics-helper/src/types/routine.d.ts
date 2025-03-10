@@ -31,7 +31,6 @@ export type RoutineCategory = {
 
 export type NewRoutineBase = Omit<
 	Routine,
-	| 'id'
 	| 'totalExerciseCount'
 	| 'totalMinutes'
 	| 'categoryNames'
@@ -44,18 +43,6 @@ export type NewRoutineBase = Omit<
 export type NewExercise = Omit<Exercise, 'id' | 'totalExerciseSeconds'>;
 
 export type NewRoutine = NewRoutineBase & {
-	exercises: NewExercise[];
-};
-
-export type UpdateRoutine = Omit<
-	Routine,
-	| 'totalExerciseCount'
-	| 'totalMinutes'
-	| 'categoryNames'
-	| 'imageURL'
-	| 'userID'
-> & {
-	categoryIDs: CategoryID[];
 	exercises: NewExercise[];
 };
 

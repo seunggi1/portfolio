@@ -3,7 +3,6 @@ import {
 	Routine,
 	RoutineDetail,
 	NewRoutine,
-	UpdateRoutine,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { SupabaseClient } from '@supabase/supabase-js';
@@ -76,7 +75,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		return false;
 	}
 
-	async updateRoutine(updateRoutine: UpdateRoutine): Promise<boolean> {
+	async updateRoutine(updateRoutine: NewRoutine): Promise<boolean> {
 		const user = await this.getUser();
 		const originData = await this.getRoutineById(updateRoutine.id);
 

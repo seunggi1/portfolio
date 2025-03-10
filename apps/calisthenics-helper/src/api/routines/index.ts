@@ -1,9 +1,8 @@
 export {
 	fetchRoutineDetailById,
 	fetchRoutines,
-	createRoutine,
 	deleteRoutine,
 	fetchRoutineCategories,
-	updateRoutine,
+	editRoutine,
 } from './routines';
 export { routineKeys } from './queries';

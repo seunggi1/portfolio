@@ -4,7 +4,6 @@ import type {
 	Routine,
 	RoutineDetail,
 	NewRoutine,
-	UpdateRoutine,
 } from '@/types/routine';
 
 export interface ServiceClient {
@@ -12,7 +11,7 @@ export interface ServiceClient {
 	getRoutineById: (Id: string) => Promise<RoutineDetail | null>;
 	getRoutineCategories: () => Promise<RoutineCategory[]>;
 	createRoutine: (newRoutine: NewRoutine) => Promise<boolean>;
-	updateRoutine: (updateRoutine: UpdateRoutine) => Promise<boolean>;
+	updateRoutine: (updateRoutine: NewRoutine) => Promise<boolean>;
 	deleteRoutine: (routineID: Routine['id']) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
 	checkEmailExists: (searchEmail: string) => Promise<boolean>;

@@ -6,16 +6,15 @@ import { NewExercise, NewRoutineBase, Routine } from '@/types/routine';
 import RoutineBaseEdit from './RoutineBaseEdit';
 import ExerciseEdit from './ExerciseEdit';
 import RoutineEditFinish from './RoutineEditFinish';
-import RoutineUpdateFinish from './RoutineUpdateFinish';
 
 type Props = {
 	updateRoutineBase?: NewRoutineBase;
 	updateExercises?: NewExercise[];
-	updateID?: Routine['id'];
 };
 
 const DEFAULT_STATE = {
 	routineBase: {
+		id: '',
 		name: '',
 		restSeconds: 10,
 		totalSets: 1,
@@ -35,7 +34,6 @@ const DEFAULT_STATE = {
 export default function RoutineEdit({
 	updateRoutineBase,
 	updateExercises,
-	updateID,
 }: Props) {
 	const [routineBase, SetRoutineBase] = useState<NewRoutineBase>(
 		updateRoutineBase ?? DEFAULT_STATE.routineBase
@@ -103,13 +101,7 @@ export default function RoutineEdit({
 			)}
 			{step === 'finish' && (
 				<>
-					{updateID ? (
-						<RoutineUpdateFinish
-							updateRoutine={{ ...routineBase, exercises, id: updateID }}
-						/>
-					) : (
-						<RoutineEditFinish newRoutine={{ ...routineBase, exercises }} />
-					)}
+					<RoutineEditFinish newRoutine={{ ...routineBase, exercises }} />
 				</>
 			)}
 		</>
