@@ -16,30 +16,36 @@ import RoutineUpdateButton from './RoutineUpdateButton';
 import Modal from '@/components/common/modal/Modal';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/lib/toast/toast';
+import { useRoutineDelete } from '@/hooks/useRoutineDelete';
 
 type Props = {
 	id: string;
 };
 
 export default function RoutineDetail({ id }: Props) {
-	const { routineDetail, isLoading, error, deleteInfo } = useRoutineDetail(id);
+	const { routineDetail, isLoading } = useRoutineDetail(id);
 	const { user } = useAuth();
 	const [openModal, setOpenModal] = useState<boolean>(false);
+	const {
+		result: deleteResult,
+		isPending,
+		handleRoutineDelete,
+	} = useRoutineDelete(id);
 	const router = useRouter();
 
 	useEffect(() => {
-		if (deleteInfo.result) {
+		if (deleteResult) {
 			toast.info('루틴이 삭제되었습니다.');
 			router.push('/');
 		}
-	}, [deleteInfo.result]);
+	}, [deleteResult, router]);
 
 	if (isLoading || !routineDetail) {
 		return <RoutineDetailSkeleton />;
 	}
 
 	const handleDelete = () => {
-		deleteInfo.handleRoutineDelete();
+		handleRoutineDelete();
 		setOpenModal(false);
 	};
 
