@@ -3,6 +3,8 @@ import type {
 	Routine,
 	RoutineDetail,
 	NewRoutine,
+	RoutinesRequest,
+	RoutinesResponse,
 } from '@/types/routine';
 import { HttpClientBuilder } from '../httpClient';
 
@@ -18,11 +20,15 @@ function getRoutineURL(...paths: string[]) {
 	return urls.join('/');
 }
 
-export async function fetchRoutines(): Promise<Routine[]> {
-	const { data } =
-		await HttpClientBuilder.get(getRoutineURL()).call<Routine[]>();
+export async function fetchRoutines({
+	nextCursor,
+	categoryID,
+}: RoutinesRequest): Promise<RoutinesResponse> {
+	const { data } = await HttpClientBuilder.get(
+		`${getRoutineURL()}?category=${categoryID}&cursor=${nextCursor}`
+	).call<RoutinesResponse>();
 
-	return data || [];
+	return data;
 }
 
 export async function fetchRoutineDetailById(
