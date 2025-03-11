@@ -1,22 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
-import type { Routine, NewRoutine } from '@/types/routine';
+import type {
+	Routine,
+	RoutinesRequest,
+	RoutinesResponse,
+} from '@/types/routine';
 import { handleErrorResponse } from '@/utils/error';
 import { validateFullRoutineData } from '@/schemas/routine';
 import { ValidatorError } from '@/types/error';
 
 export async function GET(request: NextRequest) {
-	const page: number = +(request.nextUrl.searchParams.get('page') || 1);
-	let routines: Routine[];
+	const searchParams = request.nextUrl.searchParams;
+	const cursor: RoutinesRequest['nextCursor'] =
+		searchParams.get('cursor') || null;
+	const categoryID: string = searchParams.get('category') || 'all';
+	let routines: RoutinesResponse | null;
 
 	try {
 		const client = await getServiceClient();
-		routines = await client.getRoutines(page);
+		routines = await client.getRoutines(cursor, categoryID);
+
+		if (!routines) {
+			throw new Error('Server Error');
+		}
+
+		return NextResponse.json<RoutinesResponse>(routines);
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}
-
-	return NextResponse.json<Routine[]>(routines);
 }
 
 export async function POST(request: NextRequest) {

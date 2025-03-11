@@ -22,6 +22,16 @@ export type Exercise = {
 	order: number;
 };
 
+export type RoutinesRequest = {
+	nextCursor: string | null;
+	categoryID: string;
+};
+
+export type RoutinesResponse = {
+	routines: Routine[];
+	nextCursor: RoutinesRequest['nextCursor'];
+};
+
 export type RoutineDetail = Routine & { exercises: Exercise[] };
 
 export type RoutineCategory = {

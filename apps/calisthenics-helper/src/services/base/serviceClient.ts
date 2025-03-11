@@ -4,10 +4,15 @@ import type {
 	Routine,
 	RoutineDetail,
 	NewRoutine,
+	RoutinesResponse,
+	RoutinesRequest,
 } from '@/types/routine';
 
 export interface ServiceClient {
-	getRoutines: (page: number) => Promise<Routine[]>;
+	getRoutines: (
+		nextCursor: RoutinesRequest['nextCursor'],
+		categoryID: RoutineCategory['id']
+	) => Promise<RoutinesResponse | null>;
 	getRoutineById: (Id: string) => Promise<RoutineDetail | null>;
 	getRoutineCategories: () => Promise<RoutineCategory[]>;
 	createRoutine: (newRoutine: NewRoutine) => Promise<boolean>;

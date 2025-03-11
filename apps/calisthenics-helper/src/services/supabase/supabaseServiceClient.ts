@@ -3,6 +3,8 @@ import {
 	Routine,
 	RoutineDetail,
 	NewRoutine,
+	RoutinesResponse,
+	RoutinesRequest,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { SupabaseClient } from '@supabase/supabase-js';
@@ -12,12 +14,26 @@ import { AuthError, ValidatorError } from '@/types/error';
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
 
-	async getRoutines(page: number = 1): Promise<Routine[]> {
-		const { data } = await this.client
-			.rpc('routines', { page: page })
-			.returns<Routine[]>();
+	async getRoutines(
+		nextCursor: RoutinesRequest['nextCursor'],
+		categoryID: RoutineCategory['id']
+	): Promise<RoutinesResponse | null> {
+		console.log(categoryID);
+		const { data, error } = await this.client
+			.rpc('routines', {
+				cursor_id: nextCursor,
+				filter_category_id: categoryID === 'all' || '' ? null : categoryID,
+			})
+			.single<RoutinesResponse>();
 
-		return data ?? [];
+		if (error || !data) {
+			throw new Error(error.message);
+		}
+
+		return {
+			routines: data.routines || [],
+			nextCursor: data.nextCursor,
+		};
 	}
 	async getRoutineById(id: string): Promise<RoutineDetail | null> {
 		const { data, error, count } = await this.client
