@@ -6,7 +6,7 @@ import {
 	useRoutineCategories,
 	useRoutines,
 } from '@/hooks';
-import RecommandRoutineBanner from './RecommandRoutineBanner';
+import RoutineBanners from './RoutineBanners';
 import CategoryFilterTab from './CategoryFilterTab';
 import RoutineCards from './RoutineCards';
 import RoutineCardsSkeleton from './RoutineCardsSkeleton';
@@ -32,7 +32,7 @@ export default function Routines() {
 
 	return (
 		<>
-			<RecommandRoutineBanner />
+			<RoutineBanners />
 			{isLoadingRoutineCategories ? (
 				<CategoryFilterTabSkeleton />
 			) : (
