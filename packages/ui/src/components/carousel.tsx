@@ -51,8 +51,6 @@ const Carousel: CarouselComponent = ({
 		[children]
 	);
 
-	console.log(carouselItemIDs);
-
 	return (
 		<div className="relative w-full h-full">
 			<div
