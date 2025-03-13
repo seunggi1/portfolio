@@ -7,7 +7,7 @@ import {
 } from '@/types/routine';
 import { z } from 'zod';
 
-const newRoutine: z.ZodType<NewRoutineBase> = z.object({
+const newRoutine: z.ZodType<Omit<NewRoutine, 'id' | 'exercises'>> = z.object({
 	name: z
 		.string()
 		.min(3, {
