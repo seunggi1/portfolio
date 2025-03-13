@@ -1,3 +1,4 @@
+import { SupabaseClient } from '@supabase/supabase-js';
 import {
 	RoutineCategory,
 	Routine,
@@ -7,13 +8,18 @@ import {
 	RoutinesRequest,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
-import { SupabaseClient } from '@supabase/supabase-js';
 import { User } from '@/types/auth';
 import { AuthError, ValidatorError } from '@/types/error';
+import {
+	CommentsResponse,
+	NewComment,
+	Comment,
+	CommentsRequest,
+	UpdateComment,
+} from '@/types/comment';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
-
 	async getRoutines(
 		nextCursor: RoutinesRequest['nextCursor'],
 		categoryID: RoutineCategory['id']
@@ -147,6 +153,74 @@ export class SupabaseServiceClient implements ServiceClient {
 				request_user_id: user.id,
 			}
 		);
+
+		return !error;
+	}
+
+	async getComments(
+		commentsRequest: CommentsRequest
+	): Promise<CommentsResponse> {
+		const { data, error } = await this.client
+			.rpc('read_comments', {
+				read_routine_id: commentsRequest.routineID,
+				cursor_id: commentsRequest.nextCursor,
+			})
+			.single<CommentsResponse>();
+
+		if (error) {
+			throw new Error(error.details);
+		}
+
+		return {
+			comments: data.comments || [],
+			nextCursor: data.nextCursor,
+		};
+	}
+
+	async createComment(newComment: NewComment): Promise<boolean> {
+		const user = await this.getUser();
+
+		if (!user) {
+			throw new AuthError('Invalid user');
+		}
+
+		const { error } = await this.client.rpc('create_comment', {
+			routine_id: newComment.routineID,
+			comment: newComment.comment,
+			recommendation: newComment.recommendation,
+			user_id: user.id,
+		});
+
+		return !error;
+	}
+
+	async updateComment(updateComment: UpdateComment): Promise<boolean> {
+		const user = await this.getUser();
+
+		if (!user) {
+			throw new AuthError('Invalid user');
+		}
+
+		const { error } = await this.client.rpc('update_comment', {
+			update_id: updateComment.id,
+			comment: updateComment.comment,
+			recommendation: updateComment.recommendation,
+			request_user_id: user.id,
+		});
+
+		return !error;
+	}
+	async deleteComment(commentID: Comment['id']): Promise<boolean> {
+		const user = await this.getUser();
+
+		if (!user) {
+			throw new AuthError('Invalid user');
+		}
+
+		const { error } = await this.client.rpc('delete_comment', {
+			delete_id: commentID,
+			request_user_id: user.id,
+		});
 
 		return !error;
 	}

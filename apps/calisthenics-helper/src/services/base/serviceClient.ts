@@ -1,4 +1,11 @@
 import { User } from '@/types/auth';
+import {
+	Comment,
+	CommentsRequest,
+	CommentsResponse,
+	NewComment,
+	UpdateComment,
+} from '@/types/comment';
 import type {
 	RoutineCategory,
 	Routine,
@@ -18,6 +25,10 @@ export interface ServiceClient {
 	createRoutine: (newRoutine: NewRoutine) => Promise<boolean>;
 	updateRoutine: (updateRoutine: NewRoutine) => Promise<boolean>;
 	deleteRoutine: (routineID: Routine['id']) => Promise<boolean>;
+	getComments: (commentsRequest: CommentsRequest) => Promise<CommentsResponse>;
+	createComment: (newComment: NewComment) => Promise<boolean>;
+	updateComment: (updateComment: UpdateComment) => Promise<boolean>;
+	deleteComment: (commentID: Comment['id']) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
 	checkEmailExists: (searchEmail: string) => Promise<boolean>;
 	signUp: (email: string, displayName: string) => Promise<boolean>;
