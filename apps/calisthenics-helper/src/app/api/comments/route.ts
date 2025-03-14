@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
-import { CommentsRequest, CommentsResponse } from '@/types/comment';
+import { Comment, CommentsRequest, CommentsResponse } from '@/types/comment';
 import { handleErrorResponse } from '@/utils/error';
 import { ValidatorError } from '@/types/error';
 import { validateComment } from '@/schemas/comment';
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 		const client = await getServiceClient();
 		const result = await client.createComment(data);
 
-		return NextResponse.json<boolean>(result);
+		return NextResponse.json<Comment['id']>(result);
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}

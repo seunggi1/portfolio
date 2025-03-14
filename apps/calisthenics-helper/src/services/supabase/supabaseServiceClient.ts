@@ -177,21 +177,27 @@ export class SupabaseServiceClient implements ServiceClient {
 		};
 	}
 
-	async createComment(newComment: NewComment): Promise<boolean> {
+	async createComment(newComment: NewComment): Promise<Comment['id']> {
 		const user = await this.getUser();
 
 		if (!user) {
 			throw new AuthError('Invalid user');
 		}
 
-		const { error } = await this.client.rpc('create_comment', {
-			routine_id: newComment.routineID,
-			comment: newComment.comment,
-			recommendation: newComment.recommendation,
-			user_id: user.id,
-		});
+		const { data, error } = await this.client
+			.rpc('create_comment', {
+				routine_id: newComment.routineID,
+				comment: newComment.comment,
+				recommendation: newComment.recommendation,
+				user_id: user.id,
+			})
+			.single<Comment['id']>();
 
-		return !error;
+		if (!data || error) {
+			throw new Error('Comment did not create');
+		}
+
+		return data;
 	}
 
 	async updateComment(updateComment: UpdateComment): Promise<boolean> {
@@ -203,8 +209,8 @@ export class SupabaseServiceClient implements ServiceClient {
 
 		const { error } = await this.client.rpc('update_comment', {
 			update_id: updateComment.id,
-			comment: updateComment.comment,
-			recommendation: updateComment.recommendation,
+			update_comment: updateComment.comment,
+			update_recommendation: updateComment.recommendation,
 			request_user_id: user.id,
 		});
 
@@ -221,6 +227,8 @@ export class SupabaseServiceClient implements ServiceClient {
 			delete_id: commentID,
 			request_user_id: user.id,
 		});
+
+		console.log(error);
 
 		return !error;
 	}

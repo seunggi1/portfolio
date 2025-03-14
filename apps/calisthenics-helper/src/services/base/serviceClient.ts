@@ -26,7 +26,7 @@ export interface ServiceClient {
 	updateRoutine: (updateRoutine: NewRoutine) => Promise<boolean>;
 	deleteRoutine: (routineID: Routine['id']) => Promise<boolean>;
 	getComments: (commentsRequest: CommentsRequest) => Promise<CommentsResponse>;
-	createComment: (newComment: NewComment) => Promise<boolean>;
+	createComment: (newComment: NewComment) => Promise<Comment['id']>;
 	updateComment: (updateComment: UpdateComment) => Promise<boolean>;
 	deleteComment: (commentID: Comment['id']) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
