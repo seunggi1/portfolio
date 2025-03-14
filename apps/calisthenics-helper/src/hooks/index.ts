@@ -4,3 +4,5 @@ export { default as useRoutines } from './useRoutines';
 export { default as useRoutineCategories } from './useRoutineCategories';
 export { default as useAuth } from './useAuth';
 export { default as useIntersectionObserver } from './useIntersectionObserver';
+export { default as useComments } from './useComments';
+export { default as useCommentEdit } from './useCommentEdit';

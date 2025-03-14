@@ -24,6 +24,12 @@ export type CommentsResponse = {
 export type CommentEditBase = Pick<Comment, 'comment' | 'recommendation'>;
 export type CommentEditErrors = Record<keyof CommentEditBase, string>;
 
+export type CommentEditFormData = {
+	success?: boolean;
+	inputs?: Partial<CommentEditBase>;
+	errors?: Partial<CommentEditErrors>;
+};
+
 export type NewComment = CommentEditBase & {
 	routineID: Routine['id'];
 };

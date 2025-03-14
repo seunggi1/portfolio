@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { type RoutineDetail } from '@/types/routine';
 import { Button } from '@repo/ui/common';
 import RoutineSummary from '../ui/RoutineSummary';
@@ -14,9 +15,9 @@ import RoutineDetailSkeleton from './RoutineDetailSkeleton';
 import { useAuth } from '@/hooks';
 import RoutineUpdateButton from './RoutineUpdateButton';
 import Modal from '@/components/common/modal/Modal';
-import { useRouter } from 'next/navigation';
 import { toast } from '@/lib/toast/toast';
 import { useRoutineDelete } from '@/hooks/useRoutineDelete';
+import Comments from '../comment/Comments';
 
 type Props = {
 	id: string;
@@ -94,6 +95,9 @@ export default function RoutineDetail({ id }: Props) {
 								)}
 							</>
 						)}
+					</div>
+					<div>
+						<Comments routineID={id} />
 					</div>
 				</div>
 				<div className="basis-[40%] w-full text-center">
