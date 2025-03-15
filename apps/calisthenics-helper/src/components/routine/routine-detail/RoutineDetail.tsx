@@ -61,7 +61,7 @@ export default function RoutineDetail({ id }: Props) {
 
 	return (
 		<>
-			<section className="max-w-screen-xl m-auto md:flex gap-x-2">
+			<section className="max-w-screen-xl grid-cols-2 m-auto md:grid gap-x-2">
 				<div className="basis-[60%] w-full">
 					<div className="flex items-center justify-center text-white bg-black h-80">
 						{imageURL ? (
@@ -96,12 +96,12 @@ export default function RoutineDetail({ id }: Props) {
 							</>
 						)}
 					</div>
-					<div>
-						<Comments routineID={id} />
-					</div>
 				</div>
 				<div className="basis-[40%] w-full text-center">
 					<ExerciseSetDetails {...routineDetail} />
+				</div>
+				<div className="px-2 md:col-span-2">
+					<Comments routineID={id} />
 				</div>
 			</section>
 		</>

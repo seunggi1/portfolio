@@ -7,8 +7,9 @@ export type Comment = {
 	comment: string;
 	recommendation: number;
 	userID: User['id'];
-	createdDate: Date;
-	updatedDate: Date;
+	displayName: User['displayName'];
+	createdDate: string;
+	updatedDate: string;
 };
 
 export type CommentsRequest = {
