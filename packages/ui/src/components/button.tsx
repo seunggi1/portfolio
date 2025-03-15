@@ -45,6 +45,8 @@ function getColorClass(color: Color): string {
 			return 'btn-success';
 		case 'warning':
 			return 'btn-warning';
+		case 'ghost':
+			return 'btn-ghost';
 		case 'error':
 		default:
 			return 'btn-error';

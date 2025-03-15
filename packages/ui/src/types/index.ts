@@ -4,6 +4,7 @@ export type Color =
 	| 'info'
 	| 'success'
 	| 'warning'
-	| 'error';
+	| 'error'
+	| 'ghost';
 export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type BorderRadius = Size | 'full';
