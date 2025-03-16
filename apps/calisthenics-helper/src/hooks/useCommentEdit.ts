@@ -83,7 +83,6 @@ export default function useCommentEdit(routineID: Routine['id']) {
 	}
 
 	const handleCommentCreate = (newComment: NewComment) => {
-		console.log('handle create func call');
 		createMutation.mutate(newComment);
 	};
 

@@ -32,9 +32,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
 	const data = await request.json();
-	console.log(data);
 	const inputError = validateFullRoutineData(data);
-	console.log(inputError);
 	if (inputError) {
 		return handleErrorResponse(new ValidatorError('Invalid input data'));
 	}

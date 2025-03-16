@@ -33,8 +33,6 @@ export async function fetchComments({
 export async function createComment(
 	comment: NewComment
 ): Promise<Comment['id']> {
-	console.log('createComment api func call');
-
 	const { data } = await HttpClientBuilder.post(`${getCommentURL()}`)
 		.data(comment)
 		.call<Comment['id']>();

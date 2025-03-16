@@ -24,7 +24,6 @@ export class SupabaseServiceClient implements ServiceClient {
 		nextCursor: RoutinesRequest['nextCursor'],
 		categoryID: RoutineCategory['id']
 	): Promise<RoutinesResponse | null> {
-		console.log(categoryID);
 		const { data, error } = await this.client
 			.rpc('routines', {
 				cursor_id: nextCursor,
@@ -227,8 +226,6 @@ export class SupabaseServiceClient implements ServiceClient {
 			delete_id: commentID,
 			request_user_id: user.id,
 		});
-
-		console.log(error);
 
 		return !error;
 	}
