@@ -52,22 +52,13 @@ export type NewRoutineBase = Omit<
 
 export type NewExercise = Omit<Exercise, 'id' | 'totalExerciseSeconds'>;
 
+export type RoutineEdit = Omit<NewRoutine, 'id' | 'exercises'>;
+
 export type NewRoutine = NewRoutineBase & {
 	exercises: NewExercise[];
 };
 
-export type RoutineBaseErrors = Record<
-	keyof Omit<NewRoutineBase, 'exercises'>,
-	string
->;
-
 export type ExerciseErrors = Record<keyof NewExercise, string>;
-
-export type RoutineBaseFormData = {
-	success?: boolean;
-	inputs?: Partial<NewRoutineBase>;
-	errors?: Partial<RoutineBaseErrors>;
-};
 
 export type ExerciseFormData = {
 	success?: boolean;

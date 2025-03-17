@@ -2,12 +2,11 @@ import {
 	ExerciseFormData,
 	NewExercise,
 	NewRoutine,
-	NewRoutineBase,
-	RoutineBaseFormData,
+	RoutineEdit,
 } from '@/types/routine';
 import { z } from 'zod';
 
-const newRoutine: z.ZodType<Omit<NewRoutine, 'id' | 'exercises'>> = z.object({
+export const routineEditSchema: z.ZodType<RoutineEdit> = z.object({
 	name: z
 		.string()
 		.min(3, {
@@ -35,7 +34,7 @@ const newRoutine: z.ZodType<Omit<NewRoutine, 'id' | 'exercises'>> = z.object({
 	totalSets: z.number().min(1, {
 		message: '세트 수는 최소 1이상 이어야 합니다.',
 	}),
-	categoryIDs: z.string({}).array().min(1, {
+	categoryIDs: z.array(z.string()).nonempty({
 		message: '최소 1개 이상 카테고리를 선택해야 합니다.',
 	}),
 	description: z
@@ -70,28 +69,7 @@ const exercises = z.object({
 		.min(1, { message: '최소 1개 이상에 운동이 필요합니다.' }),
 });
 
-const fullRoutineData = z.intersection(newRoutine, exercises);
-
-export function validateRoutineBase(
-	data: RoutineBaseFormData['inputs']
-): RoutineBaseFormData['errors'] | null {
-	const result = newRoutine.safeParse(data);
-
-	if (result.success) {
-		return null;
-	}
-
-	const format = result.error.flatten();
-
-	const errors = Object.fromEntries(
-		Object.entries(format.fieldErrors).map(([name, value]) => [
-			name,
-			value.join(','),
-		])
-	);
-
-	return errors;
-}
+const fullRoutineData = z.intersection(routineEditSchema, exercises);
 
 export function validateExercise(
 	data: ExerciseFormData['inputs']

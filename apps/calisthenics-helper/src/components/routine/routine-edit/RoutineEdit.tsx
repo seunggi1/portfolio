@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { NewExercise, NewRoutineBase, Routine } from '@/types/routine';
+import { useSearchParams } from 'next/navigation';
+import { NewExercise, NewRoutineBase } from '@/types/routine';
 import RoutineBaseEdit from './RoutineBaseEdit';
 import ExerciseEdit from './ExerciseEdit';
 import RoutineEditFinish from './RoutineEditFinish';
