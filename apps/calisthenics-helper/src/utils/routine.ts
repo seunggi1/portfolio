@@ -43,6 +43,13 @@ export class RoutineController {
 		const exercises = routineDetail.exercises;
 		const firstExeciseName = exercises[0].name;
 
+		this.routineStates.push({
+			status: 'delay',
+			nextExerciseName: routineDetail.exercises[0].name,
+			totalSeconds: 10,
+			setInfo: '운동 시작 대기',
+		});
+
 		for (let set = 1; set <= routineDetail.totalSets; set++) {
 			const setInfo = `${set}/${routineDetail.totalSets}`;
 			for (let i = 0; i < exerciseLength; i++) {
@@ -74,15 +81,6 @@ export class RoutineController {
 					setInfo,
 				});
 			}
-		}
-
-		if (this.routineStates.length > 1) {
-			this.routineStates.unshift({
-				status: 'delay',
-				nextExerciseName: (this.routineStates[0] as ExerciseState).name,
-				totalSeconds: 10,
-				setInfo: '운동 시작 대기',
-			});
 		}
 	}
 
