@@ -1,9 +1,7 @@
-import { useRoutines } from '@/hooks';
-import useRoutineDetail from '@/hooks/useRoutineDetail';
 import { useRoutineEdit } from '@/hooks/useRoutineEdit';
 import { NewRoutine } from '@/types/routine';
 import { Button } from '@repo/ui/common';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
 	newRoutine: NewRoutine;
@@ -11,11 +9,7 @@ type Props = {
 
 export default function RoutineEditFinish({ newRoutine }: Props) {
 	const [isSave, setIsSave] = useState<boolean>(false);
-	const {
-		handleRoutineEdit,
-		data: result,
-		isPending,
-	} = useRoutineEdit(newRoutine.id);
+	const { handleRoutineEdit, data: result, isPending } = useRoutineEdit();
 
 	return (
 		<section className="flex items-center justify-center h-full">
