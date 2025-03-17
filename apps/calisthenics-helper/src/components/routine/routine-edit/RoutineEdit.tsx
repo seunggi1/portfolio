@@ -65,6 +65,7 @@ export default function RoutineEdit({
 		setExercises((prev) =>
 			prev.map((e) => (e.order === exercise.order ? { ...exercise } : { ...e }))
 		);
+		handleFinishClick();
 	};
 
 	const handleExerciseAddClick = () => {
@@ -95,8 +96,6 @@ export default function RoutineEdit({
 				<ExerciseEdit
 					data={exercises[exerciseOrder]}
 					onComplete={handleExerciseComplete}
-					onAddClick={handleExerciseAddClick}
-					onFinishClick={handleFinishClick}
 				/>
 			)}
 			{step === 'finish' && (

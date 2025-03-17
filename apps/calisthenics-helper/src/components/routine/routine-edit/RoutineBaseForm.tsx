@@ -4,6 +4,7 @@ import FormInput from '@/components/common/input/FormInput';
 import { RoutineCategory, RoutineEdit } from '@/types/routine';
 import { routineEditSchema } from '@/schemas/routine';
 import RoutineCategorySelect from './RoutineCategorySelector';
+import { Button } from '@repo/ui/common';
 
 type Props = {
 	routineCategories: RoutineCategory[];
@@ -87,6 +88,9 @@ export default function RoutineBaseForm({
 						/>
 					)}
 				/>
+				<Button className="w-full" type="submit">
+					저장
+				</Button>
 			</form>
 		</section>
 	);

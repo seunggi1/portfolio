@@ -42,7 +42,7 @@ export const routineEditSchema: z.ZodType<RoutineEdit> = z.object({
 		.min(5, { message: '설명은 최소 5글자 이상 이어야 합니다.' }),
 });
 
-const newExercise: z.ZodType<NewExercise> = z.object({
+export const newExerciseSchema: z.ZodType<NewExercise> = z.object({
 	name: z.string().min(2, {
 		message: '운동 이름은 최소 2글자 이상 이어야 합니다.',
 	}),
@@ -64,33 +64,12 @@ const newExercise: z.ZodType<NewExercise> = z.object({
 });
 
 const exercises = z.object({
-	exercises: newExercise
+	exercises: newExerciseSchema
 		.array()
 		.min(1, { message: '최소 1개 이상에 운동이 필요합니다.' }),
 });
 
 const fullRoutineData = z.intersection(routineEditSchema, exercises);
-
-export function validateExercise(
-	data: ExerciseFormData['inputs']
-): ExerciseFormData['errors'] | null {
-	const result = newExercise.safeParse(data);
-
-	if (result.success) {
-		return null;
-	}
-
-	const format = result.error.flatten();
-
-	const errors = Object.fromEntries(
-		Object.entries(format.fieldErrors).map(([name, value]) => [
-			name,
-			value.join(','),
-		])
-	);
-
-	return errors;
-}
 
 export function validateFullRoutineData(
 	data: NewRoutine
