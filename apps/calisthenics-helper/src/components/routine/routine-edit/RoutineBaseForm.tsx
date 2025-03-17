@@ -1,15 +1,15 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormInput from '@/components/common/input/FormInput';
-import { RoutineCategory, RoutineEdit } from '@/types/routine';
+import { RoutineCategory, RoutineFormData } from '@/types/routine';
 import { routineEditSchema } from '@/schemas/routine';
 import RoutineCategorySelect from './RoutineCategorySelector';
 import { Button } from '@repo/ui/common';
 
 type Props = {
 	routineCategories: RoutineCategory[];
-	defaultValue: RoutineEdit;
-	onSubmit: (routine: RoutineEdit) => void;
+	defaultValue: RoutineFormData;
+	onSubmit: (data: RoutineFormData) => void;
 };
 
 export default function RoutineBaseForm({
@@ -22,7 +22,7 @@ export default function RoutineBaseForm({
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<RoutineEdit>({
+	} = useForm<RoutineFormData>({
 		resolver: zodResolver(routineEditSchema),
 		defaultValues: {
 			...defaultValue,

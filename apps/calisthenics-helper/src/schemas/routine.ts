@@ -1,12 +1,7 @@
-import {
-	ExerciseFormData,
-	NewExercise,
-	NewRoutine,
-	RoutineEdit,
-} from '@/types/routine';
+import { NewExercise, NewRoutine, RoutineFormData } from '@/types/routine';
 import { z } from 'zod';
 
-export const routineEditSchema: z.ZodType<RoutineEdit> = z.object({
+export const routineEditSchema: z.ZodType<RoutineFormData> = z.object({
 	name: z
 		.string()
 		.min(3, {

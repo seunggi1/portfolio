@@ -6,3 +6,4 @@ export { default as useAuth } from './useAuth';
 export { default as useIntersectionObserver } from './useIntersectionObserver';
 export { default as useComments } from './useComments';
 export { default as useCommentEdit } from './useCommentEdit';
+export { default as useRoutineEditFunnel } from './useRoutineEditFunnel';
