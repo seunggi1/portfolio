@@ -1,3 +1,4 @@
+import { Ref, RefObject } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormInput from '@/components/common/input/FormInput';
@@ -10,12 +11,14 @@ type Props = {
 	routineCategories: RoutineCategory[];
 	defaultValue: RoutineFormData;
 	onSubmit: (data: RoutineFormData) => void;
+	ref: RefObject<HTMLButtonElement | null>;
 };
 
 export default function RoutineBaseForm({
 	routineCategories,
 	defaultValue,
 	onSubmit,
+	ref,
 }: Props) {
 	const {
 		control,
@@ -30,7 +33,7 @@ export default function RoutineBaseForm({
 	});
 
 	return (
-		<section className="flex flex-col items-center justify-center w-full h-full gap-4">
+		<>
 			<h2 className="text-2xl font-bold">루틴 기본 정보</h2>
 			<form
 				className="w-3/4 space-y-8"
@@ -88,10 +91,11 @@ export default function RoutineBaseForm({
 						/>
 					)}
 				/>
-				<Button className="w-full" type="submit">
+
+				<Button className="!hidden w-full" type="submit" ref={ref}>
 					저장
 				</Button>
 			</form>
-		</section>
+		</>
 	);
 }

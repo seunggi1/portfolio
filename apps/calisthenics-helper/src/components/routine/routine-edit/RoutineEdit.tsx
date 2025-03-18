@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRef, useState } from 'react';
 import { NewExercise, NewRoutineBase, RoutineFormData } from '@/types/routine';
 import RoutineEditFinish from './RoutineEditFinish';
 import RoutineBaseForm from './RoutineBaseForm';
-import { useRoutineCategories, useRoutineEditFunnel } from '@/hooks';
+import { useModal, useRoutineCategories, useRoutineEditFunnel } from '@/hooks';
 import ExeciseForm from './ExerciseForm';
+import { Button } from '@repo/ui/common';
 
 type Props = {
 	updateRoutineBase?: NewRoutineBase;
@@ -36,17 +36,21 @@ export default function RoutineEdit({
 	updateRoutineBase,
 	updateExercises,
 }: Props) {
-	const [routineBase, SetRoutineBase] = useState<NewRoutineBase>(
+	const [routineBase, setRoutineBase] = useState<NewRoutineBase>(
 		updateRoutineBase ?? DEFAULT_STATE.routineBase
 	);
 	const [exercises, setExercises] = useState<NewExercise[]>(
 		updateExercises ?? [DEFAULT_STATE.exercise]
 	);
 	const { routineCategories } = useRoutineCategories();
-	const { step, exerciseOrder, changeStep } = useRoutineEditFunnel();
+	const { step, exerciseOrder, changeStep, backStep } = useRoutineEditFunnel();
+
+	const { Modal, showModal, hideModal } = useModal();
+
+	const submitButtonRef = useRef<HTMLButtonElement>(null);
 
 	const handleRoutineBaseComplete = (data: RoutineFormData) => {
-		SetRoutineBase((prev) => ({ id: prev.id, ...data }));
+		setRoutineBase((prev) => ({ id: prev.id, ...data }));
 		changeStep({ type: 'exercise', order: exerciseOrder });
 	};
 
@@ -54,7 +58,13 @@ export default function RoutineEdit({
 		setExercises((prev) =>
 			prev.map((e) => (e.order === exercise.order ? { ...exercise } : { ...e }))
 		);
-		handleFinishClick();
+
+		const nextOrder = exercise.order + 1;
+		if (exercises[nextOrder]) {
+			changeStep({ type: 'exercise', order: nextOrder });
+		} else {
+			showModal();
+		}
 	};
 
 	const handleExerciseAddClick = () => {
@@ -66,14 +76,22 @@ export default function RoutineEdit({
 			]);
 		}
 		changeStep({ type: 'exercise', order: nextOrder });
+		hideModal();
 	};
 
 	const handleFinishClick = () => {
 		changeStep({ type: 'finish' });
+		hideModal();
+	};
+
+	const handleNext = () => {
+		if (submitButtonRef.current) {
+			submitButtonRef.current.click();
+		}
 	};
 
 	return (
-		<>
+		<section className="flex flex-col items-center justify-center w-full h-full gap-4">
 			{step === 'routine' && (
 				<RoutineBaseForm
 					defaultValue={routineBase}
@@ -81,17 +99,43 @@ export default function RoutineEdit({
 					onSubmit={(data: RoutineFormData) => {
 						handleRoutineBaseComplete(data);
 					}}
+					ref={submitButtonRef}
 				/>
 			)}
 			{step === 'exercise' && (
-				<ExeciseForm
-					defaultValue={exercises[exerciseOrder]}
-					onSubmit={handleExerciseComplete}
-				/>
+				<>
+					<ExeciseForm
+						defaultValue={{ ...exercises[exerciseOrder] }}
+						onSubmit={handleExerciseComplete}
+						ref={submitButtonRef}
+					/>
+					<Modal title="운동을 추가 하시겠습니까?">
+						<Button onClick={handleExerciseAddClick}>예</Button>
+						<Button autoFocus={true} onClick={handleFinishClick}>
+							아니오
+						</Button>
+					</Modal>
+				</>
 			)}
 			{step === 'finish' && (
 				<RoutineEditFinish newRoutine={{ ...routineBase, exercises }} />
 			)}
-		</>
+			<div className="flex justify-between w-3/4 gap-2">
+				{step !== 'routine' && (
+					<Button color="secondary" className="flex-1" onClick={backStep}>
+						이전
+					</Button>
+				)}
+				{step !== 'finish' && (
+					<Button
+						color="primary"
+						className="flex-1"
+						onClick={() => handleNext()}
+					>
+						다음
+					</Button>
+				)}
+			</div>
+		</section>
 	);
 }

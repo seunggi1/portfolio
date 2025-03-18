@@ -4,17 +4,20 @@ import { Button } from '@repo/ui/common';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newExerciseSchema } from '@/schemas/routine';
+import { RefObject, useEffect } from 'react';
 
 type Props = {
 	defaultValue: Partial<NewExercise>;
 	onSubmit: (newExercise: NewExercise) => void;
+	ref: RefObject<HTMLButtonElement | null>;
 };
 
-export default function ExeciseForm({ defaultValue, onSubmit }: Props) {
+export default function ExeciseForm({ defaultValue, onSubmit, ref }: Props) {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, defaultValues },
+		setValue,
 	} = useForm<NewExercise>({
 		resolver: zodResolver(newExerciseSchema),
 		defaultValues: {
@@ -22,8 +25,15 @@ export default function ExeciseForm({ defaultValue, onSubmit }: Props) {
 		},
 	});
 
+	useEffect(() => {
+		for (const key in defaultValue) {
+			const propKey = key as keyof NewExercise;
+			setValue(propKey, defaultValue[propKey] ?? '');
+		}
+	}, [defaultValue, setValue]);
+
 	return (
-		<section className="flex flex-col items-center justify-center w-full h-full gap-4">
+		<>
 			<h2 className="text-2xl font-bold">운동 정보</h2>
 			<form
 				className="w-3/4 space-y-8"
@@ -59,10 +69,10 @@ export default function ExeciseForm({ defaultValue, onSubmit }: Props) {
 					required
 					{...register('nextDelaySeconds', { valueAsNumber: true })}
 				/>
-				<div className="flex flex-col gap-4 text-right">
-					<Button type="submit">저장</Button>
-				</div>
+				<Button type="submit" className="!hidden" ref={ref}>
+					저장
+				</Button>
 			</form>
-		</section>
+		</>
 	);
 }

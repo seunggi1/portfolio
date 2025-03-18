@@ -44,9 +44,14 @@ export default function useRoutineEditFunnel() {
 		setStep(progress.type);
 	};
 
+	const backStep = () => {
+		window.history.back();
+	};
+
 	return {
 		step,
 		exerciseOrder,
 		changeStep,
+		backStep,
 	};
 }

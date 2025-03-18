@@ -12,7 +12,7 @@ export default function RoutineEditFinish({ newRoutine }: Props) {
 	const { handleRoutineEdit, data: result, isPending } = useRoutineEdit();
 
 	return (
-		<section className="flex items-center justify-center h-full">
+		<>
 			{!isSave && (
 				<Button
 					onClick={() => {
@@ -26,6 +26,6 @@ export default function RoutineEditFinish({ newRoutine }: Props) {
 			{isPending && <>저장중입니다...</>}
 			{result && <>성공!!</>}
 			{result !== undefined && !result && <>실패</>}
-		</section>
+		</>
 	);
 }
