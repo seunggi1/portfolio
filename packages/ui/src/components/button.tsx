@@ -1,4 +1,4 @@
-import type { JSX, ButtonHTMLAttributes } from 'react';
+import type { JSX, ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import type { BorderRadius, Color, Size } from '../types';
 
 export function Button({
@@ -14,7 +14,10 @@ export function Button({
 	color?: Color;
 	borderRadius?: BorderRadius;
 	size?: Size;
-} & ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
+} & DetailedHTMLProps<
+	ButtonHTMLAttributes<HTMLButtonElement>,
+	HTMLButtonElement
+>): JSX.Element {
 	return (
 		<button
 			className={[
