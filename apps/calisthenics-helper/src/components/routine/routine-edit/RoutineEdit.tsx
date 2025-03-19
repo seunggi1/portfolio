@@ -17,8 +17,8 @@ const DEFAULT_STATE = {
 	routineBase: {
 		id: '',
 		name: '',
-		restSeconds: 10,
-		totalSets: 1,
+		restSeconds: 60,
+		totalSets: 3,
 		difficultyLevel: 2,
 		categoryIDs: [],
 		description: '',
@@ -118,7 +118,10 @@ export default function RoutineEdit({
 				</>
 			)}
 			{step === 'finish' && (
-				<RoutineEditFinish newRoutine={{ ...routineBase, exercises }} />
+				<RoutineEditFinish
+					routineCategories={routineCategories}
+					newRoutine={{ ...routineBase, exercises: exercises.slice() }}
+				/>
 			)}
 			<div className="flex justify-between w-3/4 gap-2">
 				{step !== 'routine' && (
