@@ -1,11 +1,14 @@
-import { Ref, RefObject } from 'react';
+import { RefObject } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import FormInput from '@/components/common/input/FormInput';
 import { RoutineCategory, RoutineFormData } from '@/types/routine';
 import { routineEditSchema } from '@/schemas/routine';
-import RoutineCategorySelect from './RoutineCategorySelector';
 import { Button } from '@repo/ui/common';
+import RoutineCategorySelect from './RoutineCategorySelector';
+import Input from '@/components/common/input/Input';
+import RoutineEditFormGroup from './RoutineEditFormGroup';
+import RoutineLevelSelector from './RoutineLevelSelector';
+import RoutineEditFormHeading from './RoutineEditFormHeading';
 
 type Props = {
 	routineCategories: RoutineCategory[];
@@ -34,64 +37,91 @@ export default function RoutineBaseForm({
 
 	return (
 		<>
-			<h2 className="text-2xl font-bold">루틴 기본 정보</h2>
 			<form
-				className="w-3/4 space-y-8"
+				className="flex flex-col w-full gap-2"
 				onSubmit={handleSubmit((d) => onSubmit(d))}
 			>
-				<FormInput
+				<RoutineEditFormHeading>루틴 기본 정보</RoutineEditFormHeading>
+
+				<RoutineEditFormGroup
 					displayName="루틴 이름"
-					type="text"
-					min={3}
-					max={15}
 					error={errors.name?.message}
-					required
-					{...register('name')}
-				/>
-				<FormInput
-					displayName="루틴 설명"
-					type="text"
-					min={5}
+					htmlFor="name"
+				>
+					<Input
+						type="text"
+						id="name"
+						min={3}
+						max={15}
+						required
+						{...register('name')}
+					/>
+				</RoutineEditFormGroup>
+
+				<RoutineEditFormGroup
+					displayName="루틴 이름"
 					error={errors.description?.message}
-					required
-					{...register('description')}
-				/>
-				<FormInput
-					displayName="루틴 난이도"
-					type="number"
-					min={1}
-					max={5}
-					error={errors.difficultyLevel?.message}
-					required
-					{...register('difficultyLevel', { valueAsNumber: true })}
-				/>
-				<FormInput
+					htmlFor="description"
+				>
+					<Input
+						type="text"
+						id="description"
+						min={5}
+						required
+						{...register('description')}
+					/>
+				</RoutineEditFormGroup>
+
+				<RoutineEditFormGroup
 					displayName="휴식 시간(초)"
-					type="number"
 					error={errors.restSeconds?.message}
-					required
-					{...register('restSeconds', { valueAsNumber: true })}
-				/>
-				<FormInput
+				>
+					<Input
+						id="description"
+						type="number"
+						required
+						{...register('restSeconds', { valueAsNumber: true })}
+					/>
+				</RoutineEditFormGroup>
+				<RoutineEditFormGroup
 					displayName="세트 수"
-					type="number"
-					min={1}
 					error={errors.totalSets?.message}
-					required
-					{...register('totalSets', { valueAsNumber: true })}
+				>
+					<Input
+						type="number"
+						min={1}
+						required
+						{...register('totalSets', { valueAsNumber: true })}
+					/>
+				</RoutineEditFormGroup>
+
+				<Controller
+					control={control}
+					name="difficultyLevel"
+					render={({ field }) => (
+						<RoutineEditFormGroup
+							displayName="루틴 난이도"
+							error={errors.difficultyLevel?.message}
+						>
+							<RoutineLevelSelector {...field} />
+						</RoutineEditFormGroup>
+					)}
 				/>
 				<Controller
 					control={control}
 					name="categoryIDs"
 					render={({ field }) => (
-						<RoutineCategorySelect
-							{...field}
-							routineCategories={routineCategories}
+						<RoutineEditFormGroup
+							displayName="루틴 카테고리"
 							error={errors.categoryIDs?.message}
-						/>
+						>
+							<RoutineCategorySelect
+								{...field}
+								routineCategories={routineCategories}
+							/>
+						</RoutineEditFormGroup>
 					)}
 				/>
-
 				<Button className="!hidden w-full" type="submit" ref={ref}>
 					저장
 				</Button>

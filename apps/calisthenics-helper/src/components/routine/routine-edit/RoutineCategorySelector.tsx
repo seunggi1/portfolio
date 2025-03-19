@@ -1,20 +1,18 @@
 'use client';
 
-import { RoutineCategory } from '@/types/routine';
 import { MouseEvent } from 'react';
+import { RoutineCategory } from '@/types/routine';
 
 type Props = {
 	routineCategories: RoutineCategory[];
 	value: RoutineCategory['id'][];
 	onChange: (value: RoutineCategory['id'][]) => void;
-	error: string | undefined;
 };
 
 export default function RoutineCategorySelect({
 	routineCategories,
 	value,
 	onChange,
-	error,
 }: Props) {
 	const selectedCategories = new Set<string>(value);
 
@@ -34,22 +32,22 @@ export default function RoutineCategorySelect({
 	};
 
 	return (
-		<>
-			<ul className="flex gap-4" onClick={handleRoutineCategoryClick}>
-				{routineCategories.map(({ id, name }) => (
-					<li
-						className={[
-							'cursor-pointer p-2 rounded-sm text-white select-none',
-							selectedCategories.has(id) ? 'bg-primary ' : 'bg-secondary',
-						].join(' ')}
-						key={id}
-						data-id={id}
-					>
-						{name}
-					</li>
-				))}
-			</ul>
-			<span className="text-error">{error}</span>
-		</>
+		<ul
+			className="flex flex-col gap-2 md:flex-row"
+			onClick={handleRoutineCategoryClick}
+		>
+			{routineCategories.map(({ id, name }) => (
+				<li
+					className={[
+						'cursor-pointer p-2 rounded-sm text-white select-none text-center',
+						selectedCategories.has(id) ? 'bg-primary ' : 'bg-secondary',
+					].join(' ')}
+					key={id}
+					data-id={id}
+				>
+					{name}
+				</li>
+			))}
+		</ul>
 	);
 }

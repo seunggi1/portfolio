@@ -60,7 +60,7 @@ export default function DragContainer({
 		<div
 			{...props}
 			className={[
-				`${isDragEnter ? 'border border-primary' : 'border border-black'}`,
+				`${isDragEnter ? 'bg-info text-info-content' : ''}`,
 				className,
 			].join(' ')}
 			draggable

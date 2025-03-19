@@ -2,11 +2,11 @@
 
 import { useRef, useState } from 'react';
 import { NewExercise, NewRoutineBase, RoutineFormData } from '@/types/routine';
+import { Button } from '@repo/ui/common';
+import { useModal, useRoutineCategories, useRoutineEditFunnel } from '@/hooks';
 import RoutineEditFinish from './RoutineEditFinish';
 import RoutineBaseForm from './RoutineBaseForm';
-import { useModal, useRoutineCategories, useRoutineEditFunnel } from '@/hooks';
 import ExeciseForm from './ExerciseForm';
-import { Button } from '@repo/ui/common';
 
 type Props = {
 	updateRoutineBase?: NewRoutineBase;
@@ -91,53 +91,55 @@ export default function RoutineEdit({
 	};
 
 	return (
-		<section className="flex flex-col items-center justify-center w-full h-full gap-4">
-			{step === 'routine' && (
-				<RoutineBaseForm
-					defaultValue={routineBase}
-					routineCategories={routineCategories}
-					onSubmit={(data: RoutineFormData) => {
-						handleRoutineBaseComplete(data);
-					}}
-					ref={submitButtonRef}
-				/>
-			)}
-			{step === 'exercise' && (
-				<>
-					<ExeciseForm
-						defaultValue={{ ...exercises[exerciseOrder] }}
-						onSubmit={handleExerciseComplete}
+		<section className="flex flex-col items-center justify-center w-full h-full gap-4 bg-gray-100">
+			<div className="w-3/4 m-auto mt-10 bg-white rounded-lg md:w-1/2">
+				{step === 'routine' && (
+					<RoutineBaseForm
+						defaultValue={routineBase}
+						routineCategories={routineCategories}
+						onSubmit={(data: RoutineFormData) => {
+							handleRoutineBaseComplete(data);
+						}}
 						ref={submitButtonRef}
 					/>
-					<Modal title="운동을 추가 하시겠습니까?">
-						<Button onClick={handleExerciseAddClick}>예</Button>
-						<Button autoFocus={true} onClick={handleFinishClick}>
-							아니오
-						</Button>
-					</Modal>
-				</>
-			)}
-			{step === 'finish' && (
-				<RoutineEditFinish
-					routineCategories={routineCategories}
-					newRoutine={{ ...routineBase, exercises: exercises.slice() }}
-				/>
-			)}
-			<div className="flex justify-between w-3/4 gap-2">
-				{step !== 'routine' && (
-					<Button color="secondary" className="flex-1" onClick={backStep}>
-						이전
-					</Button>
 				)}
-				{step !== 'finish' && (
+				{step === 'exercise' && (
+					<>
+						<ExeciseForm
+							defaultValue={{ ...exercises[exerciseOrder] }}
+							onSubmit={handleExerciseComplete}
+							ref={submitButtonRef}
+						/>
+						<Modal title="운동을 추가 하시겠습니까?">
+							<Button onClick={handleExerciseAddClick}>예</Button>
+							<Button autoFocus={true} onClick={handleFinishClick}>
+								아니오
+							</Button>
+						</Modal>
+					</>
+				)}
+				{step === 'finish' && (
+					<RoutineEditFinish
+						routineCategories={routineCategories}
+						newRoutine={{ ...routineBase, exercises: exercises.slice() }}
+						ref={submitButtonRef}
+					/>
+				)}
+				<div className="flex justify-between gap-2 px-4 my-4">
+					{step !== 'routine' && (
+						<Button color="secondary" className="flex-1" onClick={backStep}>
+							이전
+						</Button>
+					)}
 					<Button
 						color="primary"
 						className="flex-1"
 						onClick={() => handleNext()}
+						disabled={submitButtonRef.current?.disabled}
 					>
-						다음
+						{step === 'finish' ? '저장' : '다음'}
 					</Button>
-				)}
+				</div>
 			</div>
 		</section>
 	);
