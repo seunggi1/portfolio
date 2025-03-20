@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import { NewExercise } from '@/types/routine';
 import { Button } from '@repo/ui/common';
 import { useForm } from 'react-hook-form';
@@ -11,10 +11,18 @@ import RoutineEditFormHeading from './RoutineEditFormHeading';
 type Props = {
 	defaultValue: Partial<NewExercise>;
 	onSubmit: (newExercise: NewExercise) => void;
-	ref: RefObject<HTMLButtonElement | null>;
+	ActionsComponent: ({
+		nextButton,
+	}: {
+		nextButton: ReactElement<HTMLButtonElement>;
+	}) => ReactNode;
 };
 
-export default function ExeciseForm({ defaultValue, onSubmit, ref }: Props) {
+export default function ExeciseForm({
+	defaultValue,
+	onSubmit,
+	ActionsComponent,
+}: Props) {
 	const {
 		register,
 		handleSubmit,
@@ -88,9 +96,13 @@ export default function ExeciseForm({ defaultValue, onSubmit, ref }: Props) {
 						{...register('nextDelaySeconds', { valueAsNumber: true })}
 					/>
 				</RoutineEditFormGroup>
-				<Button type="submit" className="!hidden" ref={ref}>
-					저장
-				</Button>
+				<ActionsComponent
+					nextButton={
+						<Button type="submit" className="w-full">
+							저장
+						</Button>
+					}
+				/>
 			</form>
 		</>
 	);

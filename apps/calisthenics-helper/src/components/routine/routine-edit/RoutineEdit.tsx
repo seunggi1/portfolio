@@ -1,12 +1,13 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { NewExercise, NewRoutineBase, RoutineFormData } from '@/types/routine';
 import { Button } from '@repo/ui/common';
 import { useModal, useRoutineCategories, useRoutineEditFunnel } from '@/hooks';
 import RoutineEditFinish from './RoutineEditFinish';
 import RoutineBaseForm from './RoutineBaseForm';
 import ExeciseForm from './ExerciseForm';
+import RoutineEditActions from './RoutineEditActions';
 
 type Props = {
 	updateRoutineBase?: NewRoutineBase;
@@ -44,10 +45,7 @@ export default function RoutineEdit({
 	);
 	const { routineCategories } = useRoutineCategories();
 	const { step, exerciseOrder, changeStep, backStep } = useRoutineEditFunnel();
-
 	const { Modal, showModal, hideModal } = useModal();
-
-	const submitButtonRef = useRef<HTMLButtonElement>(null);
 
 	const handleRoutineBaseComplete = (data: RoutineFormData) => {
 		setRoutineBase((prev) => ({ id: prev.id, ...data }));
@@ -84,11 +82,16 @@ export default function RoutineEdit({
 		hideModal();
 	};
 
-	const handleNext = () => {
-		if (submitButtonRef.current) {
-			submitButtonRef.current.click();
-		}
-	};
+	const ActionsComponent = ({
+		nextButton,
+	}: {
+		nextButton: ReactElement<HTMLButtonElement>;
+	}) =>
+		RoutineEditActions({
+			onPrevClick: backStep,
+			nextButton,
+			hasPrevButton: step !== 'routine',
+		});
 
 	return (
 		<section className="flex flex-col items-center justify-center w-full h-full gap-4 bg-gray-100">
@@ -100,7 +103,7 @@ export default function RoutineEdit({
 						onSubmit={(data: RoutineFormData) => {
 							handleRoutineBaseComplete(data);
 						}}
-						ref={submitButtonRef}
+						ActionsComponent={ActionsComponent}
 					/>
 				)}
 				{step === 'exercise' && (
@@ -108,7 +111,7 @@ export default function RoutineEdit({
 						<ExeciseForm
 							defaultValue={{ ...exercises[exerciseOrder] }}
 							onSubmit={handleExerciseComplete}
-							ref={submitButtonRef}
+							ActionsComponent={ActionsComponent}
 						/>
 						<Modal title="운동을 추가 하시겠습니까?">
 							<Button onClick={handleExerciseAddClick}>예</Button>
@@ -122,24 +125,9 @@ export default function RoutineEdit({
 					<RoutineEditFinish
 						routineCategories={routineCategories}
 						newRoutine={{ ...routineBase, exercises: exercises.slice() }}
-						ref={submitButtonRef}
+						ActionsComponent={ActionsComponent}
 					/>
 				)}
-				<div className="flex justify-between gap-2 px-4 my-4">
-					{step !== 'routine' && (
-						<Button color="secondary" className="flex-1" onClick={backStep}>
-							이전
-						</Button>
-					)}
-					<Button
-						color="primary"
-						className="flex-1"
-						onClick={() => handleNext()}
-						disabled={submitButtonRef.current?.disabled}
-					>
-						{step === 'finish' ? '저장' : '다음'}
-					</Button>
-				</div>
 			</div>
 		</section>
 	);

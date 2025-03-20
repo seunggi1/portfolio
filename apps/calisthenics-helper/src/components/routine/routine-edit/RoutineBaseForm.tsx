@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RoutineCategory, RoutineFormData } from '@/types/routine';
@@ -14,20 +14,24 @@ type Props = {
 	routineCategories: RoutineCategory[];
 	defaultValue: RoutineFormData;
 	onSubmit: (data: RoutineFormData) => void;
-	ref: RefObject<HTMLButtonElement | null>;
+	ActionsComponent: ({
+		nextButton,
+	}: {
+		nextButton: ReactElement<HTMLButtonElement>;
+	}) => ReactNode;
 };
 
 export default function RoutineBaseForm({
 	routineCategories,
 	defaultValue,
 	onSubmit,
-	ref,
+	ActionsComponent,
 }: Props) {
 	const {
 		control,
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isSubmitting },
 	} = useForm<RoutineFormData>({
 		resolver: zodResolver(routineEditSchema),
 		defaultValues: {
@@ -59,7 +63,7 @@ export default function RoutineBaseForm({
 				</RoutineEditFormGroup>
 
 				<RoutineEditFormGroup
-					displayName="루틴 이름"
+					displayName="루틴 설명"
 					error={errors.description?.message}
 					htmlFor="description"
 				>
@@ -122,9 +126,13 @@ export default function RoutineBaseForm({
 						</RoutineEditFormGroup>
 					)}
 				/>
-				<Button className="!hidden w-full" type="submit" ref={ref}>
-					저장
-				</Button>
+				<ActionsComponent
+					nextButton={
+						<Button className="w-full" type="submit" disabled={isSubmitting}>
+							저장
+						</Button>
+					}
+				/>
 			</form>
 		</>
 	);

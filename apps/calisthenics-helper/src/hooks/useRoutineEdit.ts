@@ -1,14 +1,17 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editRoutine, routineKeys } from '@/api/routines';
 import { NewRoutine } from '@/types/routine';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function useRoutineEdit() {
 	const queryClient = useQueryClient();
 	const { data, mutate, isPending } = useMutation({
 		mutationFn: editRoutine,
-		onSuccess: () => {
+		onSuccess: (result) => {
 			queryClient.invalidateQueries({
 				queryKey: routineKeys.all,
+			});
+			queryClient.invalidateQueries({
+				queryKey: routineKeys.detail(result),
 			});
 		},
 	});
