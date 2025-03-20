@@ -1,7 +1,7 @@
 import { Button } from '@repo/ui/common';
 import { DeleteIcon } from '@/components/common/icon';
 import { NewExercise } from '@/types/routine';
-import DragContainer from '../ui/DragContainer';
+import DragContainer from '../../common/ui/DragContainer';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 

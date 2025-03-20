@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeAll, describe, expect, it } from 'vitest';
-import RoutineCategories from '@/components/routine/ui/RoutineCategories';
+import RoutineCategories from '@/components/common/ui/RoutineCategories';
 
 describe('Categories Names Tests', () => {
 	const mockCategories = ['상체', '하체', '등', '전신'];

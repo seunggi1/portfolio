@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Routine } from '@/types/routine';
 import { Card } from '@repo/ui/common';
-import RoutineLevel from '../ui/RoutineLevel';
-import RoutineCategories from '../ui/RoutineCategories';
-import RoutineSummary from '../ui/RoutineSummary';
+import RoutineLevel from '../../common/ui/RoutineLevel';
+import RoutineCategories from '../../common/ui/RoutineCategories';
+import RoutineSummary from '../../common/ui/RoutineSummary';
 
 type Props = {
 	routines: Routine[];

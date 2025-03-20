@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeAll, describe, expect, it } from 'vitest';
-import RoutineLevel from '@/components/routine/ui/RoutineLevel';
+import RoutineLevel from '@/components/common/ui/RoutineLevel';
 
 describe('Routine Level Tests', () => {
 	const mockLevel = 5;

@@ -1,8 +1,8 @@
 import { NewRoutineBase, RoutineCategory } from '@/types/routine';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
-import RoutineLevel from '../ui/RoutineLevel';
-import RoutineCategories from '../ui/RoutineCategories';
+import RoutineLevel from '../../common/ui/RoutineLevel';
+import RoutineCategories from '../../common/ui/RoutineCategories';
 
 type Props = {
 	routine: NewRoutineBase;
