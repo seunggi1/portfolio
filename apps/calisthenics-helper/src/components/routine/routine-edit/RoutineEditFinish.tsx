@@ -52,11 +52,11 @@ export default function RoutineEditFinish({
 	);
 
 	useEffect(() => {
-		let timer;
+		let timer: NodeJS.Timeout | undefined = undefined;
 		if (result && !isShowModal.current) {
 			showModal();
 			isShowModal.current = true;
-			setTimeout(() => handleRoutineDetailGoClick(result), 3000);
+			timer = setTimeout(() => handleRoutineDetailGoClick(result), 3000);
 		}
 		return () => clearTimeout(timer);
 	}, [result, showModal, handleRoutineDetailGoClick]);
