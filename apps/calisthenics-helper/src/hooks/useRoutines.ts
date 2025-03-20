@@ -2,21 +2,14 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchRoutines, routineKeys } from '@/api/routines';
 
 export default function useRoutines(categoryID: string) {
-	const {
-		data,
-		isLoading,
-		error,
-		isFetching,
-		fetchNextPage,
-		hasNextPage,
-		refetch,
-	} = useInfiniteQuery({
-		queryKey: [routineKeys.all, categoryID],
-		queryFn: ({ pageParam }) =>
-			fetchRoutines({ nextCursor: pageParam, categoryID }),
-		initialPageParam: '',
-		getNextPageParam: (lastPage) => lastPage.nextCursor,
-	});
+	const { data, isLoading, error, isFetching, fetchNextPage, hasNextPage } =
+		useInfiniteQuery({
+			queryKey: routineKeys.list(categoryID),
+			queryFn: ({ pageParam }) =>
+				fetchRoutines({ nextCursor: pageParam, categoryID }),
+			initialPageParam: '',
+			getNextPageParam: (lastPage) => lastPage.nextCursor,
+		});
 
 	const handleNextPage = () => {
 		if (isFetching || !hasNextPage) {

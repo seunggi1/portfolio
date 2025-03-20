@@ -11,7 +11,12 @@ export function useRoutineDelete(id: string) {
 	const deleteMutation = useMutation({
 		mutationFn: () => deleteRoutine(id),
 		onSuccess: () => {
-			client.invalidateQueries({ queryKey: routineKeys.all });
+			client.invalidateQueries({
+				predicate: (query) => {
+					return query.queryKey.some((key) => key === routineKeys.listBase);
+				},
+			});
+			client.invalidateQueries({ queryKey: routineKeys.detail(id) });
 		},
 	});
 

@@ -8,7 +8,9 @@ export function useRoutineEdit() {
 		mutationFn: editRoutine,
 		onSuccess: (result) => {
 			queryClient.invalidateQueries({
-				queryKey: routineKeys.all,
+				predicate: (query) => {
+					return query.queryKey.some((key) => key === routineKeys.listBase);
+				},
 			});
 			queryClient.invalidateQueries({
 				queryKey: routineKeys.detail(result),

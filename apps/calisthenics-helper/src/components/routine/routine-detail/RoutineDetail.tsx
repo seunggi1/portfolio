@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -12,9 +12,8 @@ import RoutineCategories from '../../common/ui/RoutineCategories';
 import ExerciseSetDetails from './ExerciseSetDetails';
 import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineDetailSkeleton from './RoutineDetailSkeleton';
-import { useAuth } from '@/hooks';
+import { useAuth, useModal } from '@/hooks';
 import RoutineUpdateButton from './RoutineUpdateButton';
-import Modal from '@/components/common/modal/Modal';
 import { toast } from '@/lib/toast/toast';
 import { useRoutineDelete } from '@/hooks/useRoutineDelete';
 import Comments from '../comment/Comments';
@@ -26,13 +25,13 @@ type Props = {
 export default function RoutineDetail({ id }: Props) {
 	const { routineDetail, isLoading } = useRoutineDetail(id);
 	const { user } = useAuth();
-	const [openModal, setOpenModal] = useState<boolean>(false);
 	const {
 		result: deleteResult,
 		isPending,
 		handleRoutineDelete,
 	} = useRoutineDelete(id);
 	const router = useRouter();
+	const { Modal, hideModal, showModal } = useModal();
 
 	useEffect(() => {
 		if (deleteResult) {
@@ -47,7 +46,7 @@ export default function RoutineDetail({ id }: Props) {
 
 	const handleDelete = () => {
 		handleRoutineDelete();
-		setOpenModal(false);
+		hideModal();
 	};
 
 	const {
@@ -80,19 +79,14 @@ export default function RoutineDetail({ id }: Props) {
 						{user && user.id === routineDetail.userID && (
 							<>
 								<RoutineUpdateButton id={routineDetail.id} />
-								<Button color="error" onClick={() => setOpenModal(true)}>
+								<Button color="error" onClick={showModal}>
 									루틴 삭제
 								</Button>
-								{openModal && (
-									<Modal
-										title="정말 루틴을 삭제하시겠습니까?"
-										onClose={() => setOpenModal(false)}
-									>
-										<Button onClick={handleDelete} color="error">
-											삭제
-										</Button>
-									</Modal>
-								)}
+								<Modal title="정말 루틴을 삭제하시겠습니까?">
+									<Button onClick={handleDelete} color="error">
+										삭제
+									</Button>
+								</Modal>
 							</>
 						)}
 					</div>
