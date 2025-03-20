@@ -64,7 +64,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		return data || [];
 	}
 
-	async createRoutine(newRoutine: NewRoutine): Promise<boolean> {
+	async createRoutine(newRoutine: NewRoutine): Promise<Routine['id']> {
 		const user = await this.getUser();
 
 		if (!user) {
@@ -83,20 +83,16 @@ export class SupabaseServiceClient implements ServiceClient {
 				exercises_data: newRoutine.exercises,
 				categories: newRoutine.categoryIDs,
 			})
-			.returns<Pick<Routine, 'id'>>();
-
-		if (data) {
-			return true;
-		}
+			.returns<Routine['id']>();
 
 		if (error) {
 			throw new Error(error.message);
 		}
 
-		return false;
+		return data;
 	}
 
-	async updateRoutine(updateRoutine: NewRoutine): Promise<boolean> {
+	async updateRoutine(updateRoutine: NewRoutine): Promise<Routine['id']> {
 		const user = await this.getUser();
 		const originData = await this.getRoutineById(updateRoutine.id);
 
@@ -120,17 +116,13 @@ export class SupabaseServiceClient implements ServiceClient {
 				update_exercises: updateRoutine.exercises,
 				update_categories: updateRoutine.categoryIDs,
 			})
-			.returns<Pick<Routine, 'id'>>();
-
-		if (data) {
-			return true;
-		}
+			.returns<Routine['id']>();
 
 		if (error) {
 			throw new Error(error.message);
 		}
 
-		return false;
+		return data;
 	}
 
 	async deleteRoutine(routineID: Routine['id']): Promise<boolean> {

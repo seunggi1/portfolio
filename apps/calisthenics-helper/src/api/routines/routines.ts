@@ -54,7 +54,7 @@ export async function editRoutine(editRoutine: NewRoutine) {
 		? HttpClientBuilder.put(getRoutineURL(editRoutine.id))
 		: HttpClientBuilder.post(getRoutineURL());
 
-	const { data } = await editClient.data(editRoutine).call<boolean>();
+	const { data } = await editClient.data(editRoutine).call<Routine['id']>();
 
 	return data;
 }

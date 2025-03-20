@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 		const client = await getServiceClient();
 		const result = await client.createRoutine(data);
 
-		return NextResponse.json<boolean>(result);
+		return NextResponse.json<Routine['id']>(result);
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}

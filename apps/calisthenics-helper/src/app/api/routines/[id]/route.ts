@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
-import type { RoutineDetail } from '@/types/routine';
+import type { Routine, RoutineDetail } from '@/types/routine';
 import { NotFoundError, ValidatorError } from '@/types/error';
 import { handleErrorResponse } from '@/utils/error';
 import { validateFullRoutineData } from '@/schemas/routine';
@@ -41,7 +41,7 @@ export async function PUT(
 		const client = await getServiceClient();
 		const result = await client.updateRoutine({ ...data, id });
 
-		return NextResponse.json<boolean>(result);
+		return NextResponse.json<Routine['id']>(result);
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}
