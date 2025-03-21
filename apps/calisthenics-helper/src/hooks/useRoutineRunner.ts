@@ -1,12 +1,13 @@
-import { RoutineDetail } from '../types/routine';
 import { useRef, useState } from 'react';
-import useRoutineSound from './useRoutineSound';
 import {
 	ExerciseState,
-	RoutineController,
+	RoutineDetail,
+	RoutineRunStep,
 	RoutineState,
-} from '@/utils/routine';
+} from '@/types/routine';
+import useRoutineSound from './useRoutineSound';
 import useIntervalTimer from './useIntervalTimer';
+import { RoutineController } from '@/utils/routine';
 
 export type RoutineResult = {
 	routineState: RoutineState;
@@ -16,6 +17,7 @@ export type RoutineResult = {
 	handleEnd: () => void;
 	handlePauseToggle: () => void;
 	handleMuteToggle: () => void;
+	routineRunStep: RoutineRunStep;
 };
 
 const INIT_INTERVAL_SECONDS = 1;
@@ -24,12 +26,15 @@ export default function useRoutineRunner(
 	routineDetail: RoutineDetail
 ): RoutineResult {
 	const { current: routineController } = useRef<RoutineController>(
-		new RoutineController(routineDetail)
+		new RoutineController(routineDetail, true)
 	);
 	const [routineState, setRoutineState] = useState<RoutineState>(
 		routineController.createState()
 	);
 	const { playCount, playStatus, isMute, handleMuteToggle } = useRoutineSound();
+	const [routineRunStep, setRoutineRunStep] = useState<RoutineRunStep>(
+		routineController.getRoutineRunStep()
+	);
 
 	const {
 		latestSeconds,
@@ -41,7 +46,7 @@ export default function useRoutineRunner(
 	} = useIntervalTimer({
 		initExpireSeconds: routineState.state.totalSeconds,
 		initIntervalSeconds: INIT_INTERVAL_SECONDS,
-
+		initPause: routineState.isPause,
 		onExpire: () => {
 			if (routineState.isEnd) {
 				return;
@@ -49,6 +54,7 @@ export default function useRoutineRunner(
 
 			const nextRoutineState = routineController.nextState();
 			setRoutineState(nextRoutineState);
+			setRoutineRunStep(routineController.getRoutineRunStep());
 			if (
 				(nextRoutineState.state.status === 'delay' ||
 					nextRoutineState.state.status === 'rest') &&
@@ -67,6 +73,7 @@ export default function useRoutineRunner(
 			playCount(state.count);
 			setRoutineState(nextState);
 			onTimerIntervalReset(state.secondsPerRep);
+			setRoutineRunStep(routineController.getRoutineRunStep());
 		},
 	});
 
@@ -93,5 +100,6 @@ export default function useRoutineRunner(
 		handleEnd,
 		handlePauseToggle,
 		handleMuteToggle,
+		routineRunStep,
 	};
 }

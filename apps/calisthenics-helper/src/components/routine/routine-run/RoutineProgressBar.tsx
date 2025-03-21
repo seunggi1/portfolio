@@ -1,4 +1,4 @@
-import { RoutineState } from '@/utils/routine';
+import { RoutineState } from '@/types/routine';
 import { Progress } from '@repo/ui/common';
 import type { Color } from '@repo/ui/types';
 

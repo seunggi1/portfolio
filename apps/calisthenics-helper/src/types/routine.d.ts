@@ -57,3 +57,45 @@ export type RoutineFormData = Omit<NewRoutine, 'id' | 'exercises'>;
 export type NewRoutine = NewRoutineBase & {
 	exercises: NewExercise[];
 };
+
+export type ExerciseState = {
+	status: 'exercise';
+	totalSeconds: number;
+	name: string;
+	count: number;
+	currentSet: number;
+	repetitionCount: number;
+	secondsPerRep: number;
+	setInfo: string;
+};
+
+export type DelayState = {
+	status: 'delay';
+	totalSeconds: number;
+	nextExerciseName: string;
+	setInfo: string;
+};
+
+export type RestState = {
+	status: 'rest';
+	totalSeconds: number;
+	nextExerciseName: string;
+	setInfo: string;
+};
+
+export type RoutineState = {
+	isEnd: boolean;
+	isPause: boolean;
+	state: ExerciseState | DelayState | RestState;
+};
+
+export type StepItem = {
+	index: number;
+	name: string;
+	status: ExerciseState['status'] | DelayState['status'] | RestState['status'];
+};
+
+export type RoutineRunStep = {
+	stepItems: StepItem[];
+	step: number;
+};

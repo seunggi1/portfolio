@@ -1,4 +1,4 @@
-import { RoutineState } from '@/utils/routine';
+import { RoutineState } from '@/types/routine';
 
 type Props = {
 	state: RoutineState['state'];

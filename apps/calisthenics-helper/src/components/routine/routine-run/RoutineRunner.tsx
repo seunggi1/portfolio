@@ -5,6 +5,7 @@ import { RoutineDetail } from '@/types/routine';
 import { useRoutineRunner } from '@/hooks';
 import RoutineProgressBar from './RoutineProgressBar';
 import RoutineControl from './RoutineControl';
+import RoutineStep from './RoutineStep';
 
 type Props = {
 	routineDetail: RoutineDetail;
@@ -21,6 +22,7 @@ export default function RoutineRunner({ routineDetail }: Props) {
 		handleMuteToggle,
 		handlePauseToggle,
 		handleEnd,
+		routineRunStep,
 	} = routine;
 
 	if (isEnd) {
@@ -32,6 +34,7 @@ export default function RoutineRunner({ routineDetail }: Props) {
 			<section
 				className={`flex flex-col items-center justify-center gap-4 h-full`}
 			>
+				<RoutineStep routineRunStep={routineRunStep} />
 				<RoutineInfo state={state} />
 				<RoutineProgressBar
 					isPause={isPause}

@@ -1,44 +1,15 @@
-import { RoutineDetail } from '@/types/routine';
-
-export type ExerciseState = {
-	status: 'exercise';
-	totalSeconds: number;
-	name: string;
-	count: number;
-	currentSet: number;
-	repetitionCount: number;
-	secondsPerRep: number;
-	setInfo: string;
-};
-
-export type DelayState = {
-	status: 'delay';
-	totalSeconds: number;
-	nextExerciseName: string;
-	setInfo: string;
-};
-
-export type RestState = {
-	status: 'rest';
-	totalSeconds: number;
-	nextExerciseName: string;
-	setInfo: string;
-};
-
-export type RoutineState = {
-	isEnd: boolean;
-	isPause: boolean;
-	state: ExerciseState | DelayState | RestState;
-};
+import { RoutineDetail, RoutineRunStep, RoutineState } from '@/types/routine';
 
 export class RoutineController {
-	private isPause = false;
 	private isEnd = false;
 
 	private routineStates: RoutineState['state'][] = [];
 	private routineStateIndex = 0;
 
-	constructor(private routineDetail: RoutineDetail) {
+	constructor(
+		private routineDetail: RoutineDetail,
+		private isPause = true
+	) {
 		const exerciseLength = routineDetail.exercises.length;
 		const exercises = routineDetail.exercises;
 		const firstExeciseName = exercises[0].name;
@@ -121,5 +92,17 @@ export class RoutineController {
 		}
 
 		return this.createState();
+	}
+
+	getRoutineRunStep(): RoutineRunStep {
+		console.log('call Run step');
+		return {
+			step: this.routineStateIndex,
+			stepItems: this.routineStates.map((s, i) => ({
+				index: i,
+				name: s.status === 'exercise' ? s.name : s.status,
+				status: s.status,
+			})),
+		};
 	}
 }

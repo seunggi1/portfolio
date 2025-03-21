@@ -6,6 +6,7 @@ type Props = {
 	onInterval: () => void;
 	initExpireSeconds: number;
 	onExpire: () => void;
+	initPause: boolean;
 };
 
 const DELAY = 100;
@@ -15,6 +16,7 @@ export default function useIntervalTimer({
 	onInterval,
 	initExpireSeconds,
 	onExpire,
+	initPause,
 }: Props) {
 	const [expireUnixTime, setExpireUnixTime] = useState<number>(
 		getUnixTime(initExpireSeconds)
@@ -22,17 +24,12 @@ export default function useIntervalTimer({
 	const [maxSeconds, setMaxSeconds] = useState<number>(initExpireSeconds);
 	const [latestSeconds, setLastestSeconds] =
 		useState<number>(initExpireSeconds);
-	const [isPause, setIsPause] = useState<boolean>(false);
+	const [isPause, setIsPause] = useState<boolean>(initPause);
 
 	const intervalExpireUnixTime = useRef<number>(
 		getUnixTime(initIntervalSeconds)
 	);
 	const intervalLatestSeconds = useRef<number>(initIntervalSeconds);
-	const expireIndex = useRef<number>(0);
-
-	useEffect(() => {
-		onInterval();
-	}, [expireIndex.current]);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -61,15 +58,7 @@ export default function useIntervalTimer({
 		return () => {
 			clearInterval(timer);
 		};
-	}, [
-		isPause,
-		latestSeconds,
-		expireUnixTime,
-		onExpire,
-		onInterval,
-		intervalExpireUnixTime.current,
-		intervalLatestSeconds.current,
-	]);
+	}, [isPause, latestSeconds, expireUnixTime, onExpire, onInterval]);
 
 	const handleStart = () => {
 		setIsPause(false);
@@ -85,7 +74,6 @@ export default function useIntervalTimer({
 		setExpireUnixTime(getUnixTime(seconds));
 		setLastestSeconds(seconds);
 		setMaxSeconds(seconds);
-		expireIndex.current++;
 	};
 
 	const handleIntervalReset = (intervalSeconds: number) => {

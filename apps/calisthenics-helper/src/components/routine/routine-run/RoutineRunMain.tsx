@@ -1,9 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineRunner from './RoutineRunner';
-import RoutinePrepare from './RoutinePrepare';
 
 type Props = {
 	id: string;
@@ -11,7 +9,6 @@ type Props = {
 
 export default function RoutineRunMain({ id }: Props) {
 	const { isLoading, routineDetail } = useRoutineDetail(id);
-	const [isPrepare, setIsPrepare] = useState<boolean>(false);
 
 	if (isLoading || !routineDetail) {
 		return <>운동을 불러오는 중입니다...</>;
@@ -19,10 +16,7 @@ export default function RoutineRunMain({ id }: Props) {
 
 	return (
 		<>
-			{!isPrepare && (
-				<RoutinePrepare onPrepareClick={() => setIsPrepare(true)} />
-			)}
-			{isPrepare && <RoutineRunner routineDetail={routineDetail} />}
+			<RoutineRunner routineDetail={routineDetail} />
 		</>
 	);
 }
