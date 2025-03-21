@@ -28,10 +28,12 @@ export default function DragContainer({
 	};
 
 	const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
 		dragStart.current = false;
 	};
 
 	const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
 		if (dragStart.current) {
 			return;
 		}
@@ -40,6 +42,7 @@ export default function DragContainer({
 	};
 
 	const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
 		if (e.currentTarget.contains(e.relatedTarget as HTMLElement)) {
 			return;
 		}

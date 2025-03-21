@@ -4,6 +4,7 @@ import { NewExercise } from '@/types/routine';
 import DragContainer from '../../common/ui/DragContainer';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
+import { useState } from 'react';
 
 type Props = {
 	exercises: NewExercise[];
@@ -16,6 +17,8 @@ export default function RoutineEditFinishExercises({
 	onExerciseDelete,
 	onExercisesOrderChange,
 }: Props) {
+	const [swapStartIndex, setSwapStartIndex] = useState<number | null>(null);
+
 	return (
 		<>
 			<RoutineEditFormHeading>운동 정보</RoutineEditFormHeading>
@@ -35,15 +38,22 @@ export default function RoutineEditFinishExercises({
 					return (
 						<DragContainer
 							key={name + nextDelaySeconds + order + repetitionCount}
+							data-order={order}
 							onDragStart={(e) => {
-								e.dataTransfer.setData('order', order.toString());
+								if (e.currentTarget.dataset['order']) {
+									setSwapStartIndex(+e.currentTarget.dataset['order']);
+								}
 							}}
 							onDrop={(e) => {
-								if (e.dataTransfer.getData('order')) {
+								if (
+									swapStartIndex !== null &&
+									e.currentTarget.dataset['order']
+								) {
 									onExercisesOrderChange(
-										order,
-										+e.dataTransfer.getData('order')
+										swapStartIndex,
+										+e.currentTarget.dataset['order']
 									);
+									setSwapStartIndex(null);
 								}
 							}}
 						>
