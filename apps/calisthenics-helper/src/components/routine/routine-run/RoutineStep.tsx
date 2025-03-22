@@ -1,21 +1,37 @@
 import { RoutineRunStep, StepItem } from '@/types/routine';
+import { useEffect, useRef } from 'react';
 
 type Props = {
 	routineRunStep: RoutineRunStep;
 };
 
 export default function RoutineStep({ routineRunStep }: Props) {
+	const scrollRef = useRef<HTMLLIElement>(null);
+
+	useEffect(() => {
+		scrollRef.current?.scrollIntoView({
+			behavior: 'smooth',
+			inline: 'center',
+		});
+	}, [routineRunStep]);
+
 	return (
-		<ul className="steps steps-vertical lg:steps-horizontal">
-			{routineRunStep.stepItems.map((stepItem) => (
-				<li
-					key={stepItem.index + stepItem.name}
-					className={`step ${stepItem.index <= routineRunStep.step ? 'step-primary' : ''}`}
-				>
-					{getStepName(stepItem)}
-				</li>
-			))}
-		</ul>
+		<div className="overflow-x-auto w-full mt-4 relative">
+			<p className="text-center font-bold text-xl sticky left-1/2 -translate-x-1/2 mb-4">
+				루틴 진행 상황
+			</p>
+			<ul className="steps steps-horizontal">
+				{routineRunStep.stepItems.map((stepItem) => (
+					<li
+						key={stepItem.index + stepItem.name}
+						ref={stepItem.index === routineRunStep.step ? scrollRef : null}
+						className={`step text-pretty ${stepItem.index <= routineRunStep.step ? (stepItem.status === 'rest' ? 'step-success' : 'step-primary') : ''}`}
+					>
+						{getStepName(stepItem)}
+					</li>
+				))}
+			</ul>
+		</div>
 	);
 }
 

@@ -34,7 +34,6 @@ export default function RoutineRunner({ routineDetail }: Props) {
 			<section
 				className={`flex flex-col items-center justify-center gap-4 h-full`}
 			>
-				<RoutineStep routineRunStep={routineRunStep} />
 				<RoutineInfo state={state} />
 				<RoutineProgressBar
 					isPause={isPause}
@@ -49,6 +48,7 @@ export default function RoutineRunner({ routineDetail }: Props) {
 					onPauseToggle={handlePauseToggle}
 					onEndClick={handleEnd}
 				/>
+				<RoutineStep routineRunStep={routineRunStep} />
 			</section>
 		</>
 	);

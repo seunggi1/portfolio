@@ -73,7 +73,6 @@ export default function useRoutineRunner(
 			playCount(state.count);
 			setRoutineState(nextState);
 			onTimerIntervalReset(state.secondsPerRep);
-			setRoutineRunStep(routineController.getRoutineRunStep());
 		},
 	});
 

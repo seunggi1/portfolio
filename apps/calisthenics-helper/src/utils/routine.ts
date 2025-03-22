@@ -22,7 +22,7 @@ export class RoutineController {
 		});
 
 		for (let set = 1; set <= routineDetail.totalSets; set++) {
-			const setInfo = `${set}/${routineDetail.totalSets}`;
+			const setInfo = `${set}세트`;
 			for (let i = 0; i < exerciseLength; i++) {
 				const exercise = exercises[i];
 				this.routineStates.push({
