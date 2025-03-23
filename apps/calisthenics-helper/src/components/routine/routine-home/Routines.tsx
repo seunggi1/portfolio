@@ -33,14 +33,16 @@ export default function Routines() {
 	return (
 		<>
 			<RoutineBanners />
-			{isLoadingRoutineCategories ? (
-				<CategoryFilterTabSkeleton />
-			) : (
-				<CategoryFilterTab
-					categories={routineCategories}
-					selectedCategory={categoryID}
-				/>
-			)}
+			<div className="h-[4.5rem] min-h-[4.5rem]">
+				{isLoadingRoutineCategories ? (
+					<CategoryFilterTabSkeleton />
+				) : (
+					<CategoryFilterTab
+						categories={routineCategories}
+						selectedCategory={categoryID}
+					/>
+				)}
+			</div>
 			<RoutineCards routines={routines} />
 			{isLoading || isFetching ? <RoutineCardsSkeleton /> : null}
 			<div className="w-full h-3 mt-4 text-center " ref={handleRef}>

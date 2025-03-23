@@ -1,6 +1,5 @@
-import { MouseEvent, useState } from 'react';
-import { RoutineCategory } from '@/types/routine';
 import Link from 'next/link';
+import { RoutineCategory } from '@/types/routine';
 
 type Props = {
 	categories: RoutineCategory[];
@@ -28,8 +27,8 @@ export default function CategoryFilterTab({
 	));
 
 	return (
-		<section className="border-b">
-			<ul className="max-w-screen-xl m-auto flex items-center justify-center gap-4 py-4 text-xl">
+		<section className="h-full border-b">
+			<ul className="flex items-center justify-center max-w-screen-xl gap-2 py-4 m-auto text-sm text-pretty md:text-xl md:gap-4">
 				{typeItems}
 			</ul>
 		</section>
