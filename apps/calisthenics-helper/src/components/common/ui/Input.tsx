@@ -5,8 +5,12 @@ type Props = DetailedHTMLProps<
 	HTMLInputElement
 >;
 
-export default function Input({ ...props }: Props) {
+export default function Input({ className, ...props }: Props) {
 	return (
-		<input type="text" className="w-full input input-bordered" {...props} />
+		<input
+			type="text"
+			className={['w-full input input-bordered', className].join(' ')}
+			{...props}
+		/>
 	);
 }

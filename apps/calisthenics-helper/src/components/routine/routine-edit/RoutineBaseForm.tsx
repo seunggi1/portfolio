@@ -5,7 +5,7 @@ import { RoutineCategory, RoutineFormData } from '@/types/routine';
 import { routineEditSchema } from '@/schemas/routine';
 import { Button } from '@repo/ui/common';
 import RoutineCategorySelect from './RoutineCategorySelector';
-import Input from '@/components/common/input/Input';
+import Input from '@/components/common/ui/Input';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
 import RoutineLevelSelector from './RoutineLevelSelector';
 import RoutineEditFormHeading from './RoutineEditFormHeading';

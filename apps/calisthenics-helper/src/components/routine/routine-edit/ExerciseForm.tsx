@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newExerciseSchema } from '@/schemas/routine';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
-import Input from '@/components/common/input/Input';
+import Input from '@/components/common/ui/Input';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 
 type Props = {
