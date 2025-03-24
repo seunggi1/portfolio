@@ -95,7 +95,6 @@ export class RoutineController {
 	}
 
 	getRoutineRunStep(): RoutineRunStep {
-		console.log('call Run step');
 		return {
 			step: this.routineStateIndex,
 			stepItems: this.routineStates.map((s, i) => ({

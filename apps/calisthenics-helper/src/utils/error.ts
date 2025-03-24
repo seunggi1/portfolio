@@ -22,8 +22,6 @@ export function ensureError(value: unknown): Error {
 }
 
 export function handleErrorResponse(error: Error): NextResponse {
-	console.error(error);
-
 	if (error instanceof ValidatorError) {
 		return NextResponse.json<ErrorResult>(
 			{
