@@ -1,11 +1,11 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
+import { useActionState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import type { SignInFormResponse } from '@/types/auth';
 import { Button } from '@repo/ui/common';
-import { useAuth } from '@/hooks';
+import FormInput from '@/components/common/ui/FormInput';
+import useAuthForm from '@/hooks/useAuthForm';
 
 type Props = {
 	action: (
@@ -15,53 +15,43 @@ type Props = {
 };
 
 export default function SignInForm({ action }: Props) {
-	const [{ success, errors, inputs }, formAction, ispeding] = useActionState<
+	const [{ success, errors, inputs }, formAction, isPending] = useActionState<
 		SignInFormResponse,
 		FormData
 	>(action, { success: false, errors: {}, inputs: {} });
 
-	const { user } = useAuth();
-	const router = useRouter();
-
-	useEffect(() => {
-		if (user) {
-			router.push('/');
-		}
-	}, [user]);
+	useAuthForm(success);
 
 	return (
 		<section className="flex items-center justify-center w-full h-full">
 			<form
 				action={formAction}
-				className="flex flex-col justify-center gap-2 px-4 rounded-md bg-neutral-content w-80"
+				className="flex flex-col justify-center gap-2 px-4 py-2 rounded-md bg-neutral-content w-80"
 			>
 				<h2 className="text-3xl font-bold text-center">로그인</h2>
-				<div>
-					<label
-						htmlFor="email"
-						className={[
-							'flex items-center gap-2 input input-bordered',
-							`${errors.email ? 'border-error' : ''}`,
-						].join(' ')}
-					>
-						이메일
-						<input
-							id="email"
-							type="email"
-							name="email"
-							className="grow"
-							placeholder="abcd1234@site.com"
-							defaultValue={inputs.email}
-						/>
-					</label>
-					<span className="text-error">{errors.email}</span>
-				</div>
-				<Button disabled={ispeding || success} type="submit">
-					로그인 링크 전송
+				<FormInput
+					displayName="이메일"
+					id="email"
+					type="email"
+					name="email"
+					className="grow"
+					placeholder="abcd1234@site.com"
+					defaultValue={inputs.email}
+					error={errors.email}
+				/>
+				<FormInput
+					displayName="비밀번호"
+					id="password"
+					type="password"
+					name="password"
+					className="grow"
+					placeholder=""
+					defaultValue={inputs.password}
+					error={errors.password}
+				/>
+				<Button disabled={isPending || success} type="submit">
+					로그인
 				</Button>
-				<span className="text-center text-success">
-					{success && '로그인 링크가 전송되었습니다.'}
-				</span>
 				<Link className="text-center text-secondary" href={'/signup'}>
 					회원가입
 				</Link>

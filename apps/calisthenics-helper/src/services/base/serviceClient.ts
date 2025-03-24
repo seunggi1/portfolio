@@ -31,8 +31,12 @@ export interface ServiceClient {
 	deleteComment: (commentID: Comment['id']) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
 	checkEmailExists: (searchEmail: string) => Promise<boolean>;
-	signUp: (email: string, displayName: string) => Promise<boolean>;
-	signIn: (email: string) => Promise<boolean>;
+	signUp: (
+		email: string,
+		displayName: string,
+		password: string
+	) => Promise<boolean>;
+	signIn: (email: string, password: string) => Promise<boolean>;
 	verifyUserToken: (token: string) => Promise<boolean>;
 	getUser(): Promise<User | null>;
 	signOut: () => Promise<boolean>;

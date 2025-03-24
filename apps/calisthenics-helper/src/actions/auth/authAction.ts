@@ -13,18 +13,30 @@ export async function createUser(
 	prevState: SignUpFormResponse,
 	formData: FormData
 ): Promise<SignUpFormResponse> {
-	const { displayName, email } = {
+	const {
+		displayName,
+		email,
+		password,
+		confirmPassword,
+	}: SignUpFormResponse['inputs'] = {
 		displayName: formData.get('displayName') as string,
 		email: formData.get('email') as string,
+		password: formData.get('password') as string,
+		confirmPassword: formData.get('confirm-password') as string,
 	};
 
 	const state: SignUpFormResponse = {
 		success: prevState.success,
-		inputs: { displayName, email },
+		inputs: { displayName, email, password, confirmPassword },
 		errors: {},
 	};
 
-	const errors = validateSignUpData({ displayName, email });
+	const errors = validateSignUpData({
+		displayName,
+		email,
+		password,
+		confirmPassword,
+	});
 
 	if (errors) {
 		return {
@@ -43,29 +55,29 @@ export async function createUser(
 		return state;
 	}
 
-	state.success = await signUp(displayName, email);
+	state.success = await signUp(displayName, email, password);
 
 	if (state.success) {
 		state.errors = {};
 	}
-
 	return state;
 }
 
-export async function sendSignInEmail(
+export async function requestSignIn(
 	prevState: SignInFormResponse,
 	formData: FormData
 ): Promise<SignInFormResponse> {
-	const { email } = {
+	const { email, password }: SignInFormResponse['inputs'] = {
 		email: formData.get('email') as string,
+		password: formData.get('password') as string,
 	};
-	const state: SignUpFormResponse = {
+	const state: SignInFormResponse = {
 		success: prevState.success,
 		errors: {},
-		inputs: { email },
+		inputs: { email, password },
 	};
 
-	const errors = validateSignInData({ email });
+	const errors = validateSignInData({ email, password });
 
 	if (errors) {
 		state.errors = errors;
@@ -74,14 +86,18 @@ export async function sendSignInEmail(
 	}
 
 	if ((await checkEmail(email)) === false) {
-		state.errors.email = '존재하지않는 이메일입니다.';
+		state.errors.email = '존재하지않는 계정입니다.';
 		return state;
 	}
 
-	state.success = await signIn(email);
+	state.success = await signIn(email, password);
 
 	if (state.success) {
 		state.errors = {};
+	} else {
+		state.errors = {
+			password: '계정 정보가 올바르지 않습니다.',
+		};
 	}
 
 	return state;

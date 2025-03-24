@@ -15,17 +15,21 @@ export async function checkEmail(email: string): Promise<boolean> {
 
 export async function signUp(
 	displayName: string,
-	email: string
+	email: string,
+	password: string
 ): Promise<boolean> {
 	const client = await getServiceClient();
 
-	return client.signUp(email, displayName);
+	return client.signUp(email, displayName, password);
 }
 
-export async function signIn(email: string): Promise<boolean> {
+export async function signIn(
+	email: string,
+	password: string
+): Promise<boolean> {
 	const client = await getServiceClient();
 
-	return client.signIn(email);
+	return client.signIn(email, password);
 }
 
 export async function signOut(): Promise<boolean> {

@@ -241,7 +241,10 @@ export class SupabaseServiceClient implements ServiceClient {
 		return data === searchEmail;
 	}
 
-	async signUp(email: string, displayName: string): Promise<boolean> {
+	async signUpWithMagicLink(
+		email: string,
+		displayName: string
+	): Promise<boolean> {
 		const { data, error } = await this.client.auth.signInWithOtp({
 			email,
 			options: {
@@ -255,7 +258,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		return error === null;
 	}
 
-	async signIn(email: string): Promise<boolean> {
+	async signInWithMagicLink(email: string): Promise<boolean> {
 		const { data, error } = await this.client.auth.signInWithOtp({
 			email,
 			options: {
@@ -264,6 +267,41 @@ export class SupabaseServiceClient implements ServiceClient {
 		});
 
 		return error === null;
+	}
+
+	async signUp(
+		email: string,
+		displayName: string,
+		password: string
+	): Promise<boolean> {
+		const { data, error } = await this.client.auth.signUp({
+			email,
+			password,
+			options: {
+				data: {
+					display_name: displayName,
+				},
+			},
+		});
+
+		return error === null;
+	}
+
+	async signIn(email: string, password: string): Promise<boolean> {
+		const { data, error } = await this.client.auth.signInWithPassword({
+			email,
+			password,
+		});
+
+		return error === null;
+	}
+
+	async updatePassword(password: string): Promise<boolean> {
+		const { data, error } = await this.client.auth.updateUser({
+			password,
+		});
+
+		return error !== null;
 	}
 
 	async verifyUserToken(token: string): Promise<boolean> {

@@ -1,1 +1,1 @@
-export { createUser, sendSignInEmail } from './authAction';
+export { createUser, requestSignIn as sendSignInEmail } from './authAction';

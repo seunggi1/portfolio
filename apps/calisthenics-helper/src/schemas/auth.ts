@@ -18,6 +18,21 @@ const signUpUser = z.object({
 	email: z.string().email({
 		message: '이메일 형식이 올바르지않습니다.',
 	}),
+	password: z
+		.string()
+		.min(6, {
+			message: '비밀번호는 최소 6자 이상 이어야 합니다.',
+		})
+		.max(15, {
+			message: '비밀번호는 최대 15자 까지 가능합니다.',
+		})
+		.regex(/[\w\S]/, {
+			message: '비밀번호는 소문자, 대문자, 숫자, 특수문자로 이루어져야 합니다.',
+		})
+		.regex(/[^\w]/, {
+			message: '비밀번호에 특수문자가 포함되어야 합니다.',
+		}),
+	confirmPassword: z.string(),
 });
 
 const signInUser = signUpUser.pick({ email: true });
@@ -25,7 +40,12 @@ const signInUser = signUpUser.pick({ email: true });
 export function validateSignUpData(
 	data: SignUpData
 ): SignUpFormResponse['errors'] | null {
-	const result = signUpUser.safeParse(data);
+	const result = signUpUser
+		.refine((data) => data.password === data.confirmPassword, {
+			message: '비밀번호가 일치하지 않습니다.',
+			path: ['confirmPassword'],
+		})
+		.safeParse(data);
 
 	if (result.success) {
 		return null;
@@ -33,10 +53,12 @@ export function validateSignUpData(
 
 	const format = result.error.flatten();
 
-	return {
-		displayName: format.fieldErrors.displayName?.join(' '),
-		email: format.fieldErrors.email?.join(' '),
-	};
+	return Object.fromEntries(
+		Object.entries(format.fieldErrors).map(([key, value]) => [
+			key,
+			value.join(' '),
+		])
+	);
 }
 
 export function validateSignInData(
