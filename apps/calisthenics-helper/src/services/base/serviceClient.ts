@@ -17,8 +17,7 @@ import type {
 
 export interface ServiceClient {
 	getRoutines: (
-		nextCursor: RoutinesRequest['nextCursor'],
-		categoryID: RoutineCategory['id']
+		routineRequest: RoutinesRequest
 	) => Promise<RoutinesResponse | null>;
 	getRoutineById: (Id: string) => Promise<RoutineDetail | null>;
 	getRoutineCategories: () => Promise<RoutineCategory[]>;

@@ -24,7 +24,8 @@ export type Exercise = {
 
 export type RoutinesRequest = {
 	nextCursor: string | null;
-	categoryID: string;
+	categoryID: string | null;
+	searchQuery: string | null;
 };
 
 export type RoutinesResponse = {

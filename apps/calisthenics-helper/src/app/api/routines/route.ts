@@ -11,14 +11,18 @@ import { ValidatorError } from '@/types/error';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
-	const cursor: RoutinesRequest['nextCursor'] =
-		searchParams.get('cursor') || null;
-	const categoryID: string = searchParams.get('category') || 'all';
+	const cursor: RoutinesRequest['nextCursor'] = searchParams.get('cursor');
+	const categoryID = searchParams.get('category');
+	const searchQuery = searchParams.get('search');
 	let routines: RoutinesResponse | null;
 
 	try {
 		const client = await getServiceClient();
-		routines = await client.getRoutines(cursor, categoryID);
+		routines = await client.getRoutines({
+			nextCursor: cursor,
+			categoryID,
+			searchQuery,
+		});
 
 		if (!routines) {
 			throw new Error('Server Error');

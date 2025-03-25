@@ -20,14 +20,16 @@ import {
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
-	async getRoutines(
-		nextCursor: RoutinesRequest['nextCursor'],
-		categoryID: RoutineCategory['id']
-	): Promise<RoutinesResponse | null> {
+	async getRoutines({
+		categoryID,
+		nextCursor,
+		searchQuery,
+	}: RoutinesRequest): Promise<RoutinesResponse | null> {
 		const { data, error } = await this.client
 			.rpc('routines', {
-				cursor_id: nextCursor,
+				cursor_id: nextCursor === '' ? null : nextCursor,
 				filter_category_id: categoryID === 'all' || '' ? null : categoryID,
+				search_query: searchQuery,
 			})
 			.single<RoutinesResponse>();
 
