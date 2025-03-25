@@ -1,6 +1,14 @@
 import { useEffect, useRef } from 'react';
 
-export default function useIntersectionObserver(callback: () => void) {
+type Props = {
+	callback: () => void;
+	threshold: number;
+};
+
+export default function useIntersectionObserver({
+	callback,
+	threshold,
+}: Props) {
 	const element = useRef<Element>(undefined);
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -12,7 +20,7 @@ export default function useIntersectionObserver(callback: () => void) {
 				});
 			},
 			{
-				threshold: 1,
+				threshold: Math.max(threshold, 1),
 			}
 		);
 
@@ -23,7 +31,7 @@ export default function useIntersectionObserver(callback: () => void) {
 		return () => {
 			observer.disconnect();
 		};
-	}, [element, callback]);
+	}, [element, callback, threshold]);
 
 	const handleRef = (node: Element | null) => {
 		if (node) {
