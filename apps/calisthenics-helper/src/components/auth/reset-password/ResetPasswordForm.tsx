@@ -1,26 +1,23 @@
 'use client';
 
 import { useActionState } from 'react';
-import Link from 'next/link';
-import type { SignInFormResponse } from '@/types/auth';
+import type { ResetEmailResponse } from '@/types/auth';
 import { Button } from '@repo/ui/common';
 import FormInput from '@/components/common/ui/FormInput';
 import useAuthForm from '@/hooks/useAuthForm';
 
 type Props = {
 	action: (
-		state: SignInFormResponse,
+		state: ResetEmailResponse,
 		formData: FormData
-	) => Promise<SignInFormResponse>;
+	) => Promise<ResetEmailResponse>;
 };
 
-export default function SignInForm({ action }: Props) {
+export default function ResetPasswordForm({ action }: Props) {
 	const [{ success, errors, inputs }, formAction, isPending] = useActionState<
-		SignInFormResponse,
+		ResetEmailResponse,
 		FormData
 	>(action, { success: false, errors: {}, inputs: {} });
-
-	useAuthForm(success);
 
 	return (
 		<section className="flex items-center justify-center w-full h-full">
@@ -28,7 +25,7 @@ export default function SignInForm({ action }: Props) {
 				action={formAction}
 				className="flex flex-col justify-center gap-2 px-4 py-2 rounded-md bg-neutral-content w-80"
 			>
-				<h2 className="text-3xl font-bold text-center">로그인</h2>
+				<h2 className="text-3xl font-bold text-center">비밀번호 초기화</h2>
 				<FormInput
 					displayName="이메일"
 					id="email"
@@ -39,25 +36,12 @@ export default function SignInForm({ action }: Props) {
 					defaultValue={inputs.email}
 					error={errors.email}
 				/>
-				<FormInput
-					displayName="비밀번호"
-					id="password"
-					type="password"
-					name="password"
-					className="grow"
-					placeholder=""
-					defaultValue={inputs.password}
-					error={errors.password}
-				/>
 				<Button disabled={isPending || success} type="submit">
-					로그인
+					초기화 링크 전송
 				</Button>
-				<Link className="text-center text-secondary" href={'/signup'}>
-					회원가입
-				</Link>
-				<Link className="text-center text-secondary" href={'/reset-password'}>
-					비밀번호 초기화
-				</Link>
+				<span className="text-center text-success">
+					{success && '비밀번호 초기화 링크가 전송되었습니다.'}
+				</span>
 			</form>
 		</section>
 	);
