@@ -1,18 +1,21 @@
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { RoutineCategory } from '@/types/routine';
-
-type Props = {
-	categories: RoutineCategory[];
-	selectedCategory: RoutineCategory['id'];
-};
+import { useRoutineCategories } from '@/hooks';
+import CategoryFilterTabSkeleton from './CategoryFilterTabSkeleton';
 
 const allCategory: RoutineCategory = { id: 'all', name: '전체' };
 
-export default function CategoryFilterTab({
-	categories,
-	selectedCategory,
-}: Props) {
-	const typeItems = [allCategory, ...categories].map(({ id, name }) => (
+export default function CategoryFilterTab() {
+	const params = useSearchParams();
+	const selectedCategory = params.get('category') ?? 'all';
+	const { routineCategories, isLoading } = useRoutineCategories();
+
+	if (isLoading) {
+		return <CategoryFilterTabSkeleton />;
+	}
+
+	const typeItems = [allCategory, ...routineCategories].map(({ id, name }) => (
 		<li
 			key={id}
 			className={
