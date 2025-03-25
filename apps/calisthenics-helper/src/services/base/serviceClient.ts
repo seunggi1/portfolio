@@ -38,6 +38,8 @@ export interface ServiceClient {
 	) => Promise<boolean>;
 	signIn: (email: string, password: string) => Promise<boolean>;
 	verifyUserToken: (token: string) => Promise<boolean>;
+	resetPasswordForEmail: (email: string) => Promise<boolean>;
+	updatePassword: (password: string) => Promise<boolean>;
 	getUser(): Promise<User | null>;
 	signOut: () => Promise<boolean>;
 }

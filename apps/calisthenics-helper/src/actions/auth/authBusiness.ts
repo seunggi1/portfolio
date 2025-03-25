@@ -39,6 +39,18 @@ export async function signOut(): Promise<boolean> {
 	return true;
 }
 
+export async function sendResetPasswordEmail(email: string): Promise<boolean> {
+	const client = await getServiceClient();
+
+	return await client.resetPasswordForEmail(email);
+}
+
+export async function updatePassword(password: string): Promise<boolean> {
+	const client = await getServiceClient();
+
+	return await client.updatePassword(password);
+}
+
 export async function getUser(): Promise<User | null> {
 	try {
 		const client = await getServiceClient();

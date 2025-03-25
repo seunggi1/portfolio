@@ -296,12 +296,25 @@ export class SupabaseServiceClient implements ServiceClient {
 		return error === null;
 	}
 
+	async resetPasswordForEmail(email: string): Promise<boolean> {
+		const { data, error } = await this.client.auth.resetPasswordForEmail(
+			email,
+			{
+				redirectTo: process.env.SITE_URL,
+			}
+		);
+
+		return error === null;
+	}
+
 	async updatePassword(password: string): Promise<boolean> {
 		const { data, error } = await this.client.auth.updateUser({
 			password,
 		});
 
-		return error !== null;
+		console.log(data, error);
+
+		return error === null;
 	}
 
 	async verifyUserToken(token: string): Promise<boolean> {

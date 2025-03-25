@@ -3,6 +3,7 @@ import {
 	SignInFormResponse,
 	SignUpData,
 	SignUpFormResponse,
+	UpdatePasswordData,
 } from '@/types/auth';
 import { z } from 'zod';
 
@@ -75,4 +76,27 @@ export function validateSignInData(
 	return {
 		email: format.fieldErrors.email?.join(' '),
 	};
+}
+
+export function validataPassword(data: UpdatePasswordData) {
+	const result = signUpUser
+		.pick({ password: true, confirmPassword: true })
+		.refine((data) => data.password === data.confirmPassword, {
+			message: '비밀번호가 일치하지 않습니다.',
+			path: ['confirmPassword'],
+		})
+		.safeParse(data);
+
+	if (result.success) {
+		return null;
+	}
+
+	const format = result.error.flatten();
+
+	return Object.fromEntries(
+		Object.entries(format.fieldErrors).map(([key, value]) => [
+			key,
+			value.join(' '),
+		])
+	);
 }

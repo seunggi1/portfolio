@@ -22,3 +22,22 @@ export type SignInFormResponse = {
 	errors: SignInData;
 	inputs: SignInData;
 };
+
+export type ResetEmailData = Partial<Pick<User, 'email'>>;
+
+export type ResetEmailResponse = {
+	success: boolean;
+	errors: ResetEmailData;
+	inputs: ResetEmailData;
+};
+
+export type UpdatePasswordData = Pick<
+	SignUpData,
+	'password' | 'confirmPassword'
+>;
+
+export type UpdatePasswordResponse = {
+	success: boolean;
+	errors: UpdatePasswordData;
+	inputs: UpdatePasswordData;
+};
