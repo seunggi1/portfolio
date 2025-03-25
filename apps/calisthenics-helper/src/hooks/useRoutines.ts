@@ -1,12 +1,15 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchRoutines, routineKeys } from '@/api/routines';
+import { RoutinesRequest } from '@/types/routine';
 
-export default function useRoutines(categoryID: string) {
+type Props = Pick<RoutinesRequest, 'categoryID' | 'searchQuery'>;
+
+export default function useRoutines({ categoryID, searchQuery }: Props) {
 	const { data, isLoading, error, isFetching, fetchNextPage, hasNextPage } =
 		useInfiniteQuery({
-			queryKey: routineKeys.list(categoryID),
+			queryKey: routineKeys.list({ categoryID, searchQuery }),
 			queryFn: ({ pageParam }) =>
-				fetchRoutines({ nextCursor: pageParam, categoryID }),
+				fetchRoutines({ nextCursor: pageParam, categoryID, searchQuery }),
 			initialPageParam: '',
 			getNextPageParam: (lastPage) => lastPage.nextCursor,
 		});

@@ -23,9 +23,16 @@ function getRoutineURL(...paths: string[]) {
 export async function fetchRoutines({
 	nextCursor,
 	categoryID,
+	searchQuery,
 }: RoutinesRequest): Promise<RoutinesResponse> {
+	const cursor = nextCursor === null || '' ? '' : `cursor=${nextCursor}`;
+	const category = categoryID === null || '' ? '' : `category=${categoryID}`;
+	const search = searchQuery === null || '' ? '' : `search=${searchQuery}`;
+
+	const queries = [cursor, category, search].filter((s) => s);
+
 	const { data } = await HttpClientBuilder.get(
-		`${getRoutineURL()}?category=${categoryID}&cursor=${nextCursor}`
+		`${getRoutineURL()}?${queries.join('&')}`
 	).call<RoutinesResponse>();
 
 	return data;

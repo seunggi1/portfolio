@@ -10,7 +10,8 @@ import RoutineCardsSkeleton from './RoutineCardsSkeleton';
 
 export default function RoutineCards() {
 	const searchParam = useSearchParams();
-	const categoryID = searchParam.get('category') || 'all';
+	const categoryID = searchParam.get('category');
+	const searchQuery = searchParam.get('search');
 	const {
 		routines,
 		error,
@@ -18,7 +19,7 @@ export default function RoutineCards() {
 		isFetching,
 		handleNextPage,
 		hasNextPage,
-	} = useRoutines(categoryID || 'all');
+	} = useRoutines({ categoryID, searchQuery });
 
 	const { handleRef } = useIntersectionObserver({
 		callback: handleNextPage,

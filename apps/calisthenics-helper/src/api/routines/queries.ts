@@ -1,8 +1,10 @@
+import { RoutinesRequest } from '@/types/routine';
+
 export const routineKeys = {
 	base: 'routines' as const,
 	listBase: 'list' as const,
-	list: (categoryID: string) =>
-		[routineKeys.base, routineKeys.listBase, categoryID] as const,
+	list: ({ categoryID, searchQuery }: Omit<RoutinesRequest, 'nextCursor'>) =>
+		[routineKeys.base, routineKeys.listBase, categoryID, searchQuery] as const,
 	detail: (id: string) => [routineKeys.base, id] as const,
 	categories: () => [routineKeys.base, 'categories'] as const,
 };

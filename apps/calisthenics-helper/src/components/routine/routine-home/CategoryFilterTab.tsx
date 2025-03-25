@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { RoutineCategory } from '@/types/routine';
+import { RoutineCategory, RoutinesRequest } from '@/types/routine';
 import { useRoutineCategories } from '@/hooks';
 import CategoryFilterTabSkeleton from './CategoryFilterTabSkeleton';
 
@@ -9,6 +9,7 @@ const allCategory: RoutineCategory = { id: 'all', name: '전체' };
 export default function CategoryFilterTab() {
 	const params = useSearchParams();
 	const selectedCategory = params.get('category') ?? 'all';
+	const searchQuery = params.get('search');
 	const { routineCategories, isLoading } = useRoutineCategories();
 
 	if (isLoading) {
@@ -25,7 +26,9 @@ export default function CategoryFilterTab() {
 			}
 			data-category={id}
 		>
-			<Link href={`/?category=${id}`}>{name}</Link>
+			<Link href={createSearchParam({ categoryID: id, searchQuery })}>
+				{name}
+			</Link>
 		</li>
 	));
 
@@ -44,4 +47,21 @@ function getListItemStyleClass() {
 
 function getSelectedListItemStyleClass() {
 	return 'p-2 border-b-2 border-b-primary hover:cursor-pointer';
+}
+
+function createSearchParam({
+	categoryID,
+	searchQuery,
+}: Omit<RoutinesRequest, 'nextCursor'>) {
+	const result = [];
+
+	if (categoryID !== null && categoryID !== '') {
+		result.push(`category=${categoryID}`);
+	}
+
+	if (searchQuery !== null && searchQuery !== '') {
+		result.push(`search=${searchQuery}`);
+	}
+
+	return '?' + result.join('&');
 }
