@@ -6,6 +6,7 @@ export type Routine = {
 	totalSets: number;
 	restSeconds: number;
 	categoryNames: string[];
+	categoryIDs: string[];
 	totalExerciseCount: number;
 	totalMinutes: number;
 	description: string;
@@ -47,9 +48,7 @@ export type NewRoutineBase = Omit<
 	| 'categoryNames'
 	| 'imageURL'
 	| 'userID'
-> & {
-	categoryIDs: CategoryID[];
-};
+>;
 
 export type NewExercise = Omit<Exercise, 'id' | 'totalExerciseSeconds'>;
 
