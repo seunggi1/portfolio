@@ -5,7 +5,6 @@ import {
 	ReactNode,
 	useCallback,
 	useEffect,
-	useRef,
 	useState,
 } from 'react';
 import { useRouter } from 'next/navigation';
@@ -41,7 +40,6 @@ export default function RoutineEditFinish({
 	const { handleRoutineEdit, data: result, isPending } = useRoutineEdit();
 	const { Modal, showModal, hideModal } = useModal();
 	const router = useRouter();
-	const isShowModal = useRef<boolean>(false);
 
 	const handleRoutineDetailGoClick = useCallback(
 		(routineID: Routine['id']) => {
@@ -53,11 +51,12 @@ export default function RoutineEditFinish({
 
 	useEffect(() => {
 		let timer: NodeJS.Timeout | undefined = undefined;
-		if (result && !isShowModal.current) {
-			showModal();
-			isShowModal.current = true;
+
+		if (result) {
 			timer = setTimeout(() => handleRoutineDetailGoClick(result), 3000);
+			showModal();
 		}
+
 		return () => clearTimeout(timer);
 	}, [result, showModal, handleRoutineDetailGoClick]);
 
