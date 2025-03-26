@@ -22,6 +22,10 @@ function secondsToMilliSeconds(seconds: number) {
 	return seconds * 1000;
 }
 
+function divideSecondsByTime(seconds: number, time: number) {
+	return Math.max(0, Math.floor(seconds / time));
+}
+
 function secondsToBeforeDateString(seconds: number) {
 	const MINUTE = 60;
 	const HOUR = MINUTE * 60;
@@ -31,17 +35,17 @@ function secondsToBeforeDateString(seconds: number) {
 	const YEAR = MONTH * 12;
 
 	if (seconds >= YEAR) {
-		return `${Math.floor(seconds / YEAR)}년 전`;
+		return `${divideSecondsByTime(seconds, YEAR)}년 전`;
 	} else if (seconds >= MONTH) {
-		return `${Math.floor(seconds / MONTH)}달 전`;
+		return `${divideSecondsByTime(seconds, MONTH)}달 전`;
 	} else if (seconds >= WEEK) {
-		return `${Math.floor(seconds / MONTH)}주 전`;
+		return `${divideSecondsByTime(seconds, MONTH)}주 전`;
 	} else if (seconds >= DAY) {
-		return `${Math.floor(seconds / DAY)}일 전`;
+		return `${divideSecondsByTime(seconds, DAY)}일 전`;
 	} else if (seconds >= HOUR) {
-		return `${Math.floor(seconds / HOUR)}시간 전`;
+		return `${divideSecondsByTime(seconds, HOUR)}시간 전`;
 	} else {
-		return `${Math.floor(seconds / MINUTE)}분 전`;
+		return `${divideSecondsByTime(seconds, MINUTE)}분 전`;
 	}
 }
 

@@ -11,8 +11,10 @@ type Props = {
 	onSubmit: (commentBase: CommentEditBase) => void;
 };
 
+const commentDefaultValue = { comment: '', recommendation: 5 };
+
 export default function CommentForm({
-	defaultValue = { comment: '', recommendation: 5 },
+	defaultValue = commentDefaultValue,
 	onSubmit,
 }: Props) {
 	const [commentFormData, setCommentFormData] = useState<CommentEditFormData>({
@@ -37,7 +39,7 @@ export default function CommentForm({
 
 		const comment = commentFormData.inputs.comment!;
 		const recommendation = commentFormData.inputs.recommendation!;
-
+		setCommentFormData((prev) => ({ ...prev, inputs: commentDefaultValue }));
 		onSubmit({ comment, recommendation });
 	};
 

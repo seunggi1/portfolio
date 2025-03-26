@@ -4,7 +4,6 @@ import { Routine } from '@/types/routine';
 import { useAuth, useCommentEdit, useComments } from '@/hooks';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
-import CommentItemDummy from './CommentItemDummy';
 
 type Props = {
 	routineID: Routine['id'];
@@ -18,21 +17,17 @@ export default function Comments({ routineID }: Props) {
 	return (
 		<div>
 			<h3 className="text-xl font-bold">댓글 추가</h3>
-			<CommentForm
-				onSubmit={(commentBase) => {
-					create.handleCommentCreate({ routineID, ...commentBase });
-				}}
-			/>
+			{user && (
+				<CommentForm
+					onSubmit={(commentBase) => {
+						create.handleCommentCreate(
+							{ routineID, ...commentBase },
+							user.displayName
+						);
+					}}
+				/>
+			)}
 			<ul>
-				{create.isPending && create.varialbes && (
-					<li>
-						<CommentItemDummy
-							recommendation={create.varialbes.recommendation}
-							comment={create.varialbes.comment}
-							displayName={user!.displayName}
-						/>
-					</li>
-				)}
 				{comments.map((comment) => (
 					<li key={comment.id}>
 						<CommentItem

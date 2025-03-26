@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
 	InfiniteData,
 	useMutation,
@@ -18,11 +19,34 @@ import {
 import { Routine } from '@/types/routine';
 
 export default function useCommentEdit(routineID: Routine['id']) {
+	const createUser = useRef<string>('');
 	const queryClient = useQueryClient();
 
 	const createMutation = useMutation({
 		mutationFn: createComment,
-		onSuccess: invalidateCommentsQuery,
+		onMutate: (variable) => {
+			const commentListKey = commentKeys.list(routineID);
+			const comments = queryClient.getQueryData(
+				commentListKey
+			) as InfiniteData<CommentsResponse>;
+
+			if (comments.pages[0]) {
+				const currentDate = new Date().toISOString();
+				const optimisticComment = {
+					...variable,
+					id: createUser.current + variable.comment + variable.recommendation,
+					userID: createUser.current,
+					displayName: createUser.current,
+					createdDate: currentDate,
+					updatedDate: currentDate,
+				};
+				comments.pages[0].comments = [
+					optimisticComment,
+					...comments.pages[0].comments,
+				];
+			}
+		},
+		onSettled: invalidateCommentsQuery,
 	});
 
 	const updateMutation = useMutation({
@@ -82,8 +106,12 @@ export default function useCommentEdit(routineID: Routine['id']) {
 		});
 	}
 
-	const handleCommentCreate = (newComment: NewComment) => {
+	const handleCommentCreate = (
+		newComment: NewComment,
+		displayName: Comment['displayName']
+	) => {
 		createMutation.mutate(newComment);
+		createUser.current = displayName;
 	};
 
 	const handleCommentUpdate = (updateComment: UpdateComment) => {
