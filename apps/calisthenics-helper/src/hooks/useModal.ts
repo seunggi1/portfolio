@@ -1,5 +1,5 @@
 import ModalCompoenent from '@/components/common/modal/Modal';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
 type ModalProps = {
 	title: string;
@@ -9,8 +9,8 @@ type ModalProps = {
 export default function useModal() {
 	const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
-	const showModal = () => setIsShowModal(true);
-	const hideModal = () => setIsShowModal(false);
+	const showModal = useCallback(() => setIsShowModal(true), []);
+	const hideModal = useCallback(() => setIsShowModal(false), []);
 
 	const Modal = ({ children, title }: ModalProps) => {
 		if (!isShowModal) {
