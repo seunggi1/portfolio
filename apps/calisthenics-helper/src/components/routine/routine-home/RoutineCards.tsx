@@ -56,11 +56,9 @@ export default function RoutineCards() {
 				))}
 			</section>
 			{isLoading || isFetching ? <RoutineCardsSkeleton /> : null}
-			<div className="w-full h-3 mt-4 text-center " ref={handleRef}>
+			<div className="w-full pt-4 text-center" ref={handleRef}>
 				{!hasNextPage && (
-					<span className="p-2 text-2xl font-bold">
-						불러올 데이터가 없습니다.
-					</span>
+					<span className="text-2xl font-bold">불러올 데이터가 없습니다.</span>
 				)}
 			</div>
 		</>

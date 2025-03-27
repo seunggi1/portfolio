@@ -33,7 +33,7 @@ export default function SearchBar() {
 
 	return (
 		<div className="absolute left-1/2 -translate-x-1/2 w-[50%]">
-			<div className="relative hidden w-full md:block">
+			<div className="relative hidden w-full lg:block">
 				<SearchInput
 					value={search}
 					onKeyUp={handleKeyUp}
@@ -41,11 +41,11 @@ export default function SearchBar() {
 					onSearchClear={handleSearchClear}
 				/>
 			</div>
-			<div className="flex justify-center md:hidden">
+			<div className="flex justify-center lg:hidden">
 				<Button
 					color="ghost"
 					onClick={() => showModal()}
-					className="hover:text-primary md:!hidden"
+					className="hover:text-primary lg:!hidden"
 				>
 					<SearchIcon />
 				</Button>
