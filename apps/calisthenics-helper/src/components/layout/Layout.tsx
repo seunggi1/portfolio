@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Providers from '@/providers';
 import { Toaster } from '@/lib/toast/Toaster';
 import { Header } from './header';
-import MobileMenu from './header/MobileMenu';
+import { MobileMenu } from './menu';
 
 type Props = {
 	children: ReactNode;
