@@ -6,19 +6,21 @@ type Props = {
 	onClose: () => void;
 } & PropsWithChildren;
 
-const MODAL_ID = 'modal-1';
+const BASE_ID = 'modal-1';
 
 export default function Modal({ title, children, onClose }: Props) {
+	const modalID = BASE_ID + title;
+
 	useEffect(() => {
-		(document.getElementById(MODAL_ID) as HTMLDialogElement).showModal();
-	}, []);
+		(document.getElementById(modalID) as HTMLDialogElement).showModal();
+	}, [modalID]);
 
 	return (
 		<div>
 			{createPortal(
-				<dialog id={MODAL_ID} className="modal">
+				<dialog id={modalID} className="modal">
 					<div className="modal-box">
-						<h3 className="font-bold text-lg">{title}</h3>
+						<h3 className="text-lg font-bold">{title}</h3>
 						<div className="modal-action">{children}</div>
 					</div>
 					<form method="dialog" className="modal-backdrop">
