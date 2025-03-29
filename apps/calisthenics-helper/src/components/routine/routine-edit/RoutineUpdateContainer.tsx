@@ -20,7 +20,11 @@ export default function RoutineUpdateContainer({ routineID }: Props) {
 	return (
 		<Suspense fallback={<RoutineEditSkeleton />}>
 			<RoutineEdit
-				updateRoutineBase={{ ...routineDetail, id: routineID }}
+				updateRoutineBase={{
+					...routineDetail,
+					id: routineID,
+					image: routineDetail.imageURL,
+				}}
 				updateExercises={routineDetail.exercises}
 			/>
 		</Suspense>

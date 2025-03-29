@@ -8,3 +8,4 @@ export { default as useComments } from './useComments';
 export { default as useCommentEdit } from './useCommentEdit';
 export { default as useRoutineEditFunnel } from './useRoutineEditFunnel';
 export { default as useModal } from './useModal';
+export { default as usePreviewImage } from './usePreviewImage';

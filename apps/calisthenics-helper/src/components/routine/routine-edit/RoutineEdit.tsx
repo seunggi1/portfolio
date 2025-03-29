@@ -23,6 +23,7 @@ const DEFAULT_STATE = {
 		difficultyLevel: 2,
 		categoryIDs: [],
 		description: '',
+		image: '',
 	},
 	exercise: {
 		name: '',

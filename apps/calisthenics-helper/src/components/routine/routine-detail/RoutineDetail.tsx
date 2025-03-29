@@ -64,7 +64,9 @@ export default function RoutineDetail({ id }: Props) {
 				<div className="basis-[60%] w-full">
 					<div className="flex items-center justify-center text-white bg-black h-80">
 						{imageURL ? (
-							<Image src={imageURL} alt={name} />
+							<div className="w-full h-full relative">
+								<Image src={imageURL} alt={name} fill={true} />
+							</div>
 						) : (
 							<span className="text-4xl font-bold">{name}</span>
 						)}

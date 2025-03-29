@@ -50,10 +50,10 @@ export default function RoutineEditFinish({
 	);
 
 	useEffect(() => {
-		let timer: NodeJS.Timeout | undefined = undefined;
+		let timer: number;
 
 		if (result) {
-			timer = setTimeout(() => handleRoutineDetailGoClick(result), 3000);
+			timer = window.setTimeout(() => handleRoutineDetailGoClick(result), 3000);
 			showModal();
 		}
 

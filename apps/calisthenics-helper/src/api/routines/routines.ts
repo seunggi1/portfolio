@@ -61,7 +61,13 @@ export async function editRoutine(editRoutine: NewRoutine) {
 		? HttpClientBuilder.put(getRoutineURL(editRoutine.id))
 		: HttpClientBuilder.post(getRoutineURL());
 
-	const { data } = await editClient.data(editRoutine).call<Routine['id']>();
+	const { data } = await editClient
+		.contentType('multipart/form-data')
+		.data({
+			data: JSON.stringify(editRoutine),
+			image: editRoutine.image,
+		})
+		.call<Routine['id']>();
 
 	return data;
 }

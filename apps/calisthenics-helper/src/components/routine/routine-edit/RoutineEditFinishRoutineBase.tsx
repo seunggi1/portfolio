@@ -3,6 +3,7 @@ import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
 import RoutineLevel from '../../common/ui/RoutineLevel';
 import RoutineCategories from '../../common/ui/RoutineCategories';
+import PreviewImage from '@/components/common/ui/PreviewImage';
 
 type Props = {
 	routine: NewRoutineBase;
@@ -21,6 +22,9 @@ export default function RoutineEditFinishRoutineBase({
 			</RoutineEditFormGroup>
 			<RoutineEditFormGroup displayName="루틴 설명">
 				<p>{routine.description}</p>
+			</RoutineEditFormGroup>
+			<RoutineEditFormGroup displayName="루틴 이미지">
+				{routine.image && <PreviewImage image={routine.image} />}
 			</RoutineEditFormGroup>
 			<RoutineEditFormGroup displayName="루틴 난이도">
 				<RoutineLevel level={routine.difficultyLevel} />

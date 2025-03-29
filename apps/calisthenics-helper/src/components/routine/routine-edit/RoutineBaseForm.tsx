@@ -9,6 +9,7 @@ import Input from '@/components/common/ui/Input';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
 import RoutineLevelSelector from './RoutineLevelSelector';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
+import RoutineImageUploader from './RoutineImageUploader';
 
 type Props = {
 	routineCategories: RoutineCategory[];
@@ -75,6 +76,20 @@ export default function RoutineBaseForm({
 						{...register('description')}
 					/>
 				</RoutineEditFormGroup>
+
+				<Controller
+					control={control}
+					name="image"
+					render={({ field }) => (
+						<RoutineEditFormGroup
+							displayName="루틴 이미지(선택)"
+							error={errors.image?.message}
+							htmlFor="image"
+						>
+							<RoutineImageUploader {...field} />
+						</RoutineEditFormGroup>
+					)}
+				></Controller>
 
 				<RoutineEditFormGroup
 					displayName="휴식 시간(초)"
