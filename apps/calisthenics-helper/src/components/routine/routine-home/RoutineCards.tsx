@@ -37,13 +37,17 @@ export default function RoutineCards() {
 					<Link key={routine.id} href={`/routines/${routine.id}`}>
 						<Card>
 							<Card.CardHeader>
-								<div className="text-white w-full h-[8rem] flex items-center justify-center relative">
-									<Image
-										src={routine.imageURL ? routine.imageURL : '/push-up.png'}
-										alt="doing pull-up man"
-										className="absolute"
-										fill={true}
-									/>
+								<div className="text-white bg-black w-full h-[8rem] flex items-center justify-center relative">
+									{routine.imageURL ? (
+										<Image
+											src={routine.imageURL}
+											alt="doing pull-up man"
+											className="absolute"
+											fill={true}
+										/>
+									) : (
+										<span>{routine.name}</span>
+									)}
 								</div>
 							</Card.CardHeader>
 							<Card.CardBody>
