@@ -35,7 +35,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-	const data = await request.json();
+	const formData = await request.formData();
+
+	const data = {
+		...JSON.parse(formData.get('data')?.toString() ?? ''),
+		image: formData.get('image'),
+	};
+
 	const inputError = validateFullRoutineData(data);
 	if (inputError) {
 		return handleErrorResponse(new ValidatorError('Invalid input data'));

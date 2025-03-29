@@ -35,6 +35,23 @@ export const routineEditSchema: z.ZodType<RoutineFormData> = z.object({
 	description: z
 		.string()
 		.min(5, { message: '설명은 최소 5글자 이상 이어야 합니다.' }),
+	image: z.union([
+		z.string(),
+		z
+			.instanceof(File)
+			.refine(
+				(file) => ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type),
+				{
+					message:
+						'업로드 가능한 이미지 파일 확장자는 .jpg, .jpeg, .png만 가능합니다.',
+				}
+			)
+			.refine((file) => file.size <= 1024 * 100 * 2.5, {
+				message: '이미지 업로드 용량을 초과했습니다.',
+			})
+			.nullable()
+			.optional(),
+	]),
 });
 
 export const newExerciseSchema: z.ZodType<NewExercise> = z.object({

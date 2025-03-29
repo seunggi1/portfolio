@@ -48,7 +48,9 @@ export type NewRoutineBase = Omit<
 	| 'categoryNames'
 	| 'imageURL'
 	| 'userID'
->;
+> & {
+	image?: string | File | null;
+};
 
 export type NewExercise = Omit<Exercise, 'id' | 'totalExerciseSeconds'>;
 

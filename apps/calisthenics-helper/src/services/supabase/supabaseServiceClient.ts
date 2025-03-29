@@ -20,6 +20,51 @@ import {
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
+
+	getImageBucketName() {
+		return process.env.SUPABASE_BUCKET_NAME ?? 'image';
+	}
+
+	async uploadImage(file: File) {
+		const { data, error } = await this.client.storage
+			.from(this.getImageBucketName())
+			.upload(file.lastModified + file.name, file);
+
+		if (error) {
+			throw new ValidatorError('Invalid image file');
+		}
+
+		return this.getImagePublicURL(data.path);
+	}
+
+	async deleteImage(image: string | null) {
+		if (image === null) {
+			return true;
+		}
+		const { data, error } = await this.client.storage
+			.from(this.getImageBucketName())
+			.remove([this.getImageOriginName(image)]);
+
+		if (error) {
+			throw new Error('Image delete error');
+		}
+
+		return !!data[0];
+	}
+
+	getImageOriginName(imagePath: string) {
+		const DUMMY = 'dummy';
+		const publicURL = this.getImagePublicURL(DUMMY).replace(DUMMY, '');
+		const path = decodeURI(imagePath.replace(publicURL, ''));
+		return path;
+	}
+
+	getImagePublicURL(imagePath: string) {
+		return this.client.storage
+			.from(this.getImageBucketName())
+			.getPublicUrl(imagePath).data.publicUrl;
+	}
+
 	async getRoutines({
 		categoryID,
 		nextCursor,
@@ -73,11 +118,16 @@ export class SupabaseServiceClient implements ServiceClient {
 			throw new ValidatorError('invalid user');
 		}
 
+		let uploadImageURL: string | null = null;
+		if (newRoutine.image && newRoutine.image instanceof File) {
+			uploadImageURL = await this.uploadImage(newRoutine.image);
+		}
+
 		const { data, error } = await this.client
 			.rpc('insert_routine', {
 				user_id: user.id,
 				name: newRoutine.name,
-				image_url: null,
+				image_url: uploadImageURL,
 				difficulty_level: newRoutine.difficultyLevel,
 				total_sets: newRoutine.totalSets,
 				rest_seconds: newRoutine.restSeconds,
@@ -106,11 +156,22 @@ export class SupabaseServiceClient implements ServiceClient {
 			throw new AuthError('Unauthorized request');
 		}
 
+		let uploadImageURL: string | null = null;
+		if (updateRoutine.image === null || updateRoutine.image instanceof File) {
+			await this.deleteImage(originData.imageURL);
+
+			if (updateRoutine.image instanceof File) {
+				uploadImageURL = await this.uploadImage(updateRoutine.image);
+			}
+		} else if (updateRoutine.image === originData.imageURL) {
+			uploadImageURL = originData.imageURL;
+		}
+
 		const { data, error } = await this.client
 			.rpc('update_routine', {
 				routine_id: updateRoutine.id,
 				update_name: updateRoutine.name,
-				update_image_url: null,
+				update_image_url: uploadImageURL,
 				update_difficulty_level: updateRoutine.difficultyLevel,
 				update_total_sets: updateRoutine.totalSets,
 				update_rest_seconds: updateRoutine.restSeconds,
@@ -138,6 +199,8 @@ export class SupabaseServiceClient implements ServiceClient {
 		if (user.id !== originData.userID) {
 			throw new AuthError('Unauthorized request');
 		}
+
+		await this.deleteImage(originData.imageURL);
 
 		const { error, status, statusText } = await this.client.rpc(
 			'delete_routine',
@@ -313,8 +376,6 @@ export class SupabaseServiceClient implements ServiceClient {
 		const { data, error } = await this.client.auth.updateUser({
 			password,
 		});
-
-		console.log(data, error);
 
 		return error === null;
 	}

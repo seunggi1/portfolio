@@ -29,7 +29,13 @@ export async function PUT(
 	request: NextRequest,
 	{ params }: { params: Promise<{ id: string }> }
 ) {
-	const data = await request.json();
+	const formData = await request.formData();
+
+	const data = {
+		...JSON.parse(formData.get('data')?.toString() ?? ''),
+		image: formData.get('image'),
+	};
+
 	const inputError = validateFullRoutineData(data);
 
 	if (inputError) {
