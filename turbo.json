@@ -5,7 +5,13 @@
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
 			"outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-			"env": ["SITE_URL", "DB_SERVICE", "SUPABASE_ANON_KEY", "SUPABASE_URL"]
+			"env": [
+				"SITE_URL",
+				"DB_SERVICE",
+				"SUPABASE_ANON_KEY",
+				"SUPABASE_URL",
+				"SUPABASE_BUCKET_NAME"
+			]
 		},
 		"lint": {},
 		"type-check": {},
