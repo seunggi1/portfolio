@@ -4,6 +4,7 @@ import type { HttpMethod, HttpParams } from '@/types/http';
 class HttpClient {
 	readonly method: HttpMethod;
 	readonly url: string;
+	contentType: string;
 	baseURL: string;
 	timeout: number;
 	data?: unknown;
@@ -14,11 +15,17 @@ class HttpClient {
 		this.url = url;
 		this.baseURL = '/';
 		this.timeout = 5000;
+		this.contentType = 'application/json';
 	}
 
 	call<T>(): AxiosPromise<T> {
 		const http: AxiosInstance = axios.create();
-		return http.request<T>({ ...this });
+		return http.request<T>({
+			...this,
+			headers: {
+				'Content-Type': this.contentType,
+			},
+		});
 	}
 }
 
@@ -60,6 +67,11 @@ export class HttpClientBuilder {
 
 	data(data: unknown): HttpClientBuilder {
 		this._instance.data = data;
+		return this;
+	}
+
+	contentType(contentType: string): HttpClientBuilder {
+		this._instance.contentType = contentType;
 		return this;
 	}
 
