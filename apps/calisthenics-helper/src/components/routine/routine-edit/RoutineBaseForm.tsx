@@ -10,6 +10,7 @@ import RoutineEditFormGroup from './RoutineEditFormGroup';
 import RoutineLevelSelector from './RoutineLevelSelector';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RoutineImageUploader from './RoutineImageUploader';
+import RangeNumberInput from '@/components/common/ui/RangeNumberInput';
 
 type Props = {
 	routineCategories: RoutineCategory[];
@@ -91,28 +92,47 @@ export default function RoutineBaseForm({
 					)}
 				></Controller>
 
-				<RoutineEditFormGroup
-					displayName="휴식 시간(초)"
-					error={errors.restSeconds?.message}
-				>
-					<Input
-						id="description"
-						type="number"
-						required
-						{...register('restSeconds', { valueAsNumber: true })}
-					/>
-				</RoutineEditFormGroup>
-				<RoutineEditFormGroup
-					displayName="세트 수"
-					error={errors.totalSets?.message}
-				>
-					<Input
-						type="number"
-						min={1}
-						required
-						{...register('totalSets', { valueAsNumber: true })}
-					/>
-				</RoutineEditFormGroup>
+				<Controller
+					control={control}
+					name="restSeconds"
+					render={({ field }) => (
+						<RoutineEditFormGroup
+							displayName="휴식 시간(초)"
+							htmlFor="restSeconds"
+							error={errors.totalSets?.message}
+						>
+							<RangeNumberInput
+								id="restSeconds"
+								min={30}
+								max={180}
+								step={30}
+								required
+								{...field}
+							/>
+						</RoutineEditFormGroup>
+					)}
+				/>
+
+				<Controller
+					control={control}
+					name="totalSets"
+					render={({ field }) => (
+						<RoutineEditFormGroup
+							displayName="세트 수"
+							htmlFor="totalSets"
+							error={errors.totalSets?.message}
+						>
+							<RangeNumberInput
+								id="totalSets"
+								min={1}
+								max={10}
+								step={1}
+								required
+								{...field}
+							/>
+						</RoutineEditFormGroup>
+					)}
+				/>
 
 				<Controller
 					control={control}
