@@ -8,3 +8,6 @@ export type Color =
 	| 'ghost';
 export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type BorderRadius = Size | 'full';
+export type InputBase = {
+	border?: boolean;
+};
