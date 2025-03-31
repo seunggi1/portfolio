@@ -6,52 +6,36 @@ export default function RoutineBanners() {
 		<div className="max-w-screen-xl m-auto h-[20rem]">
 			<Carousel className="w-full h-full">
 				<Carousel.Item
-					id="recommand-routine"
+					id="fullbody-routine"
 					className="relative flex w-full text-white"
 				>
 					<Link
-						href="/"
+						href={`/api/routines/recommand?type=1`}
 						className="flex flex-col items-center justify-center w-full text-3xl bg-primary"
 					>
-						<span>오늘의 추천 </span>
-						<span>상체 루틴</span>
-					</Link>
-					<Link
-						href="/"
-						className="flex flex-col items-center justify-center w-full text-3xl bg-secondary"
-					>
-						<span>오늘의 추천</span>
-						<span>하체 루틴</span>
-					</Link>
-					<Link
-						href="/"
-						className="flex flex-col items-center justify-center w-full text-3xl bg-accent"
-					>
-						<span>오늘의 추천 </span>
-						<span>전신 루틴</span>
+						<span>오늘의 추천 전신 루틴</span>
 					</Link>
 				</Carousel.Item>
-				<Carousel.Item id="hot-routine" className="flex w-full text-white">
+				<Carousel.Item
+					id="upperbody-routine"
+					className="flex w-full text-white"
+				>
 					<Link
-						href="/"
-						className="flex flex-col items-center justify-center w-full text-3xl bg-primary"
-					>
-						<span>인기 있는</span>
-						<span>상체 루틴</span>
-					</Link>
-					<Link
-						href="/"
+						href={`/api/routines/recommand?type=2`}
 						className="flex flex-col items-center justify-center w-full text-3xl bg-secondary"
 					>
-						<span>인기 있는</span>
-						<span>하체 루틴</span>
+						<span>오늘의 추천 상체 루틴</span>
 					</Link>
+				</Carousel.Item>
+				<Carousel.Item
+					id="lowerbody-routine"
+					className="flex w-full text-white"
+				>
 					<Link
-						href="/"
-						className="flex flex-col items-center justify-center w-full text-3xl bg-accent"
+						href={`/api/routines/recommand?type=3`}
+						className="flex flex-col items-center justify-center w-full text-3xl bg-info"
 					>
-						<span>인기 있는</span>
-						<span>전신 루틴</span>
+						<span>오늘의 추천 하체 루틴</span>
 					</Link>
 				</Carousel.Item>
 			</Carousel>
