@@ -3,9 +3,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RoutineCategory, RoutineFormData } from '@/types/routine';
 import { routineEditSchema } from '@/schemas/routine';
-import { Button } from '@repo/ui/common';
+import { Button, Input, TextArea } from '@repo/ui/common';
 import RoutineCategorySelect from './RoutineCategorySelector';
-import Input from '@/components/common/ui/Input';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
 import RoutineLevelSelector from './RoutineLevelSelector';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
@@ -69,12 +68,12 @@ export default function RoutineBaseForm({
 					error={errors.description?.message}
 					htmlFor="description"
 				>
-					<Input
-						type="text"
+					<TextArea
 						id="description"
 						min={5}
 						required
 						{...register('description')}
+						border={true}
 					/>
 				</RoutineEditFormGroup>
 

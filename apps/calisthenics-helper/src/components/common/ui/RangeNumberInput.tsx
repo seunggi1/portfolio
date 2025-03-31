@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import RangeStepInput from './RangeStepInput';
-import Input from './Input';
-import { Button } from '@repo/ui/common';
+import { Button, Input } from '@repo/ui/common';
 
 type Props = {
 	id: string;

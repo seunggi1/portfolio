@@ -1,9 +1,7 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import Input from '@/components/common/ui/Input';
-import Image from 'next/image';
+import { ChangeEvent, useRef } from 'react';
 import { NewRoutine } from '@/types/routine';
 import PreviewImage from '@/components/common/ui/PreviewImage';
-import { Button } from '@repo/ui/common';
+import { Button, Input } from '@repo/ui/common';
 
 type Props = {
 	value: NewRoutine['image'];

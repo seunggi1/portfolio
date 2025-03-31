@@ -1,11 +1,10 @@
 import { ReactElement, ReactNode, useEffect } from 'react';
 import { NewExercise } from '@/types/routine';
-import { Button } from '@repo/ui/common';
+import { Button, Input } from '@repo/ui/common';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newExerciseSchema } from '@/schemas/routine';
 import RoutineEditFormGroup from './RoutineEditFormGroup';
-import Input from '@/components/common/ui/Input';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RangeNumberInput from '@/components/common/ui/RangeNumberInput';
 

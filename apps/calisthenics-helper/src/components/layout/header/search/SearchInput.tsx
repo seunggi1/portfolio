@@ -1,6 +1,5 @@
 import { ChangeEvent, KeyboardEvent } from 'react';
-import Input from '@/components/common/ui/Input';
-import { Button } from '@repo/ui/common';
+import { Button, Input } from '@repo/ui/common';
 
 type Props = {
 	onKeyUp?: (e: KeyboardEvent<HTMLInputElement>) => void;
@@ -27,6 +26,7 @@ export default function SearchInput({
 				defaultValue={defaultValue}
 				onChange={onChange}
 				onKeyUp={onKeyUp}
+				border={false}
 			/>
 			<Button color="info" size="sm" onClick={onSearchClear}>
 				검색 초기화
