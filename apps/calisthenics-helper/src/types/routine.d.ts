@@ -101,3 +101,8 @@ export type RoutineRunStep = {
 	stepItems: StepItem[];
 	step: number;
 };
+
+export type RecommandRoutine = {
+	routineID: Routine['id'];
+	exerciseType: number;
+};

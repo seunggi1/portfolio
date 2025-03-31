@@ -6,6 +6,7 @@ import {
 	NewRoutine,
 	RoutinesResponse,
 	RoutinesRequest,
+	RecommandRoutine,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { User } from '@/types/auth';
@@ -412,5 +413,13 @@ export class SupabaseServiceClient implements ServiceClient {
 		}
 
 		return user;
+	}
+
+	async getRecommandRoutines(day: number): Promise<RecommandRoutine[]> {
+		const { data, error } = await this.client
+			.rpc('get_recommand_routines', { target_day: day })
+			.returns<RecommandRoutine[]>();
+
+		return data ?? [];
 	}
 }

@@ -13,6 +13,7 @@ import type {
 	NewRoutine,
 	RoutinesResponse,
 	RoutinesRequest,
+	RecommandRoutine,
 } from '@/types/routine';
 
 export interface ServiceClient {
@@ -20,6 +21,7 @@ export interface ServiceClient {
 		routineRequest: RoutinesRequest
 	) => Promise<RoutinesResponse | null>;
 	getRoutineById: (Id: string) => Promise<RoutineDetail | null>;
+	getRecommandRoutines: (day: number) => Promise<RecommandRoutine[]>;
 	getRoutineCategories: () => Promise<RoutineCategory[]>;
 	createRoutine: (newRoutine: NewRoutine) => Promise<Routine['id']>;
 	updateRoutine: (updateRoutine: NewRoutine) => Promise<Routine['id']>;
