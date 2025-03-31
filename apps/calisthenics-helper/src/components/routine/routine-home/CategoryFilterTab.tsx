@@ -17,16 +17,15 @@ export default function CategoryFilterTab() {
 	}
 
 	const typeItems = [allCategory, ...routineCategories].map(({ id, name }) => (
-		<li
-			key={id}
-			className={
-				selectedCategory === id
-					? getSelectedListItemStyleClass()
-					: getListItemStyleClass()
-			}
-			data-category={id}
-		>
-			<Link href={createSearchParam({ categoryID: id, searchQuery })}>
+		<li key={id} data-category={id}>
+			<Link
+				className={
+					selectedCategory === id
+						? getSelectedListItemStyleClass()
+						: getListItemStyleClass()
+				}
+				href={createSearchParam({ categoryID: id, searchQuery })}
+			>
 				{name}
 			</Link>
 		</li>
@@ -34,7 +33,7 @@ export default function CategoryFilterTab() {
 
 	return (
 		<section className="h-full border-b">
-			<ul className="flex items-center justify-center max-w-screen-xl py-4 m-auto text-sm text-pretty md:text-xl md:gap-4">
+			<ul className="flex items-center justify-center h-full max-w-screen-xl gap-4 py-4 m-auto text-sm text-pretty md:text-xl">
 				{typeItems}
 			</ul>
 		</section>
@@ -42,11 +41,11 @@ export default function CategoryFilterTab() {
 }
 
 function getListItemStyleClass() {
-	return 'p-2 border-b-2 border-b-transparent hover:border-b-black hover:cursor-pointer';
+	return 'pb-2 border-b-2 border-b-transparent hover:border-b-black hover:cursor-pointer';
 }
 
 function getSelectedListItemStyleClass() {
-	return 'p-2 border-b-2 border-b-primary hover:cursor-pointer';
+	return 'pb-2 border-b-2 border-b-primary hover:cursor-pointer';
 }
 
 function createSearchParam({
