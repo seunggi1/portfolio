@@ -41,3 +41,11 @@ export type UpdatePasswordResponse = {
 	errors: UpdatePasswordData;
 	inputs: UpdatePasswordData;
 };
+
+export type UpdateDisplayNameData = Partial<Pick<User, 'displayName'>>;
+
+export type UpdateDisplayNameResponse = {
+	success: boolean;
+	errors: UpdateDisplayNameData;
+	inputs: UpdateDisplayNameData;
+};

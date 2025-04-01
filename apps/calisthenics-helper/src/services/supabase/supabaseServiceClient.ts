@@ -422,4 +422,42 @@ export class SupabaseServiceClient implements ServiceClient {
 
 		return data ?? [];
 	}
+
+	async updateDisplayName(displayName: User['displayName']): Promise<boolean> {
+		const user = await this.getUser();
+
+		if (!user) {
+			throw new AuthError('Invalid User');
+		}
+
+		const { data, error } = await this.client.auth.updateUser({
+			email: user.email,
+			data: {
+				display_name: displayName,
+			},
+		});
+
+		if (error) {
+			return false;
+		}
+
+		const rpcResult = await this.client.rpc('update_display_name', {
+			user_id: user.id,
+			new_display_name: displayName,
+		});
+
+		return !rpcResult.error;
+	}
+
+	async deleteUser(email: string): Promise<boolean> {
+		const user = await this.getUser();
+
+		if (!user || user.email !== email) {
+			throw new AuthError('Invalid User');
+		}
+
+		const { data, error } = await this.client.auth.admin.deleteUser(user.id);
+
+		return !error;
+	}
 }

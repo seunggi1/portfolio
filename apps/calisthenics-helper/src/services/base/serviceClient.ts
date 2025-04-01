@@ -43,4 +43,6 @@ export interface ServiceClient {
 	updatePassword: (password: string) => Promise<boolean>;
 	getUser(): Promise<User | null>;
 	signOut: () => Promise<boolean>;
+	updateDisplayName: (displayName: User['displayName']) => Promise<boolean>;
+	deleteUser: (email: User['email']) => Promise<boolean>;
 }
