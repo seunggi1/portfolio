@@ -5,6 +5,7 @@ type Props = {
 	error?: string;
 	children: ReactNode;
 	htmlFor?: string;
+	addDivider?: boolean;
 };
 
 export default function RoutineEditFormGroup({
@@ -12,6 +13,7 @@ export default function RoutineEditFormGroup({
 	error,
 	children,
 	htmlFor,
+	addDivider = true,
 }: Props) {
 	return (
 		<>
@@ -22,7 +24,7 @@ export default function RoutineEditFormGroup({
 				{children}
 				<p className="text-error">{error}</p>
 			</div>
-			<div className="mt-1 divider"></div>
+			{addDivider ? <div className="mt-1 divider"></div> : null}
 		</>
 	);
 }

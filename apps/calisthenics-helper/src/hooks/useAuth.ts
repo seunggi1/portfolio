@@ -35,5 +35,6 @@ export default function useAuth() {
 		user,
 		isLoading,
 		handleSignout,
+		refetch,
 	};
 }
