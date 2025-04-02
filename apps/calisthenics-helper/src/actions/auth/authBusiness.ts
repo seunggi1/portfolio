@@ -13,6 +13,15 @@ export async function checkEmail(email: string): Promise<boolean> {
 	return client.checkEmailExists(email);
 }
 
+export async function checkPassword(
+	email: User['email'],
+	password: User['password']
+): Promise<boolean> {
+	const client = await getServiceClient();
+
+	return client.signIn(email, password);
+}
+
 export async function signUp(
 	displayName: string,
 	email: string,
@@ -51,13 +60,14 @@ export async function updatePassword(password: string): Promise<boolean> {
 	return await client.updatePassword(password);
 }
 
-export async function getUser(): Promise<User | null> {
-	try {
-		const client = await getServiceClient();
-		const user = await client.getUser();
+export async function updateUserDisplayName(displayName: User['displayName']) {
+	const client = await getServiceClient();
 
-		return user;
-	} catch (error) {
-		return null;
-	}
+	return await client.updateDisplayName(displayName);
+}
+
+export async function deleteUser(email: User['email']) {
+	const client = await getServiceClient();
+
+	return await client.deleteUser(email);
 }

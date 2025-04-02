@@ -3,7 +3,9 @@ import {
 	SignInFormResponse,
 	SignUpData,
 	SignUpFormResponse,
+	UpdateDisplayNameData,
 	UpdatePasswordData,
+	UpdateProfilePasswordData,
 } from '@/types/auth';
 import { z } from 'zod';
 
@@ -99,4 +101,38 @@ export function validataPassword(data: UpdatePasswordData) {
 			value.join(' '),
 		])
 	);
+}
+
+export function validateDisplayName(data: UpdateDisplayNameData) {
+	const result = signUpUser.pick({ displayName: true }).safeParse(data);
+
+	if (result.success) {
+		return null;
+	}
+
+	const format = result.error.flatten();
+
+	return {
+		displayName: format.fieldErrors.displayName?.join(''),
+	};
+}
+
+export function validateProfilePassword(data: UpdateProfilePasswordData) {
+	const newPasswordResult = validataPassword({
+		password: data.newPassword,
+		confirmPassword: data.newConfirmPassword,
+	});
+
+	if (data.password !== data.newPassword && newPasswordResult === null) {
+		return null;
+	}
+
+	return {
+		password:
+			data.password === data.newPassword
+				? '현재 비밀번호와 새 비밀번호는 달라야합니다.'
+				: undefined,
+		newPassword: newPasswordResult?.password,
+		newConfirmPassword: newPasswordResult?.confirmPassword,
+	};
 }
