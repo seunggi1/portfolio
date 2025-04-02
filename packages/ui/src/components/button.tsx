@@ -28,7 +28,7 @@ export function Button({
 				className,
 			].join(' ')}
 			onClick={onClick}
-			type={type === 'button' ? 'button' : 'submit'}
+			type={type}
 			{...props}
 		>
 			{children}
