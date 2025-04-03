@@ -456,7 +456,9 @@ export class SupabaseServiceClient implements ServiceClient {
 			throw new AuthError('Invalid User');
 		}
 
-		const { data, error } = await this.client.auth.admin.deleteUser(user.id);
+		const { data, error } = await this.client.rpc('delete_user', {
+			delete_id: user.id,
+		});
 
 		return !error;
 	}
