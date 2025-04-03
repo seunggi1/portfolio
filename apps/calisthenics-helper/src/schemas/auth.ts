@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import {
 	SignInData,
 	SignInFormResponse,
@@ -6,8 +7,8 @@ import {
 	UpdateDisplayNameData,
 	UpdatePasswordData,
 	UpdateProfilePasswordData,
+	User,
 } from '@/types/auth';
-import { z } from 'zod';
 
 const signUpUser = z.object({
 	displayName: z
@@ -134,5 +135,32 @@ export function validateProfilePassword(data: UpdateProfilePasswordData) {
 				: undefined,
 		newPassword: newPasswordResult?.password,
 		newConfirmPassword: newPasswordResult?.confirmPassword,
+	};
+}
+
+export function validateWithdraw(
+	email: User['email'],
+	confirmEmail: User['email']
+) {
+	const result = z
+		.object({
+			email: z.string().email(),
+			confirmEmail: z.string().email(),
+		})
+		.safeParse({ email, confirmEmail });
+
+	if (result.success) {
+		if (email !== confirmEmail) {
+			return {
+				confirmEmail: '이메일 형식이 올바르지 않습니다.',
+			};
+		}
+		return null;
+	}
+
+	const format = result.error.format();
+
+	return {
+		confirmEmail: format.confirmEmail?._errors.join(''),
 	};
 }

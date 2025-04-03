@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authKeys, fetchUser, signout } from '@/api/auth';
 import { User } from '@/types/auth';
@@ -31,10 +32,12 @@ export default function useAuth() {
 		signoutMutation.mutate();
 	};
 
+	const handleRefetch = useCallback(refetch, [refetch]);
+
 	return {
 		user,
 		isLoading,
 		handleSignout,
-		refetch,
+		refetch: handleRefetch,
 	};
 }

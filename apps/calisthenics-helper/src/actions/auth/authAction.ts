@@ -9,6 +9,7 @@ import {
 	updatePassword,
 	updateUserDisplayName,
 	checkPassword,
+	deleteUser,
 } from '@/actions/auth/authBusiness';
 import {
 	validataPassword,
@@ -16,6 +17,7 @@ import {
 	validateProfilePassword,
 	validateSignInData,
 	validateSignUpData,
+	validateWithdraw,
 } from '@/schemas/auth';
 import type {
 	ResetEmailResponse,
@@ -26,6 +28,8 @@ import type {
 	UpdateProfilePasswordData,
 	UpdateProfilePasswordResponse,
 	User,
+	WithdrawData,
+	WithdrawResponse,
 } from '@/types/auth';
 
 export async function createUser(
@@ -288,6 +292,41 @@ export async function updateProfilePasswordAction(
 	} else {
 		state.errors = {
 			password: '서버 오류가 발생했습니다.',
+		};
+	}
+
+	return state;
+}
+
+export async function withdrawAction(
+	email: User['email'],
+	prevState: WithdrawResponse,
+	formData: FormData
+) {
+	const { confirmEmail }: WithdrawResponse['inputs'] = {
+		confirmEmail: formData.get('confirm-email') as string,
+	};
+
+	const state: WithdrawResponse = {
+		success: prevState.success,
+		errors: {},
+		inputs: { confirmEmail },
+	};
+
+	const errors = validateWithdraw(email, confirmEmail);
+
+	if (errors) {
+		state.errors = errors;
+		return state;
+	}
+
+	state.success = await deleteUser(confirmEmail);
+
+	if (state.success) {
+		state.errors = {};
+	} else {
+		state.errors = {
+			confirmEmail: '서버 오류가 발생했습니다.',
 		};
 	}
 

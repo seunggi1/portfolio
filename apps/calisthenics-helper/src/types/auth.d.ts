@@ -59,3 +59,11 @@ export type UpdateProfilePasswordResponse = {
 	errors: UpdateProfilePasswordData;
 	inputs: UpdateProfilePasswordData;
 };
+
+export type WithdrawData = { confirmEmail?: User['email'] };
+
+export type WithdrawResponse = {
+	success: boolean;
+	errors: WithdrawData;
+	inputs: WithdrawData;
+};

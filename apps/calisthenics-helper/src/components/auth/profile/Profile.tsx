@@ -3,9 +3,9 @@
 import ProfileSkeleton from './ProfileSkeleton';
 import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
 import { useAuth } from '@/hooks';
-import { Button } from '@repo/ui/common';
 import EditableDisplayName from './EditableDisplayName';
 import EditableProfilePassword from './EditablePassword';
+import WithdrawUser from './WithdrawUser';
 
 export default function Profile() {
 	const { user, isLoading, refetch } = useAuth();
@@ -21,11 +21,7 @@ export default function Profile() {
 			</RoutineEditFormGroup>
 			<EditableDisplayName displayName={user?.displayName} onSubmit={refetch} />
 			<EditableProfilePassword email={user?.email} />
-			<div className="p-4">
-				<Button className="w-full" color="error">
-					회원 탈퇴
-				</Button>
-			</div>
+			{user?.email && <WithdrawUser email={user.email} onWithdraw={refetch} />}
 		</div>
 	);
 }
