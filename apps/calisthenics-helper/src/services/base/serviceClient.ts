@@ -14,11 +14,15 @@ import type {
 	RoutinesResponse,
 	RoutinesRequest,
 	RecommandRoutine,
+	RoutinesByUserRequest,
 } from '@/types/routine';
 
 export interface ServiceClient {
 	getRoutines: (
 		routineRequest: RoutinesRequest
+	) => Promise<RoutinesResponse | null>;
+	getRoutinesByUser: (
+		routineRequest: RoutinesByUserRequest
 	) => Promise<RoutinesResponse | null>;
 	getRoutineById: (Id: string) => Promise<RoutineDetail | null>;
 	getRecommandRoutines: (day: number) => Promise<RecommandRoutine[]>;

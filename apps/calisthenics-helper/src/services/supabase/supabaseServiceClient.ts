@@ -7,6 +7,7 @@ import {
 	RoutinesResponse,
 	RoutinesRequest,
 	RecommandRoutine,
+	RoutinesByUserRequest,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import { User } from '@/types/auth';
@@ -88,6 +89,33 @@ export class SupabaseServiceClient implements ServiceClient {
 			nextCursor: data.nextCursor,
 		};
 	}
+
+	async getRoutinesByUser({
+		nextCursor,
+	}: RoutinesByUserRequest): Promise<RoutinesResponse | null> {
+		const user = await this.getUser();
+
+		if (!user) {
+			throw new AuthError('Invalid user');
+		}
+
+		const { data, error } = await this.client
+			.rpc('routines_by_user', {
+				target_user_id: user.id,
+				cursor_id: nextCursor === '' ? null : nextCursor,
+			})
+			.single<RoutinesResponse>();
+
+		if (error || !data) {
+			throw new Error(error.message);
+		}
+
+		return {
+			routines: data.routines || [],
+			nextCursor: data.nextCursor,
+		};
+	}
+
 	async getRoutineById(id: string): Promise<RoutineDetail | null> {
 		const { data, error, count } = await this.client
 			.rpc('routine', { routineID: id })
