@@ -29,6 +29,8 @@ export type RoutinesRequest = {
 	searchQuery: string | null;
 };
 
+export type RoutinesByUserRequest = Pick<RoutinesRequest, 'nextCursor'>;
+
 export type RoutinesResponse = {
 	routines: Routine[];
 	nextCursor: RoutinesRequest['nextCursor'];

@@ -5,6 +5,7 @@ import type {
 	NewRoutine,
 	RoutinesRequest,
 	RoutinesResponse,
+	RoutinesByUserRequest,
 } from '@/types/routine';
 import { HttpClientBuilder } from '../httpClient';
 
@@ -38,6 +39,17 @@ export async function fetchRoutines({
 	return data;
 }
 
+export async function fetchRoutinesByUser({
+	nextCursor,
+}: RoutinesByUserRequest): Promise<RoutinesResponse> {
+	const cursor = nextCursor === null || '' ? '' : `cursor=${nextCursor}`;
+
+	const { data } = await HttpClientBuilder.get(
+		`${getRoutineURL('user')}?${cursor}`
+	).call<RoutinesResponse>();
+
+	return data;
+}
 export async function fetchRoutineDetailById(
 	id: string
 ): Promise<RoutineDetail> {
