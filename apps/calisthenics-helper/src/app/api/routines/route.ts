@@ -5,7 +5,7 @@ import type {
 	RoutinesRequest,
 	RoutinesResponse,
 } from '@/types/routine';
-import { handleErrorResponse } from '@/utils/error';
+import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
 import { ValidatorError } from '@/types/error';
 

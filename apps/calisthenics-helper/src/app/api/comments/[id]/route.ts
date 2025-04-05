@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { handleErrorResponse } from '@/utils/error';
+import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { getServiceClient } from '@/services';
 import { ValidatorError } from '@/types/error';
 import { validateComment } from '@/schemas/comment';

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
 import { Comment, CommentsRequest, CommentsResponse } from '@/types/comment';
-import { handleErrorResponse } from '@/utils/error';
+import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { ValidatorError } from '@/types/error';
 import { validateComment } from '@/schemas/comment';
 

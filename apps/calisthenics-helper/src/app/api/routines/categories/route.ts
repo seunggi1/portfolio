@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
 import { RoutineCategory } from '@/types/routine';
-import { handleErrorResponse } from '@/utils/error';
+import { handleErrorResponse } from '@/utils/serverErrorHandler';
 
 export async function GET() {
 	let categories: RoutineCategory[];

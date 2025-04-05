@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
 import type { Routine, RoutineDetail } from '@/types/routine';
 import { NotFoundError, ValidatorError } from '@/types/error';
-import { handleErrorResponse } from '@/utils/error';
+import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
 
 export async function GET(

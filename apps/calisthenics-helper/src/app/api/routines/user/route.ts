@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { RoutinesByUserRequest, RoutinesResponse } from '@/types/routine';
-import { handleErrorResponse } from '@/utils/error';
+import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { getServiceClient } from '@/services';
 
 export async function GET(request: NextRequest) {
