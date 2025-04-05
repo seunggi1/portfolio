@@ -1,0 +1,1 @@
+export { createContactAction } from './contactAction';

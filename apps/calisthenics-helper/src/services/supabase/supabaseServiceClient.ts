@@ -19,6 +19,7 @@ import {
 	CommentsRequest,
 	UpdateComment,
 } from '@/types/comment';
+import { Contact } from '@/types/contact';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
@@ -486,6 +487,21 @@ export class SupabaseServiceClient implements ServiceClient {
 
 		const { data, error } = await this.client.rpc('delete_user', {
 			delete_id: user.id,
+		});
+
+		return !error;
+	}
+
+	async createContact(contact: Contact): Promise<boolean> {
+		const user = await this.getUser();
+
+		if (!user) {
+			throw new AuthError('Invalid User');
+		}
+
+		const { data, error } = await this.client.rpc('create_contact', {
+			...contact,
+			user_id: user.id,
 		});
 
 		return !error;

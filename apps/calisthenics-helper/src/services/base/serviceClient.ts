@@ -49,4 +49,5 @@ export interface ServiceClient {
 	signOut: () => Promise<boolean>;
 	updateDisplayName: (displayName: User['displayName']) => Promise<boolean>;
 	deleteUser: (email: User['email']) => Promise<boolean>;
+	createContact: (contact: Contact) => Promise<boolean>;
 }
