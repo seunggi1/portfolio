@@ -7,7 +7,7 @@ export function Toaster() {
 	const { toasts } = useToast();
 
 	return (
-		<div className="toast toast-end text-wrap">
+		<div className="toast toast-end text-wrap bottom-[66px] lg:bottom-0">
 			{toasts.map((toast) => (
 				<ToastItem key={toast.id} {...toast} />
 			))}
