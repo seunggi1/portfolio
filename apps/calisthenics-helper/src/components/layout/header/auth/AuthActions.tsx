@@ -32,6 +32,9 @@ export default function AuthActions() {
 									</Link>
 								</li>
 								<li>
+									<Link href={'/contact'}>문의하기</Link>
+								</li>
+								<li>
 									<span onClick={handleSignout}>로그아웃</span>
 								</li>
 							</ul>
