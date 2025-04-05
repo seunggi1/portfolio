@@ -134,9 +134,13 @@ export class SupabaseServiceClient implements ServiceClient {
 	}
 
 	async getRoutineCategories(): Promise<RoutineCategory[]> {
-		const { data } = await this.client
+		const { data, error } = await this.client
 			.rpc('categories')
 			.returns<RoutineCategory[]>();
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return data || [];
 	}
@@ -232,13 +236,14 @@ export class SupabaseServiceClient implements ServiceClient {
 
 		await this.deleteImage(originData.imageURL);
 
-		const { error, status, statusText } = await this.client.rpc(
-			'delete_routine',
-			{
-				delete_routine_id: routineID,
-				request_user_id: user.id,
-			}
-		);
+		const { error } = await this.client.rpc('delete_routine', {
+			delete_routine_id: routineID,
+			request_user_id: user.id,
+		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return !error;
 	}
@@ -300,6 +305,10 @@ export class SupabaseServiceClient implements ServiceClient {
 			request_user_id: user.id,
 		});
 
+		if (error) {
+			throw new Error(error.message);
+		}
+
 		return !error;
 	}
 	async deleteComment(commentID: Comment['id']): Promise<boolean> {
@@ -318,20 +327,28 @@ export class SupabaseServiceClient implements ServiceClient {
 	}
 
 	async checkDisplayNameExists(searchDisplayName: string): Promise<boolean> {
-		const { data, error, count } = await this.client
+		const { data, error } = await this.client
 			.rpc('displayName', {
 				searchDisplayName,
 			})
 			.single<string>();
 
+		if (error) {
+			throw new Error(error.message);
+		}
+
 		return data === searchDisplayName;
 	}
 	async checkEmailExists(searchEmail: string): Promise<boolean> {
-		const { data, error, count } = await this.client
+		const { data, error } = await this.client
 			.rpc('email', {
 				searchEmail,
 			})
 			.single<string>();
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return data === searchEmail;
 	}
@@ -340,7 +357,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		email: string,
 		displayName: string
 	): Promise<boolean> {
-		const { data, error } = await this.client.auth.signInWithOtp({
+		const { error } = await this.client.auth.signInWithOtp({
 			email,
 			options: {
 				data: {
@@ -350,16 +367,24 @@ export class SupabaseServiceClient implements ServiceClient {
 			},
 		});
 
+		if (error) {
+			throw new Error(error.message);
+		}
+
 		return error === null;
 	}
 
 	async signInWithMagicLink(email: string): Promise<boolean> {
-		const { data, error } = await this.client.auth.signInWithOtp({
+		const { error } = await this.client.auth.signInWithOtp({
 			email,
 			options: {
 				emailRedirectTo: process.env.SITE_URL,
 			},
 		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return error === null;
 	}
@@ -369,7 +394,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		displayName: string,
 		password: string
 	): Promise<boolean> {
-		const { data, error } = await this.client.auth.signUp({
+		const { error } = await this.client.auth.signUp({
 			email,
 			password,
 			options: {
@@ -379,42 +404,59 @@ export class SupabaseServiceClient implements ServiceClient {
 			},
 		});
 
+		if (error) {
+			throw new Error(error.message);
+		}
+
 		return error === null;
 	}
 
 	async signIn(email: string, password: string): Promise<boolean> {
-		const { data, error } = await this.client.auth.signInWithPassword({
+		const { error } = await this.client.auth.signInWithPassword({
 			email,
 			password,
 		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return error === null;
 	}
 
 	async resetPasswordForEmail(email: string): Promise<boolean> {
-		const { data, error } = await this.client.auth.resetPasswordForEmail(
-			email,
-			{
-				redirectTo: process.env.SITE_URL,
-			}
-		);
+		const { error } = await this.client.auth.resetPasswordForEmail(email, {
+			redirectTo: process.env.SITE_URL,
+		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return error === null;
 	}
 
 	async updatePassword(password: string): Promise<boolean> {
-		const { data, error } = await this.client.auth.updateUser({
+		const { error } = await this.client.auth.updateUser({
 			password,
 		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return error === null;
 	}
 
 	async verifyUserToken(token: string): Promise<boolean> {
-		const { data, error } = await this.client.auth.verifyOtp({
+		const { error } = await this.client.auth.verifyOtp({
 			token_hash: token,
 			type: 'email',
 		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return error === null;
 	}
@@ -422,18 +464,21 @@ export class SupabaseServiceClient implements ServiceClient {
 	async signOut(): Promise<boolean> {
 		const { error } = await this.client.auth.signOut();
 
+		if (error) {
+			throw new Error(error.message);
+		}
+
 		return error === null;
 	}
 
 	async getUser(): Promise<User | null> {
-		const { data: session, error: sessionError } =
-			await this.client.auth.getUser();
+		const { data: session } = await this.client.auth.getUser();
 
 		if (!session || !session.user) {
 			return null;
 		}
 
-		const { data: user, error } = await this.client
+		const { data: user } = await this.client
 			.rpc('profile', { userID: session.user.id })
 			.single<User>();
 
@@ -449,6 +494,10 @@ export class SupabaseServiceClient implements ServiceClient {
 			.rpc('get_recommand_routines', { target_day: day })
 			.returns<RecommandRoutine[]>();
 
+		if (error) {
+			throw new Error(error.message);
+		}
+
 		return data ?? [];
 	}
 
@@ -459,7 +508,7 @@ export class SupabaseServiceClient implements ServiceClient {
 			throw new AuthError('Invalid User');
 		}
 
-		const { data, error } = await this.client.auth.updateUser({
+		const { error } = await this.client.auth.updateUser({
 			email: user.email,
 			data: {
 				display_name: displayName,
@@ -467,7 +516,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		});
 
 		if (error) {
-			return false;
+			throw new Error(error.message);
 		}
 
 		const rpcResult = await this.client.rpc('update_display_name', {
@@ -485,9 +534,13 @@ export class SupabaseServiceClient implements ServiceClient {
 			throw new AuthError('Invalid User');
 		}
 
-		const { data, error } = await this.client.rpc('delete_user', {
+		const { error } = await this.client.rpc('delete_user', {
 			delete_id: user.id,
 		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return !error;
 	}
@@ -499,10 +552,14 @@ export class SupabaseServiceClient implements ServiceClient {
 			throw new AuthError('Invalid User');
 		}
 
-		const { data, error } = await this.client.rpc('create_contact', {
+		const { error } = await this.client.rpc('create_contact', {
 			...contact,
 			user_id: user.id,
 		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
 
 		return !error;
 	}
