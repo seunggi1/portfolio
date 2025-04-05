@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { toast } from '@/lib/toast/toast';
+import { onActionError } from '@/utils/clientHttpErrorHandler';
 
 type Props = PropsWithChildren;
 const client = new QueryClient({
@@ -19,7 +20,7 @@ const client = new QueryClient({
 	},
 	queryCache: new QueryCache({
 		onError: (error) => {
-			toast.error(`에러가 발생했습니다. (${error.code})`);
+			onActionError(error, toast.error);
 		},
 	}),
 });
