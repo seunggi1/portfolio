@@ -6,6 +6,7 @@ import {
 	NewComment,
 	UpdateComment,
 } from '@/types/comment';
+import { Contact } from '@/types/contact';
 import type {
 	RoutineCategory,
 	Routine,
