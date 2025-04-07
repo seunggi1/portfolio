@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import {
-	AuthError,
+	UnauthorizedError,
 	ErrorName,
 	ErrorResult,
 	NotFoundError,
@@ -32,7 +32,7 @@ export function handleErrorResponse(error: unknown): NextResponse {
 		);
 	}
 
-	if (error instanceof AuthError) {
+	if (error instanceof UnauthorizedError) {
 		return NextResponse.json<ErrorResult>(
 			{
 				name: error.name,
