@@ -1,5 +1,6 @@
 import { getServiceClient } from '@/services';
 import { User } from '@/types/auth';
+import { Routine } from '@/types/routine';
 
 export async function checkDisplayName(displayName: string): Promise<boolean> {
 	const client = await getServiceClient();
@@ -70,4 +71,22 @@ export async function deleteUser(email: User['email']) {
 	const client = await getServiceClient();
 
 	return await client.deleteUser(email);
+}
+
+export async function canAccessRoutineEdit(id: Routine['id']) {
+	const client = await getServiceClient();
+
+	const user = await client.getUser();
+
+	if (!user) {
+		return false;
+	}
+
+	const routine = await client.getRoutineById(id);
+
+	if (!routine) {
+		return false;
+	}
+
+	return routine.userID === user.id;
 }
