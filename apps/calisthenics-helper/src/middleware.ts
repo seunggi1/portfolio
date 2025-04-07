@@ -1,8 +1,14 @@
-import { type NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/utils/supabase';
 
+const AUTH_URL_PATHS = ['/profiles', '/routines/edit', '/contact'];
+
 export async function middleware(request: NextRequest) {
-	return await updateSession(request);
+	if (AUTH_URL_PATHS.some((p) => request.nextUrl.pathname.startsWith(p))) {
+		return await updateSession(request);
+	}
+
+	return NextResponse.next();
 }
 
 export const config = {

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { createClient } from '@/services/supabase/server';
 
 export async function updateSession(request: NextRequest) {
-	let supabaseResponse = NextResponse.next({
+	const supabaseResponse = NextResponse.next({
 		request,
 	});
 
@@ -11,11 +11,7 @@ export async function updateSession(request: NextRequest) {
 		data: { user },
 	} = await supabase.auth.getUser();
 
-	if (
-		!user &&
-		request.nextUrl.pathname.startsWith('/profile') &&
-		request.nextUrl.pathname.startsWith('/routine/edit')
-	) {
+	if (!user) {
 		const url = request.nextUrl.clone();
 		url.pathname = '/signin';
 		return NextResponse.redirect(url);
