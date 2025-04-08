@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -16,7 +16,9 @@ import { useAuth, useModal } from '@/hooks';
 import RoutineUpdateButton from './RoutineUpdateButton';
 import { toast } from '@/lib/toast/toast';
 import { useRoutineDelete } from '@/hooks/useRoutineDelete';
-import Comments from '../comment/Comments';
+import CommentsSkeleton from '../comment/CommentsSkeleton';
+
+const Comments = lazy(() => import('../comment/Comments'));
 
 type Props = {
 	id: string;
@@ -64,7 +66,7 @@ export default function RoutineDetail({ id }: Props) {
 				<div className="basis-[60%] w-full">
 					<div className="flex items-center justify-center text-white bg-black h-80">
 						{imageURL ? (
-							<div className="w-full h-full relative">
+							<div className="relative w-full h-full">
 								<Image src={imageURL} alt={name} fill={true} />
 							</div>
 						) : (
@@ -97,7 +99,9 @@ export default function RoutineDetail({ id }: Props) {
 					<ExerciseSetDetails {...routineDetail} />
 				</div>
 				<div className="px-2 md:col-span-2">
-					<Comments routineID={id} />
+					<Suspense fallback={<CommentsSkeleton />}>
+						<Comments routineID={id} />
+					</Suspense>
 				</div>
 			</section>
 		</>
