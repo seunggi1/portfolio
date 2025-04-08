@@ -3,9 +3,10 @@
 import { useActionState } from 'react';
 import Link from 'next/link';
 import type { SignInFormResponse } from '@/types/auth';
-import { Button } from '@repo/ui/common';
-import FormInput from '@/components/common/ui/FormInput';
+import { Button, Input } from '@repo/ui/common';
 import useAuthForm from '@/hooks/useAuthForm';
+import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import Loading from '@/components/common/ui/Loading';
 
 type Props = {
 	action: (
@@ -23,34 +24,45 @@ export default function SignInForm({ action }: Props) {
 	useAuthForm(success);
 
 	return (
-		<section className="flex items-center justify-center w-full h-full">
+		<section className="flex items-center justify-center w-full h-full bg-gray-100">
 			<form
 				action={formAction}
-				className="flex flex-col justify-center gap-2 px-4 py-2 rounded-md bg-neutral-content w-80"
+				className="flex flex-col justify-center w-full gap-2 px-4 py-2 bg-white rounded-md md:!w-1/2"
 			>
 				<h2 className="text-3xl font-bold text-center">로그인</h2>
-				<FormInput
+				<RoutineEditFormGroup
 					displayName="이메일"
-					id="email"
-					type="email"
-					name="email"
-					className="grow"
-					placeholder="abcd1234@site.com"
-					defaultValue={inputs.email}
+					htmlFor="email"
 					error={errors.email}
-				/>
-				<FormInput
+				>
+					<Input
+						id="email"
+						type="email"
+						name="email"
+						className="grow"
+						placeholder="abcd1234@site.com"
+						required
+						defaultValue={inputs.email}
+					/>
+				</RoutineEditFormGroup>
+
+				<RoutineEditFormGroup
 					displayName="비밀번호"
-					id="password"
-					type="password"
-					name="password"
-					className="grow"
-					placeholder=""
-					defaultValue={inputs.password}
+					htmlFor="password"
 					error={errors.password}
-				/>
+				>
+					<Input
+						id="password"
+						type="password"
+						name="password"
+						className="grow"
+						placeholder=""
+						required
+						defaultValue={inputs.password}
+					/>
+				</RoutineEditFormGroup>
 				<Button disabled={isPending || success} type="submit">
-					로그인
+					{isPending ? <Loading /> : '로그인'}
 				</Button>
 				<Link className="text-center text-secondary" href={'/signup'}>
 					회원가입

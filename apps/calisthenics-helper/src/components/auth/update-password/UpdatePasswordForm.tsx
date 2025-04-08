@@ -1,11 +1,11 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useActionState } from 'react';
 import type { UpdatePasswordResponse } from '@/types/auth';
-import { Button } from '@repo/ui/common';
-import FormInput from '@/components/common/ui/FormInput';
-import { useAuth } from '@/hooks';
+import { Button, Input } from '@repo/ui/common';
+import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import Loading from '@/components/common/ui/Loading';
+import useAuthForm from '@/hooks/useAuthForm';
 
 type Props = {
 	action: (
@@ -19,55 +19,49 @@ export default function UpdatePasswordForm({ action }: Props) {
 		UpdatePasswordResponse,
 		FormData
 	>(action, { success: false, errors: {}, inputs: {} });
-	const { refetch } = useAuth();
-	const router = useRouter();
 
-	useEffect(() => {
-		let timer: number | undefined;
-		if (success) {
-			setTimeout(() => {
-				router.push('/');
-				refetch();
-			}, 1000);
-		}
-		return () => clearTimeout(timer);
-	}, [router, success, refetch]);
+	useAuthForm(success);
 
 	return (
-		<section className="flex items-center justify-center w-full h-full">
+		<section className="flex items-center justify-center w-full h-full bg-gray-100">
 			<form
 				action={formAction}
-				className="flex flex-col justify-center gap-2 p-4 rounded-md bg-neutral-content w-80"
+				className="flex flex-col justify-center w-full gap-2 px-4 py-2 bg-white rounded-md md:!w-1/2"
 			>
 				<h2 className="text-3xl font-bold text-center">비밀번호 변경</h2>
-				<FormInput
+				<RoutineEditFormGroup
 					displayName="비밀번호"
-					id="password"
-					type="password"
-					name="password"
-					className="grow"
-					placeholder=""
-					defaultValue={inputs.password}
+					htmlFor="password"
 					error={errors.password}
-				/>
-				<FormInput
+				>
+					<Input
+						id="password"
+						type="password"
+						name="password"
+						className="grow"
+						placeholder=""
+						required
+						defaultValue={inputs.password}
+					/>
+				</RoutineEditFormGroup>
+				<RoutineEditFormGroup
 					displayName="비밀번호 확인"
-					id="confirm-password"
-					type="password"
-					name="confirm-password"
-					className="grow"
-					placeholder=""
-					defaultValue={inputs.confirmPassword}
+					htmlFor="confirm-password"
 					error={errors.confirmPassword}
-				/>
+				>
+					<Input
+						id="confirm-password"
+						type="password"
+						name="confirm-password"
+						className="grow"
+						placeholder=""
+						required
+						defaultValue={inputs.confirmPassword}
+					/>
+				</RoutineEditFormGroup>
 				<Button disabled={isPending || success} type="submit">
-					비밀번호 변경
+					{isPending ? <Loading /> : '비밀번호 변경'}
 				</Button>
-				{success && (
-					<span className="text-center text-success">
-						비밀번호 변경이 완료 되었습니다.
-					</span>
-				)}
 			</form>
 		</section>
 	);

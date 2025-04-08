@@ -2,9 +2,10 @@
 
 import { useActionState } from 'react';
 import { SignUpFormResponse } from '@/types/auth';
-import { Button } from '@repo/ui/common';
-import FormInput from '@/components/common/ui/FormInput';
+import { Button, Input } from '@repo/ui/common';
 import useAuthForm from '@/hooks/useAuthForm';
+import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import Loading from '@/components/common/ui/Loading';
 
 type Props = {
 	action: (
@@ -22,56 +23,77 @@ export default function SignUpForm({ action }: Props) {
 	useAuthForm(success);
 
 	return (
-		<section className="flex items-center justify-center w-full h-full px-4 md:px-0">
+		<section className="flex items-center justify-center w-full h-full px-4 bg-gray-100 md:px-0">
 			<form
 				action={formAction}
-				className="flex flex-col gap-2 p-4 rounded-md justify-cente bg-neutral-content w-80"
+				className="flex flex-col justify-center w-full gap-2 px-4 py-2 bg-white rounded-md md:!w-1/2"
 			>
-				<h2 className="text-3xl font-bold text-center">회원가입</h2>
-				<FormInput
+				<h2 className="mb-4 text-3xl font-bold text-center">회원가입</h2>
+				<RoutineEditFormGroup
 					displayName="별명"
-					type="text"
-					className="grow"
-					id="displayName"
-					name="displayName"
-					placeholder="최소 3글자 이상 8글자이하"
-					minLength={3}
-					maxLength={8}
-					required
-					defaultValue={inputs.displayName}
-				/>
-				<FormInput
+					htmlFor="displayName"
+					error={errors.displayName}
+				>
+					<Input
+						type="text"
+						className="grow"
+						id="displayName"
+						name="displayName"
+						placeholder="최소 3글자 이상 8글자이하"
+						minLength={3}
+						maxLength={8}
+						required
+						defaultValue={inputs.displayName}
+					/>
+				</RoutineEditFormGroup>
+				<RoutineEditFormGroup
 					displayName="이메일"
-					id="email"
-					type="email"
-					name="email"
-					className="grow"
-					placeholder="abcd1234@site.com"
-					defaultValue={inputs.email}
+					htmlFor="email"
 					error={errors.email}
-				/>
-				<FormInput
+				>
+					<Input
+						id="email"
+						type="email"
+						name="email"
+						className="grow"
+						placeholder="abcd1234@site.com"
+						required
+						defaultValue={inputs.email}
+					/>
+				</RoutineEditFormGroup>
+
+				<RoutineEditFormGroup
 					displayName="비밀번호"
-					id="password"
-					type="password"
-					name="password"
-					className="grow"
-					placeholder=""
-					defaultValue={inputs.password}
+					htmlFor="password"
 					error={errors.password}
-				/>
-				<FormInput
+				>
+					<Input
+						id="password"
+						type="password"
+						name="password"
+						className="grow"
+						placeholder=""
+						required
+						defaultValue={inputs.password}
+					/>
+				</RoutineEditFormGroup>
+				<RoutineEditFormGroup
 					displayName="비밀번호 확인"
-					id="confirm-password"
-					type="password"
-					name="confirm-password"
-					className="grow"
-					placeholder=""
-					defaultValue={inputs.confirmPassword}
+					htmlFor="confirm-password"
 					error={errors.confirmPassword}
-				/>
+				>
+					<Input
+						id="confirm-password"
+						type="password"
+						name="confirm-password"
+						className="grow"
+						placeholder=""
+						required
+						defaultValue={inputs.confirmPassword}
+					/>
+				</RoutineEditFormGroup>
 				<Button disabled={isPending || success} type="submit">
-					회원가입
+					{isPending ? <Loading /> : '회원가입'}
 				</Button>
 			</form>
 		</section>
