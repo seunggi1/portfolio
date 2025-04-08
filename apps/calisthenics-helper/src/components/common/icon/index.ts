@@ -7,3 +7,5 @@ export { default as SearchIcon } from './SearchIcon';
 export { default as UserIcon } from './UserIcon';
 export { default as HomeIcon } from './HomeIcon';
 export { default as MailIcon } from './MailIcon';
+export { default as PenIcon } from './PenIcon';
+export { default as PenOffIcon } from './PenOffIcon';
