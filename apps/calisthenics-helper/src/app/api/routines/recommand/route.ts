@@ -5,9 +5,12 @@ export const revalidate = 60 * 60;
 
 export async function GET(request: NextRequest) {
 	const type = request.nextUrl.searchParams.get('type');
+	const url = request.nextUrl.clone();
+	url.pathname = '/';
+	url.searchParams.delete('type');
 
 	if (type === null) {
-		return NextResponse.redirect(new URL('/', request.url));
+		return NextResponse.redirect(url);
 	}
 
 	try {
@@ -15,14 +18,16 @@ export async function GET(request: NextRequest) {
 		const data = await client.getRecommandRoutines(new Date().getDay());
 
 		const routine = data.find((r) => r.exerciseType === +type);
+
 		if (!data.length || !routine) {
-			throw new Error();
+			url.pathname = '/404';
+			return NextResponse.redirect(url);
 		}
 
-		return NextResponse.redirect(
-			new URL(`/routines/${routine.routineID}`, request.url)
-		);
+		url.pathname = `/routines/${routine.routineID}`;
+
+		return NextResponse.redirect(url);
 	} catch {
-		return NextResponse.redirect(new URL('/', request.url));
+		return NextResponse.redirect(url);
 	}
 }
