@@ -1,5 +1,5 @@
 import { getServiceClient } from '@/services';
-import { User } from '@/types/auth';
+import { ResetPasswordResult, UpdatePasswordResult, User } from '@/types/auth';
 import { Routine } from '@/types/routine';
 
 export async function checkDisplayName(displayName: string): Promise<boolean> {
@@ -55,7 +55,32 @@ export async function sendResetPasswordEmail(email: string): Promise<boolean> {
 	return await client.resetPasswordForEmail(email);
 }
 
-export async function updatePassword(password: string): Promise<boolean> {
+export async function resetPassword(
+	token: string,
+	email: string,
+	password: string
+): Promise<ResetPasswordResult> {
+	const client = await getServiceClient();
+
+	const canLogin = await client.signIn(email, password);
+
+	if (canLogin) {
+		await client.signOut();
+		return 'samePassword';
+	}
+
+	const codeResult = await client.verifyToken(token);
+
+	if (!codeResult) {
+		return 'tokenError';
+	}
+
+	return await client.updatePassword(password);
+}
+
+export async function updatePassword(
+	password: string
+): Promise<UpdatePasswordResult> {
 	const client = await getServiceClient();
 
 	return await client.updatePassword(password);

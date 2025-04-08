@@ -27,6 +27,9 @@ export async function createClient() {
 					}
 				},
 			},
+			auth: {
+				detectSessionInUrl: true,
+			},
 		}
 	);
 }

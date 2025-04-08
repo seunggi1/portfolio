@@ -10,6 +10,7 @@ import {
 	updateUserDisplayName,
 	checkPassword,
 	deleteUser,
+	resetPassword,
 } from '@/actions/auth/authBusiness';
 import {
 	validataPassword,
@@ -167,6 +168,8 @@ export async function resetPasswordAction(
 }
 
 export async function updatePasswordAction(
+	token: string,
+	email: string,
 	prevState: UpdatePasswordResponse,
 	formData: FormData
 ): Promise<UpdatePasswordResponse> {
@@ -189,14 +192,16 @@ export async function updatePasswordAction(
 		return state;
 	}
 
-	state.success = await updatePassword(password);
+	const updateResult = await resetPassword(token, email, password);
 
-	if (state.success) {
-		state.errors = {};
+	if (updateResult !== 'success') {
+		state.errors.password =
+			updateResult === 'samePassword'
+				? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
+				: '서버 오류가 발생했습니다.';
 	} else {
-		state.errors = {
-			password: '서버 오류가 발생했습니다.',
-		};
+		state.success = true;
+		state.errors = {};
 	}
 
 	return state;
@@ -285,15 +290,19 @@ export async function updateProfilePasswordAction(
 		return state;
 	}
 
-	state.success = await updatePassword(newPassword);
+	const updateResult = await updatePassword(newPassword);
 
-	if (state.success) {
-		state.errors = {};
+	if (updateResult !== 'success') {
+		state.errors.password =
+			updateResult === 'samePassword'
+				? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
+				: '서버 오류가 발생했습니다.';
 	} else {
-		state.errors = {
-			password: '서버 오류가 발생했습니다.',
-		};
+		state.success = true;
+		state.errors = {};
 	}
+
+	return state;
 
 	return state;
 }

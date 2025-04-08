@@ -67,3 +67,6 @@ export type WithdrawResponse = {
 	errors: WithdrawData;
 	inputs: WithdrawData;
 };
+
+export type UpdatePasswordResult = 'success' | 'samePassword' | 'serverError';
+export type ResetPasswordResult = UpdatePasswordResult | 'tokenError';

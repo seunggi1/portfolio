@@ -1,4 +1,4 @@
-import { User } from '@/types/auth';
+import { UpdatePasswordResult, User } from '@/types/auth';
 import {
 	Comment,
 	CommentsRequest,
@@ -43,9 +43,9 @@ export interface ServiceClient {
 		password: string
 	) => Promise<boolean>;
 	signIn: (email: string, password: string) => Promise<boolean>;
-	verifyUserToken: (token: string) => Promise<boolean>;
 	resetPasswordForEmail: (email: string) => Promise<boolean>;
-	updatePassword: (password: string) => Promise<boolean>;
+	verifyToken: (token: string) => Promise<boolean>;
+	updatePassword: (password: string) => Promise<UpdatePasswordResult>;
 	getUser(): Promise<User | null>;
 	signOut: () => Promise<boolean>;
 	updateDisplayName: (displayName: User['displayName']) => Promise<boolean>;

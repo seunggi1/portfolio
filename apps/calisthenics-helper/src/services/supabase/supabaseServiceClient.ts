@@ -10,7 +10,7 @@ import {
 	RoutinesByUserRequest,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
-import { User } from '@/types/auth';
+import { UpdatePasswordResult, User } from '@/types/auth';
 import { UnauthorizedError, ValidatorError } from '@/types/error';
 import {
 	CommentsResponse,
@@ -404,10 +404,6 @@ export class SupabaseServiceClient implements ServiceClient {
 			},
 		});
 
-		if (error) {
-			throw new Error(error.message);
-		}
-
 		return error === null;
 	}
 
@@ -416,10 +412,6 @@ export class SupabaseServiceClient implements ServiceClient {
 			email,
 			password,
 		});
-
-		if (error) {
-			throw new Error(error.message);
-		}
 
 		return error === null;
 	}
@@ -436,29 +428,25 @@ export class SupabaseServiceClient implements ServiceClient {
 		return error === null;
 	}
 
-	async updatePassword(password: string): Promise<boolean> {
+	async verifyToken(token: string): Promise<boolean> {
+		const { error } = await this.client.auth.verifyOtp({
+			token_hash: token,
+			type: 'recovery',
+		});
+
+		return error === null;
+	}
+
+	async updatePassword(password: string): Promise<UpdatePasswordResult> {
 		const { error } = await this.client.auth.updateUser({
 			password,
 		});
 
 		if (error) {
-			throw new Error(error.message);
+			return error.status === 422 ? 'samePassword' : 'serverError';
 		}
 
-		return error === null;
-	}
-
-	async verifyUserToken(token: string): Promise<boolean> {
-		const { error } = await this.client.auth.verifyOtp({
-			token_hash: token,
-			type: 'email',
-		});
-
-		if (error) {
-			throw new Error(error.message);
-		}
-
-		return error === null;
+		return 'success';
 	}
 
 	async signOut(): Promise<boolean> {

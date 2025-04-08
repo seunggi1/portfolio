@@ -1,11 +1,11 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import type { UpdatePasswordResponse } from '@/types/auth';
 import { Button } from '@repo/ui/common';
 import FormInput from '@/components/common/ui/FormInput';
-import useAuthForm from '@/hooks/useAuthForm';
-import Link from 'next/link';
+import { useAuth } from '@/hooks';
 
 type Props = {
 	action: (
@@ -19,6 +19,19 @@ export default function UpdatePasswordForm({ action }: Props) {
 		UpdatePasswordResponse,
 		FormData
 	>(action, { success: false, errors: {}, inputs: {} });
+	const { refetch } = useAuth();
+	const router = useRouter();
+
+	useEffect(() => {
+		let timer: number | undefined;
+		if (success) {
+			setTimeout(() => {
+				router.push('/');
+				refetch();
+			}, 1000);
+		}
+		return () => clearTimeout(timer);
+	}, [router, success, refetch]);
 
 	return (
 		<section className="flex items-center justify-center w-full h-full">
@@ -51,14 +64,9 @@ export default function UpdatePasswordForm({ action }: Props) {
 					비밀번호 변경
 				</Button>
 				{success && (
-					<>
-						<span className="text-center text-success">
-							비밀번호 변경이 완료 되었습니다.
-						</span>
-						<Link className="text-center text-secondary" href={'/signin'}>
-							<Button>로그인 페이지로</Button>
-						</Link>
-					</>
+					<span className="text-center text-success">
+						비밀번호 변경이 완료 되었습니다.
+					</span>
 				)}
 			</form>
 		</section>
