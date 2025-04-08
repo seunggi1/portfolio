@@ -39,7 +39,7 @@ function secondsToBeforeDateString(seconds: number) {
 	} else if (seconds >= MONTH) {
 		return `${divideSecondsByTime(seconds, MONTH)}달 전`;
 	} else if (seconds >= WEEK) {
-		return `${divideSecondsByTime(seconds, MONTH)}주 전`;
+		return `${divideSecondsByTime(seconds, WEEK)}주 전`;
 	} else if (seconds >= DAY) {
 		return `${divideSecondsByTime(seconds, DAY)}일 전`;
 	} else if (seconds >= HOUR) {
