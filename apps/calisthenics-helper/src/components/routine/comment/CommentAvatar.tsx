@@ -8,7 +8,7 @@ type Props = {
 export default function CommentAvatar({ displayName }: Props) {
 	return (
 		<>
-			<Avatar size={'xs'}>{displayName[0]}</Avatar>
+			<Avatar size={'xs'}>{displayName ? displayName[0] : 'D'}</Avatar>
 		</>
 	);
 }
