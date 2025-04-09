@@ -1,6 +1,11 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { canAccessRoutineEdit } from '@/actions/auth/authBusiness';
 import RoutineUpdateContainer from '@/components/routine/routine-edit/RoutineUpdateContainer';
+
+export const metadata: Metadata = {
+	title: '루틴 수정',
+};
 
 type Props = {
 	params: Promise<{ id: string }>;
