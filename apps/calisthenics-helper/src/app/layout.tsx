@@ -10,8 +10,11 @@ const karla = Karla({
 });
 
 export const metadata: Metadata = {
-	title: '맨몸운동헬퍼',
-	description: '맨몸운동을 시작하기위한 페이지',
+	title: {
+		default: '맨몸운동헬퍼',
+		template: `%s | 맨몸운동헬퍼`,
+	},
+	description: '맨몸운동을 시작하고싶은 모든 사람들을 위한 장소',
 };
 
 export default function RootLayout({
