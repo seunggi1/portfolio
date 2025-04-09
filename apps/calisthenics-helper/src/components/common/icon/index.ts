@@ -9,3 +9,4 @@ export { default as HomeIcon } from './HomeIcon';
 export { default as MailIcon } from './MailIcon';
 export { default as PenIcon } from './PenIcon';
 export { default as PenOffIcon } from './PenOffIcon';
+export { default as MuscleIcon } from './MuscleIcon';
