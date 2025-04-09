@@ -27,6 +27,7 @@ export default function Contact() {
 					action={formAction}
 					className="w-full p-4 mx-auto text-center bg-white md:!w-3/4"
 				>
+					<h2 className="mb-4 text-3xl font-bold text-center">문의 하기</h2>
 					<RoutineEditFormGroup
 						displayName="제목"
 						htmlFor={nameof('title')}
