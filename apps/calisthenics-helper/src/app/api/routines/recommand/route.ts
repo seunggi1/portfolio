@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
 
-export const revalidate = 60 * 60;
+export const revalidate = 3600;
 
 export async function GET(request: NextRequest) {
 	const type = request.nextUrl.searchParams.get('type');

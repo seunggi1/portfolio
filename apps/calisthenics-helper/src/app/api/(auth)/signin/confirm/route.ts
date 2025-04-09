@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
 	try {
 		const client = await getServiceClient();
-		const result = await client.verifyUserToken(token);
+		const result = await client.verifyToken(token);
 
 		return NextResponse.redirect(
 			new URL(result ? '/' : '/signin', request.url)
