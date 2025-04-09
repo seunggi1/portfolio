@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/utils/supabase';
 
-const AUTH_URL_PATHS = ['/profiles', '/routines/edit', '/contact'];
+const AUTH_URL_PATHS = ['/profile', '/routines/edit', '/contact'];
 
 export async function middleware(request: NextRequest) {
 	if (AUTH_URL_PATHS.some((p) => request.nextUrl.pathname.startsWith(p))) {
