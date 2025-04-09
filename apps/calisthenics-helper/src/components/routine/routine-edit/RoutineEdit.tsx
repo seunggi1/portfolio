@@ -95,7 +95,7 @@ export default function RoutineEdit({
 		});
 
 	return (
-		<section className="flex flex-col items-center justify-center w-full h-full gap-4 bg-gray-100">
+		<section className="flex flex-col items-center justify-center w-full h-full bg-gray-100 gap-4">
 			<div className="w-3/4 m-auto mt-10 bg-white rounded-lg md:w-1/2">
 				{step === 'routine' && (
 					<RoutineBaseForm

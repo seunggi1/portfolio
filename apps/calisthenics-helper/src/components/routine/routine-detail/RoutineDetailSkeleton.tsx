@@ -7,7 +7,7 @@ const skeletonInfo = {
 
 export default function RoutineDetailSkeleton() {
 	return (
-		<section className="max-w-screen-xl m-auto md:flex gap-x-2">
+		<section className="m-auto max-w-screen-xl md:flex gap-x-2">
 			<div className="basis-[60%]">
 				<Skeleton className="h-80" />
 				<div className="p-2 space-y-2">

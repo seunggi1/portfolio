@@ -22,7 +22,7 @@ export default function RangeStepInput({
 	onChange,
 }: Props) {
 	const steps = Array.from({ length: max / step }, (_, i) => (
-		<span className="text-md font-bold" key={i}>
+		<span className="font-bold text-md" key={i}>
 			{(i + 1) * step}
 		</span>
 	));
@@ -40,7 +40,7 @@ export default function RangeStepInput({
 				required={required}
 				onChange={onChange}
 			/>
-			<div className="flex w-full justify-between px-2 text-xs">{steps}</div>
+			<div className="flex justify-between w-full px-2 text-xs">{steps}</div>
 		</>
 	);
 }

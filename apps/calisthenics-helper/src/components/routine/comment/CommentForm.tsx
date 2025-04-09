@@ -64,7 +64,7 @@ export default function CommentForm({
 	};
 
 	return (
-		<form className="flex flex-col w-full gap-4 py-2" onSubmit={handleSubmit}>
+		<form className="flex flex-col w-full py-2 gap-4" onSubmit={handleSubmit}>
 			<div>
 				<RecommandationInput
 					onChange={handleRecommandationChange}

@@ -35,7 +35,7 @@ export default function RoutineCardsSkeleton() {
 	);
 
 	return (
-		<section className="grid max-w-screen-xl grid-cols-2 px-8 pt-4 m-auto gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+		<section className="px-8 pt-4 m-auto grid max-w-screen-xl grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
 			{skeletons}
 		</section>
 	);

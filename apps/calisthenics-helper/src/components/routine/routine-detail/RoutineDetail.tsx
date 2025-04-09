@@ -62,7 +62,7 @@ export default function RoutineDetail({ id }: Props) {
 
 	return (
 		<>
-			<section className="max-w-screen-xl grid-cols-2 m-auto md:grid gap-x-2">
+			<section className="m-auto max-w-screen-xl grid-cols-2 md:grid gap-x-2">
 				<div className="basis-[60%] w-full">
 					<div className="flex items-center justify-center text-white bg-black h-80">
 						{imageURL ? (
@@ -73,7 +73,7 @@ export default function RoutineDetail({ id }: Props) {
 							<span className="text-4xl font-bold">{name}</span>
 						)}
 					</div>
-					<div className="flex flex-col gap-1 p-2 mb-4">
+					<div className="flex flex-col p-2 mb-4 gap-1">
 						<RoutineSummary {...routineDetail} />
 						<RoutineLevel level={difficultyLevel} />
 						<RoutineCategories categoryNames={categoryNames} />

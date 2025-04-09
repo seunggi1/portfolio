@@ -11,7 +11,7 @@ export default function Home() {
 	};
 
 	return (
-		<section className="px-8 mt-4 flex flex-col items-center justify-center gap-4 ">
+		<section className="flex flex-col items-center justify-center px-8 mt-4 gap-4 ">
 			<h2 className="text-[1.25rem] lg:text-[1.5rem] font-bold flex flex-col gap-4">
 				<span>맨몸운동 헬퍼는 맨몸 운동을 시작하고 싶지만</span>
 				<span>

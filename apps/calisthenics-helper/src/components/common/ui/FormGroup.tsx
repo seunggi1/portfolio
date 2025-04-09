@@ -17,7 +17,7 @@ export default function FormGroup({
 }: Props) {
 	return (
 		<>
-			<div className="flex flex-col gap-2 px-4">
+			<div className="flex flex-col px-4 gap-2">
 				<label className="flex-1 font-bold shrink-0" htmlFor={htmlFor}>
 					{displayName}
 				</label>

@@ -20,7 +20,7 @@ export default function MyRoutine() {
 		<section className="px-2 py-4 bg-white rounded-lg">
 			{isLoading && <ProfileSkeleton />}
 			{routines.map((r) => (
-				<article key={r.id} className="flex flex-col gap-2 mb-2">
+				<article key={r.id} className="flex flex-col mb-2 gap-2">
 					<div className="flex gap-2">
 						<div>
 							<Link className="block w-full" href={`/routines/${r.id}`}>

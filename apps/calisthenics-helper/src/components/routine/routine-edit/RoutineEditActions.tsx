@@ -13,7 +13,7 @@ export default function RoutineEditActions({
 	hasPrevButton,
 }: Props) {
 	return (
-		<div className="flex justify-between gap-2 px-4 my-4">
+		<div className="flex justify-between px-4 my-4 gap-2">
 			{hasPrevButton && (
 				<div className="flex-1">
 					<Button color="secondary" className="w-full" onClick={onPrevClick}>

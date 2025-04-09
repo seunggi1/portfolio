@@ -29,12 +29,12 @@ export default function RoutineImageUploader({ value, onChange }: Props) {
 			<Input
 				id="image"
 				type="file"
-				className="file-input file-input-info w-full max-w-xs border-none pl-0"
+				className="w-full max-w-xs pl-0 border-none file-input file-input-info"
 				accept="image/jpeg, image/jpg, image/png"
 				onChange={handleImageFileChange}
 				ref={imageInputRef}
 			/>
-			<p className="text-secondary text-sm my-2 text-pretty">
+			<p className="my-2 text-sm text-secondary text-pretty">
 				이미지 파일은 .jpg, .jpeg, .png 형식과 파일 크기 250KB이하만 업로드
 				가능합니다.
 			</p>

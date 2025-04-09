@@ -33,7 +33,7 @@ export default function CategoryFilterTab() {
 
 	return (
 		<section className="h-full border-b">
-			<ul className="flex items-center justify-center h-full max-w-screen-xl gap-4 py-4 m-auto text-sm text-pretty md:text-xl">
+			<ul className="flex items-center justify-center h-full py-4 m-auto text-sm max-w-screen-xl gap-4 text-pretty md:text-xl">
 				{typeItems}
 			</ul>
 		</section>
