@@ -1,5 +1,10 @@
-import UpdatePassword from '@/components/auth/update-password/UpdatePassword';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import UpdatePassword from '@/components/auth/update-password/UpdatePassword';
+
+export const metadata: Metadata = {
+	title: '비밀번호 변경',
+};
 
 type Props = {
 	searchParams: Promise<{ [key: string]: string | undefined }>;
