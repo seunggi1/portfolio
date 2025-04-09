@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import AuthButton from './AuthButton';
-import { Skeleton } from '@repo/ui/common';
 import { useAuth } from '@/hooks';
 import { UserIcon } from '@/components/common/icon';
+import AuthActionsSkeleton from './AuthActionsSkeleton';
 
 export default function AuthActions() {
 	const { user, isLoading, handleSignout } = useAuth();
@@ -12,7 +12,7 @@ export default function AuthActions() {
 	return (
 		<>
 			<div className="flex items-center gap-2">
-				{isLoading && <Skeleton className="w-16 h-6 shrink-0" />}
+				{isLoading && <AuthActionsSkeleton />}
 				{!isLoading && user && (
 					<>
 						<div className="dropdown dropdown-bottom dropdown-end">
