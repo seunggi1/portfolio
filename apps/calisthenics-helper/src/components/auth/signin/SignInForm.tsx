@@ -5,7 +5,7 @@ import Link from 'next/link';
 import type { SignInFormResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 import useAuthForm from '@/hooks/useAuthForm';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import Loading from '@/components/common/ui/Loading';
 
 type Props = {
@@ -30,11 +30,7 @@ export default function SignInForm({ action }: Props) {
 				className="flex flex-col justify-center w-full gap-2 px-4 py-2 bg-white rounded-md md:!w-1/2"
 			>
 				<h2 className="text-3xl font-bold text-center">로그인</h2>
-				<RoutineEditFormGroup
-					displayName="이메일"
-					htmlFor="email"
-					error={errors.email}
-				>
+				<FormGroup displayName="이메일" htmlFor="email" error={errors.email}>
 					<Input
 						id="email"
 						type="email"
@@ -44,9 +40,9 @@ export default function SignInForm({ action }: Props) {
 						required
 						defaultValue={inputs.email}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="비밀번호"
 					htmlFor="password"
 					error={errors.password}
@@ -60,7 +56,7 @@ export default function SignInForm({ action }: Props) {
 						required
 						defaultValue={inputs.password}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 				<Button disabled={isPending || success} type="submit">
 					{isPending ? <Loading /> : '로그인'}
 				</Button>

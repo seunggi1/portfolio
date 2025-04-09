@@ -3,7 +3,7 @@ import { Button } from '@repo/ui/common';
 import { DeleteIcon } from '@/components/common/icon';
 import { NewExercise } from '@/types/routine';
 import DragContainer from '../../common/ui/DragContainer';
-import RoutineEditFormGroup from './RoutineEditFormGroup';
+import FormGroup from '../../common/ui/FormGroup';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RoutineEditFormText from './RoutineEditFormText';
 
@@ -71,20 +71,20 @@ export default function RoutineEditFinishExercises({
 										<DeleteIcon />
 									</Button>
 								</div>
-								<RoutineEditFormGroup displayName="운동 이름">
+								<FormGroup displayName="운동 이름">
 									<RoutineEditFormText>{name}</RoutineEditFormText>
-								</RoutineEditFormGroup>
-								<RoutineEditFormGroup displayName="1회당 반복시간(초)">
+								</FormGroup>
+								<FormGroup displayName="1회당 반복시간(초)">
 									<RoutineEditFormText>{secondsPerRep}초</RoutineEditFormText>
-								</RoutineEditFormGroup>
-								<RoutineEditFormGroup displayName="반복 횟수">
+								</FormGroup>
+								<FormGroup displayName="반복 횟수">
 									<RoutineEditFormText>{repetitionCount}</RoutineEditFormText>
-								</RoutineEditFormGroup>
-								<RoutineEditFormGroup displayName="다음 운동 준비 시간(초)">
+								</FormGroup>
+								<FormGroup displayName="다음 운동 준비 시간(초)">
 									<RoutineEditFormText>
 										{nextDelaySeconds}초
 									</RoutineEditFormText>
-								</RoutineEditFormGroup>
+								</FormGroup>
 							</article>
 						</DragContainer>
 					);

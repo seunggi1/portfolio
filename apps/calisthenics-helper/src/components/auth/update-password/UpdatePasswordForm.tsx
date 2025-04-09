@@ -3,7 +3,7 @@
 import { useActionState } from 'react';
 import type { UpdatePasswordResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import Loading from '@/components/common/ui/Loading';
 import useAuthForm from '@/hooks/useAuthForm';
 
@@ -29,7 +29,7 @@ export default function UpdatePasswordForm({ action }: Props) {
 				className="flex flex-col justify-center w-full gap-2 px-4 py-2 bg-white rounded-md md:!w-1/2"
 			>
 				<h2 className="text-3xl font-bold text-center">비밀번호 변경</h2>
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="비밀번호"
 					htmlFor="password"
 					error={errors.password}
@@ -43,8 +43,8 @@ export default function UpdatePasswordForm({ action }: Props) {
 						required
 						defaultValue={inputs.password}
 					/>
-				</RoutineEditFormGroup>
-				<RoutineEditFormGroup
+				</FormGroup>
+				<FormGroup
 					displayName="비밀번호 확인"
 					htmlFor="confirm-password"
 					error={errors.confirmPassword}
@@ -58,7 +58,7 @@ export default function UpdatePasswordForm({ action }: Props) {
 						required
 						defaultValue={inputs.confirmPassword}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 				<Button disabled={isPending || success} type="submit">
 					{isPending ? <Loading /> : '비밀번호 변경'}
 				</Button>

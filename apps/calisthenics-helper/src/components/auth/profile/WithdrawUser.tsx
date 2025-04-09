@@ -1,6 +1,6 @@
 import { withdrawAction } from '@/actions/auth/authAction';
 import Loading from '@/components/common/ui/Loading';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import { useModal } from '@/hooks';
 import { WithdrawResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
@@ -40,7 +40,7 @@ export default function WithdrawUser({ email, onWithdraw }: Props) {
 			</Button>
 			<Modal title={`회원 탈퇴를 위해 이메일 주소를 입력해주세요.`}>
 				<form action={formAction} className="w-full">
-					<RoutineEditFormGroup
+					<FormGroup
 						addDivider={false}
 						displayName="이메일 입력"
 						htmlFor="confirm-email"
@@ -62,7 +62,7 @@ export default function WithdrawUser({ email, onWithdraw }: Props) {
 						>
 							{isPending || success ? <Loading /> : '회원탈퇴'}
 						</Button>
-					</RoutineEditFormGroup>
+					</FormGroup>
 				</form>
 			</Modal>
 		</div>

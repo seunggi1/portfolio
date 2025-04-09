@@ -4,7 +4,7 @@ import { Button, Input } from '@repo/ui/common';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newExerciseSchema } from '@/schemas/routine';
-import RoutineEditFormGroup from './RoutineEditFormGroup';
+import FormGroup from '../../common/ui/FormGroup';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RangeNumberInput from '@/components/common/ui/RangeNumberInput';
 
@@ -50,18 +50,18 @@ export default function ExeciseForm({
 				onSubmit={handleSubmit((d) => onSubmit(d))}
 			>
 				<RoutineEditFormHeading>운동 정보</RoutineEditFormHeading>
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="운동 이름"
 					error={errors.name?.message}
 					htmlFor="name"
 				>
 					<Input id="name" required min={2} {...register('name')} />
-				</RoutineEditFormGroup>
+				</FormGroup>
 				<Controller
 					control={control}
 					name="secondsPerRep"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="1회당 반복 시간(초)"
 							htmlFor="secondsPerRep"
 							error={errors.secondsPerRep?.message}
@@ -73,7 +73,7 @@ export default function ExeciseForm({
 								step={1}
 								{...field}
 							/>
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				/>
 
@@ -81,7 +81,7 @@ export default function ExeciseForm({
 					control={control}
 					name="repetitionCount"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="반복 횟수"
 							htmlFor="repetitionCount"
 							error={errors.repetitionCount?.message}
@@ -93,7 +93,7 @@ export default function ExeciseForm({
 								step={5}
 								{...field}
 							/>
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				/>
 
@@ -101,7 +101,7 @@ export default function ExeciseForm({
 					control={control}
 					name="nextDelaySeconds"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="다음 운동 준비 시간"
 							htmlFor="nextDelaySeconds"
 							error={errors.nextDelaySeconds?.message}
@@ -114,7 +114,7 @@ export default function ExeciseForm({
 								required
 								{...field}
 							/>
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				/>
 

@@ -1,6 +1,6 @@
 import { NewRoutineBase, RoutineCategory } from '@/types/routine';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
-import RoutineEditFormGroup from './RoutineEditFormGroup';
+import FormGroup from '../../common/ui/FormGroup';
 import RoutineLevel from '../../common/ui/RoutineLevel';
 import RoutineCategories from '../../common/ui/RoutineCategories';
 import PreviewImage from '@/components/common/ui/PreviewImage';
@@ -17,31 +17,31 @@ export default function RoutineEditFinishRoutineBase({
 	return (
 		<>
 			<RoutineEditFormHeading>루틴 기본정보</RoutineEditFormHeading>
-			<RoutineEditFormGroup displayName="루틴이름">
+			<FormGroup displayName="루틴이름">
 				<p>{routine.name}</p>
-			</RoutineEditFormGroup>
-			<RoutineEditFormGroup displayName="루틴 설명">
+			</FormGroup>
+			<FormGroup displayName="루틴 설명">
 				<p>{routine.description}</p>
-			</RoutineEditFormGroup>
-			<RoutineEditFormGroup displayName="루틴 이미지">
+			</FormGroup>
+			<FormGroup displayName="루틴 이미지">
 				{routine.image && <PreviewImage image={routine.image} />}
-			</RoutineEditFormGroup>
-			<RoutineEditFormGroup displayName="루틴 난이도">
+			</FormGroup>
+			<FormGroup displayName="루틴 난이도">
 				<RoutineLevel level={routine.difficultyLevel} />
-			</RoutineEditFormGroup>
-			<RoutineEditFormGroup displayName="휴식시간">
+			</FormGroup>
+			<FormGroup displayName="휴식시간">
 				<p>{routine.restSeconds}초</p>
-			</RoutineEditFormGroup>
-			<RoutineEditFormGroup displayName="세트 수">
+			</FormGroup>
+			<FormGroup displayName="세트 수">
 				<p>{routine.totalSets}</p>
-			</RoutineEditFormGroup>
-			<RoutineEditFormGroup displayName="루틴 카테고리">
+			</FormGroup>
+			<FormGroup displayName="루틴 카테고리">
 				<RoutineCategories
 					categoryNames={routineCategories
 						.filter((c) => routine.categoryIDs.includes(c.id))
 						.map((c) => c.name)}
 				/>
-			</RoutineEditFormGroup>
+			</FormGroup>
 		</>
 	);
 }

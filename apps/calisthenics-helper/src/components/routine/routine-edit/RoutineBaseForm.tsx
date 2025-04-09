@@ -5,7 +5,7 @@ import { RoutineCategory, RoutineFormData } from '@/types/routine';
 import { routineEditSchema } from '@/schemas/routine';
 import { Button, Input, TextArea } from '@repo/ui/common';
 import RoutineCategorySelect from './RoutineCategorySelector';
-import RoutineEditFormGroup from './RoutineEditFormGroup';
+import FormGroup from '../../common/ui/FormGroup';
 import RoutineLevelSelector from './RoutineLevelSelector';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RoutineImageUploader from './RoutineImageUploader';
@@ -48,7 +48,7 @@ export default function RoutineBaseForm({
 			>
 				<RoutineEditFormHeading>루틴 기본 정보</RoutineEditFormHeading>
 
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="루틴 이름"
 					error={errors.name?.message}
 					htmlFor="name"
@@ -61,9 +61,9 @@ export default function RoutineBaseForm({
 						required
 						{...register('name')}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="루틴 설명"
 					error={errors.description?.message}
 					htmlFor="description"
@@ -75,19 +75,19 @@ export default function RoutineBaseForm({
 						{...register('description')}
 						border={true}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 
 				<Controller
 					control={control}
 					name="image"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="루틴 이미지(선택)"
 							error={errors.image?.message}
 							htmlFor="image"
 						>
 							<RoutineImageUploader {...field} />
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				></Controller>
 
@@ -95,7 +95,7 @@ export default function RoutineBaseForm({
 					control={control}
 					name="restSeconds"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="휴식 시간(초)"
 							htmlFor="restSeconds"
 							error={errors.totalSets?.message}
@@ -108,7 +108,7 @@ export default function RoutineBaseForm({
 								required
 								{...field}
 							/>
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				/>
 
@@ -116,7 +116,7 @@ export default function RoutineBaseForm({
 					control={control}
 					name="totalSets"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="세트 수"
 							htmlFor="totalSets"
 							error={errors.totalSets?.message}
@@ -129,7 +129,7 @@ export default function RoutineBaseForm({
 								required
 								{...field}
 							/>
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				/>
 
@@ -137,19 +137,19 @@ export default function RoutineBaseForm({
 					control={control}
 					name="difficultyLevel"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="루틴 난이도"
 							error={errors.difficultyLevel?.message}
 						>
 							<RoutineLevelSelector {...field} />
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				/>
 				<Controller
 					control={control}
 					name="categoryIDs"
 					render={({ field }) => (
-						<RoutineEditFormGroup
+						<FormGroup
 							displayName="루틴 카테고리"
 							error={errors.categoryIDs?.message}
 						>
@@ -157,7 +157,7 @@ export default function RoutineBaseForm({
 								{...field}
 								routineCategories={routineCategories}
 							/>
-						</RoutineEditFormGroup>
+						</FormGroup>
 					)}
 				/>
 				<ActionsComponent

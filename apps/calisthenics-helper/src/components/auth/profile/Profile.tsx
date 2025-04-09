@@ -1,7 +1,7 @@
 'use client';
 
 import ProfileSkeleton from './ProfileSkeleton';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import { useAuth } from '@/hooks';
 import EditableDisplayName from './EditableDisplayName';
 import EditableProfilePassword from './EditablePassword';
@@ -16,9 +16,9 @@ export default function Profile() {
 
 	return (
 		<div className="py-4 bg-white rounded-lg">
-			<RoutineEditFormGroup displayName="이메일">
+			<FormGroup displayName="이메일">
 				<span>{user?.email}</span>
-			</RoutineEditFormGroup>
+			</FormGroup>
 			<EditableDisplayName displayName={user?.displayName} onSubmit={refetch} />
 			<EditableProfilePassword email={user?.email} />
 			{user?.email && <WithdrawUser email={user.email} onWithdraw={refetch} />}

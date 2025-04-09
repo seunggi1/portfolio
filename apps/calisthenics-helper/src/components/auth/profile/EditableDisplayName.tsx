@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import DisplayNameForm from './DisplayNameForm';
 import { Button } from '@repo/ui/common';
 
@@ -19,11 +19,11 @@ export default function EditableDisplayName({ displayName, onSubmit }: Props) {
 	return isEdit ? (
 		<DisplayNameForm displayName={displayName} onSubmit={handleSubmit} />
 	) : (
-		<RoutineEditFormGroup displayName="별명">
+		<FormGroup displayName="별명">
 			<span>{displayName}</span>
 			<Button color="primary" size="sm" onClick={() => setIsEdit(true)}>
 				변경하기
 			</Button>
-		</RoutineEditFormGroup>
+		</FormGroup>
 	);
 }

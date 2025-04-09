@@ -1,15 +1,15 @@
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import { Skeleton } from '@repo/ui/common';
 
 export default function ProfileSkeleton() {
 	return (
 		<div className="py-4 bg-white rounded-lg">
-			<RoutineEditFormGroup displayName="">
+			<FormGroup displayName="">
 				<Skeleton className="w-full h-3" />
-			</RoutineEditFormGroup>
-			<RoutineEditFormGroup displayName="">
+			</FormGroup>
+			<FormGroup displayName="">
 				<Skeleton className="w-full h-3" />
-			</RoutineEditFormGroup>
+			</FormGroup>
 		</div>
 	);
 }

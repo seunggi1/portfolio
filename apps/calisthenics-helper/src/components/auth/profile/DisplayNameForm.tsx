@@ -1,6 +1,6 @@
 import { useActionState, useEffect } from 'react';
 import { updateDisplayNameAction } from '@/actions/auth/authAction';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import { UpdateDisplayNameResponse, User } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 import Loading from '@/components/common/ui/Loading';
@@ -32,7 +32,7 @@ export default function DisplayNameForm({ displayName, onSubmit }: Props) {
 
 	return (
 		<form action={formAction}>
-			<RoutineEditFormGroup displayName="별명" error={errors.displayName}>
+			<FormGroup displayName="별명" error={errors.displayName}>
 				<Input
 					name="displayName"
 					type="text"
@@ -52,7 +52,7 @@ export default function DisplayNameForm({ displayName, onSubmit }: Props) {
 				{success && (
 					<span className="text-success">변경이 완료되었습니다.</span>
 				)}
-			</RoutineEditFormGroup>
+			</FormGroup>
 		</form>
 	);
 }

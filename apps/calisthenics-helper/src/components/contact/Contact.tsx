@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react';
 import { Button, Input, TextArea } from '@repo/ui/common';
-import RoutineEditFormGroup from '../routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '../common/ui/FormGroup';
 import { nameofFactory } from '@/utils/type';
 import { ContactResponse } from '@/types/contact';
 import { createContactAction } from '@/actions/contact';
@@ -28,7 +28,7 @@ export default function Contact() {
 					className="w-full p-4 mx-auto text-center bg-white md:!w-3/4"
 				>
 					<h2 className="mb-4 text-3xl font-bold text-center">문의 하기</h2>
-					<RoutineEditFormGroup
+					<FormGroup
 						displayName="제목"
 						htmlFor={nameof('title')}
 						error={errors.title}
@@ -40,8 +40,8 @@ export default function Contact() {
 							minLength={2}
 							required
 						/>
-					</RoutineEditFormGroup>
-					<RoutineEditFormGroup
+					</FormGroup>
+					<FormGroup
 						displayName="내용"
 						htmlFor={nameof('contents')}
 						error={errors.contents}
@@ -53,8 +53,8 @@ export default function Contact() {
 							minLength={5}
 							required
 						/>
-					</RoutineEditFormGroup>
-					<RoutineEditFormGroup displayName="" addDivider={false}>
+					</FormGroup>
+					<FormGroup displayName="" addDivider={false}>
 						<Button
 							color="primary"
 							type="submit"
@@ -65,7 +65,7 @@ export default function Contact() {
 						{success && (
 							<span className="text-success">성공적으로 전송되었습니다.</span>
 						)}
-					</RoutineEditFormGroup>
+					</FormGroup>
 				</form>
 			</div>
 		</section>

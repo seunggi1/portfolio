@@ -3,7 +3,7 @@
 import { useActionState } from 'react';
 import type { ResetEmailResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import Loading from '@/components/common/ui/Loading';
 
 type Props = {
@@ -27,7 +27,7 @@ export default function ResetPasswordForm({ action }: Props) {
 			>
 				<h2 className="text-3xl font-bold text-center">비밀번호 초기화</h2>
 
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="이메일"
 					htmlFor="displayName"
 					error={errors.email}
@@ -40,7 +40,7 @@ export default function ResetPasswordForm({ action }: Props) {
 						placeholder="abcd1234@site.com"
 						defaultValue={inputs.email}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 				<Button disabled={isPending || success} type="submit">
 					{isPending ? <Loading /> : '초기화 이메일 전송'}
 				</Button>

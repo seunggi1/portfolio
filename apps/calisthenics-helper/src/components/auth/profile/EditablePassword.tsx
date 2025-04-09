@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import { Button } from '@repo/ui/common';
 import PasswordForm from './PasswordForm';
 
@@ -17,10 +17,10 @@ export default function EditablePassword({ email }: Props) {
 	return isEdit && email ? (
 		<PasswordForm email={email} onSubmit={handleSubmit} />
 	) : (
-		<RoutineEditFormGroup displayName="비밀번호 변경">
+		<FormGroup displayName="비밀번호 변경">
 			<Button color="primary" onClick={() => setIsEdit(true)}>
 				비밀번호 변경
 			</Button>
-		</RoutineEditFormGroup>
+		</FormGroup>
 	);
 }

@@ -1,7 +1,7 @@
 import { useActionState, useEffect } from 'react';
 import { updateProfilePasswordAction } from '@/actions/auth/authAction';
 import Loading from '@/components/common/ui/Loading';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import { UpdateProfilePasswordResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 
@@ -30,8 +30,8 @@ export default function PasswordForm({ email, onSubmit }: Props) {
 
 	return (
 		<form action={formAction}>
-			<RoutineEditFormGroup displayName="비밀번호 변경">
-				<RoutineEditFormGroup
+			<FormGroup displayName="비밀번호 변경">
+				<FormGroup
 					displayName="현재 비밀번호"
 					addDivider={false}
 					htmlFor="password"
@@ -44,8 +44,8 @@ export default function PasswordForm({ email, onSubmit }: Props) {
 						defaultValue={inputs.password}
 						required
 					/>
-				</RoutineEditFormGroup>
-				<RoutineEditFormGroup
+				</FormGroup>
+				<FormGroup
 					displayName="새 비밀번호"
 					addDivider={false}
 					htmlFor="new-password"
@@ -58,8 +58,8 @@ export default function PasswordForm({ email, onSubmit }: Props) {
 						defaultValue={inputs.newPassword}
 						required
 					/>
-				</RoutineEditFormGroup>
-				<RoutineEditFormGroup
+				</FormGroup>
+				<FormGroup
 					displayName="새 비밀번호 확인"
 					addDivider={false}
 					htmlFor="new-confirm-password"
@@ -73,16 +73,16 @@ export default function PasswordForm({ email, onSubmit }: Props) {
 						defaultValue={inputs.newConfirmPassword}
 						required
 					/>
-				</RoutineEditFormGroup>
-				<RoutineEditFormGroup displayName="" addDivider={false}>
+				</FormGroup>
+				<FormGroup displayName="" addDivider={false}>
 					<Button type="submit" size="sm" disabled={isPending || success}>
 						{isPending || success ? <Loading /> : '변경'}
 					</Button>
 					{success && (
 						<span className="text-success">변경이 완료되었습니다.</span>
 					)}
-				</RoutineEditFormGroup>
-			</RoutineEditFormGroup>
+				</FormGroup>
+			</FormGroup>
 		</form>
 	);
 }

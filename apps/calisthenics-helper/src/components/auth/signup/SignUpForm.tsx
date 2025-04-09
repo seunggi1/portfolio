@@ -4,7 +4,7 @@ import { useActionState } from 'react';
 import { SignUpFormResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 import useAuthForm from '@/hooks/useAuthForm';
-import RoutineEditFormGroup from '@/components/routine/routine-edit/RoutineEditFormGroup';
+import FormGroup from '@/components/common/ui/FormGroup';
 import Loading from '@/components/common/ui/Loading';
 
 type Props = {
@@ -29,7 +29,7 @@ export default function SignUpForm({ action }: Props) {
 				className="flex flex-col justify-center w-full gap-2 px-4 py-2 bg-white rounded-md md:!w-1/2"
 			>
 				<h2 className="mb-4 text-3xl font-bold text-center">회원가입</h2>
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="별명"
 					htmlFor="displayName"
 					error={errors.displayName}
@@ -45,12 +45,8 @@ export default function SignUpForm({ action }: Props) {
 						required
 						defaultValue={inputs.displayName}
 					/>
-				</RoutineEditFormGroup>
-				<RoutineEditFormGroup
-					displayName="이메일"
-					htmlFor="email"
-					error={errors.email}
-				>
+				</FormGroup>
+				<FormGroup displayName="이메일" htmlFor="email" error={errors.email}>
 					<Input
 						id="email"
 						type="email"
@@ -60,9 +56,9 @@ export default function SignUpForm({ action }: Props) {
 						required
 						defaultValue={inputs.email}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 
-				<RoutineEditFormGroup
+				<FormGroup
 					displayName="비밀번호"
 					htmlFor="password"
 					error={errors.password}
@@ -76,8 +72,8 @@ export default function SignUpForm({ action }: Props) {
 						required
 						defaultValue={inputs.password}
 					/>
-				</RoutineEditFormGroup>
-				<RoutineEditFormGroup
+				</FormGroup>
+				<FormGroup
 					displayName="비밀번호 확인"
 					htmlFor="confirm-password"
 					error={errors.confirmPassword}
@@ -91,7 +87,7 @@ export default function SignUpForm({ action }: Props) {
 						required
 						defaultValue={inputs.confirmPassword}
 					/>
-				</RoutineEditFormGroup>
+				</FormGroup>
 				<Button disabled={isPending || success} type="submit">
 					{isPending ? <Loading /> : '회원가입'}
 				</Button>

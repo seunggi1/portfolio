@@ -8,7 +8,7 @@ type Props = {
 	addDivider?: boolean;
 };
 
-export default function RoutineEditFormGroup({
+export default function FormGroup({
 	displayName,
 	error,
 	children,
