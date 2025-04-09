@@ -1,8 +1,9 @@
 'use client';
 
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import CategoryFilterTabSkeleton from './CategoryFilterTabSkeleton';
-import CategoryFilterTab from './CategoryFilterTab';
+
+const CategoryFilterTab = lazy(() => import('./CategoryFilterTab'));
 
 export default function CategoryFilterContainer() {
 	return (
