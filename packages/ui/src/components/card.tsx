@@ -14,7 +14,7 @@ export default function Card({
 
 function CardHeader({ children }: { children: ReactNode }): JSX.Element {
 	return (
-		<div className="mb-2 rounded-md overflow-hidden transition-all shadow-md group-hover:shadow-lg sm:group-hover:-translate-y-1">
+		<div className="mb-2 overflow-hidden shadow-md rounded-md transition-all group-hover:shadow-lg sm:group-hover:-translate-y-1">
 			{children}
 		</div>
 	);
