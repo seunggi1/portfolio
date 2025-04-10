@@ -5,15 +5,12 @@ export default function RoutineBanners() {
 	return (
 		<div className="max-w-screen-xl m-auto h-[20rem]">
 			<Carousel className="w-full h-full">
-				<Carousel.Item
-					id="fullbody-routine"
-					className="relative flex w-full text-white"
-				>
+				<Carousel.Item id="fullbody-routine" className="flex w-full text-white">
 					<Link
 						href={`/api/routines/recommand?type=1`}
-						className="flex flex-col items-center justify-center w-full text-3xl bg-primary"
+						className="flex flex-col items-center justify-center w-full text-3xl bg-primary font-bold"
 					>
-						<span>오늘의 추천 전신 루틴</span>
+						<span>오늘의 전신 루틴</span>
 					</Link>
 				</Carousel.Item>
 				<Carousel.Item
@@ -22,9 +19,9 @@ export default function RoutineBanners() {
 				>
 					<Link
 						href={`/api/routines/recommand?type=2`}
-						className="flex flex-col items-center justify-center w-full text-3xl bg-secondary"
+						className="flex flex-col items-center justify-center w-full text-3xl bg-success font-bold"
 					>
-						<span>오늘의 추천 상체 루틴</span>
+						<span>오늘의 상체 루틴</span>
 					</Link>
 				</Carousel.Item>
 				<Carousel.Item
@@ -33,9 +30,9 @@ export default function RoutineBanners() {
 				>
 					<Link
 						href={`/api/routines/recommand?type=3`}
-						className="flex flex-col items-center justify-center w-full text-3xl bg-info"
+						className="flex flex-col items-center justify-center w-full text-3xl bg-info font-bold"
 					>
-						<span>오늘의 추천 하체 루틴</span>
+						<span>오늘의 하체 루틴</span>
 					</Link>
 				</Carousel.Item>
 			</Carousel>
