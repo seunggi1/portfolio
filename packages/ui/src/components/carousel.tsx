@@ -59,9 +59,9 @@ const Carousel: CarouselComponent = ({
 				)}
 			>
 				{children}
-				<div className="absolute z-10 flex justify-center w-full py-2 gap-2 -translate-x-1/2 left-1/2 bottom-5">
+				<div className="absolute z-10 flex justify-center w-full gap-2 -translate-x-1/2 left-1/2 bottom-5">
 					{carouselItemIDs.map((id, i) => (
-						<a key={id} href={`#${id}`} className="btn btn-xs btn-neutral">
+						<a key={id} href={`#${id}`} className="btn btn-xs btn-ghost ">
 							{i + 1}
 						</a>
 					))}
