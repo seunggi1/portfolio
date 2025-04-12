@@ -1,5 +1,6 @@
 'use client';
 
+import { MouseEvent } from 'react';
 import Link from 'next/link';
 import AuthButton from './AuthButton';
 import { useAuth } from '@/hooks';
@@ -8,6 +9,18 @@ import AuthActionsSkeleton from './AuthActionsSkeleton';
 
 export default function AuthActions() {
 	const { user, isLoading, handleSignout } = useAuth();
+
+	const handleMenuClick = (e: MouseEvent<HTMLUListElement>) => {
+		const target = e.target as HTMLElement;
+		if (target.parentElement instanceof HTMLLIElement === false) {
+			return;
+		}
+
+		const elem = document.activeElement;
+		if (elem) {
+			(elem as HTMLElement).blur();
+		}
+	};
 
 	return (
 		<>
@@ -22,6 +35,7 @@ export default function AuthActions() {
 							<ul
 								tabIndex={0}
 								className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+								onClick={handleMenuClick}
 							>
 								<li>
 									<Link href={'/profile'}>내 정보</Link>
