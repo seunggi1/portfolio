@@ -16,7 +16,7 @@ export default function AuthActions() {
 				{!isLoading && user && (
 					<>
 						<div className="dropdown dropdown-bottom dropdown-end">
-							<div tabIndex={0} role="button" className="m-1ß">
+							<div tabIndex={0} role="button" className="m-1">
 								<UserIcon />
 							</div>
 							<ul
