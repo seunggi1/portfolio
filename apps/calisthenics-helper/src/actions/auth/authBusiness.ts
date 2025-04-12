@@ -44,7 +44,7 @@ export async function signIn(
 
 export async function signOut(): Promise<boolean> {
 	const client = await getServiceClient();
-	client.signOut();
+	await client.signOut();
 
 	return true;
 }

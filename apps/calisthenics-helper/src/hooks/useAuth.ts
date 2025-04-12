@@ -2,10 +2,8 @@ import { useCallback } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authKeys, fetchUser, signout } from '@/api/auth';
 import { User } from '@/types/auth';
-import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
-	const router = useRouter();
 	const queryClient = useQueryClient();
 
 	const {
@@ -19,20 +17,8 @@ export default function useAuth() {
 		refetchOnWindowFocus: 'always',
 	});
 
-	const signoutMutation = useMutation({
-		mutationFn: signout,
-		onMutate: () => {
-			router.push('/');
-			queryClient.setQueryData(authKeys.base, () => null);
-			return user;
-		},
-		onError: (error, variable, contetxt) => {
-			queryClient.setQueryData(authKeys.base, () => contetxt);
-		},
-	});
-
 	const handleSignout = () => {
-		signoutMutation.mutate();
+		queryClient.setQueryData(authKeys.base, () => null);
 	};
 
 	const handleRefetch = useCallback(refetch, [refetch]);

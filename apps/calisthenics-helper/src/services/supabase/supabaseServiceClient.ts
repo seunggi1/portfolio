@@ -452,10 +452,6 @@ export class SupabaseServiceClient implements ServiceClient {
 	async signOut(): Promise<boolean> {
 		const { error } = await this.client.auth.signOut();
 
-		if (error) {
-			throw new Error(error.message);
-		}
-
 		return error === null;
 	}
 

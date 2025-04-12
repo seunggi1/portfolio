@@ -49,7 +49,9 @@ export default function AuthActions() {
 									<Link href={'/contact'}>문의하기</Link>
 								</li>
 								<li>
-									<span onClick={handleSignout}>로그아웃</span>
+									<Link href={'/signout'} onClick={handleSignout}>
+										로그아웃
+									</Link>
 								</li>
 							</ul>
 						</div>
