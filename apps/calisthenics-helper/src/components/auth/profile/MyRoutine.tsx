@@ -11,7 +11,7 @@ import { useIntersectionObserver } from '@/hooks';
 import ProfileContainer from './ProfileContainer';
 
 export default function MyRoutine() {
-	const { routines, isFetching, isLoading, handleNextPage } =
+	const { routines, isFetching, hasNextPage, isLoading, handleNextPage } =
 		useRoutineByUser();
 
 	const { handleRef } = useIntersectionObserver({
@@ -52,7 +52,7 @@ export default function MyRoutine() {
 					))}
 				</div>
 				<div className="h-2 text-center" ref={handleRef}>
-					{isFetching && <Loading />}
+					{hasNextPage && isFetching && <Loading />}
 				</div>
 			</section>
 		</ProfileContainer>

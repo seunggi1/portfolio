@@ -16,7 +16,8 @@ type Props = {
 };
 
 export default function Comments({ routineID }: Props) {
-	const { comments, handleNextComments, isFetching } = useComments(routineID);
+	const { comments, hasNextPage, handleNextComments, isFetching } =
+		useComments(routineID);
 	const { create, update, remove } = useCommentEdit(routineID);
 	const { user } = useAuth();
 	const { handleRef } = useIntersectionObserver({
@@ -50,7 +51,7 @@ export default function Comments({ routineID }: Props) {
 				))}
 			</ul>
 			<div className="h-2 text-center" ref={handleRef}>
-				{isFetching && <Loading />}
+				{hasNextPage && isFetching && <Loading />}
 			</div>
 		</div>
 	);
