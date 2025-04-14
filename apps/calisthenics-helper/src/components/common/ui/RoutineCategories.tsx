@@ -16,5 +16,5 @@ export default function RoutineCategories({ categoryNames }: Props) {
 		</Button>
 	));
 
-	return <div className="flex mt-2 gap-1">{categories}</div>;
+	return <div className="flex flex-wrap gap-1 mt-2">{categories}</div>;
 }

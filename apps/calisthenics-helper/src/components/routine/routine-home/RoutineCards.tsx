@@ -56,9 +56,6 @@ export default function RoutineCards() {
 			</section>
 			<div className="w-full pt-4 text-center" ref={handleRef}>
 				{hasNextPage && isFetching ? <Loading /> : null}
-				{!hasNextPage && (
-					<span className="text-2xl font-bold">불러올 데이터가 없습니다.</span>
-				)}
 			</div>
 		</>
 	);
