@@ -1,6 +1,12 @@
 import { Button } from '@repo/ui/common';
-import { PauseIcon, PlayIcon, StopIcon } from '@/components/common/icon';
-import { Volume2, VolumeOff } from 'lucide-react';
+import {
+	PauseIcon,
+	PlayIcon,
+	StopIcon,
+	VolumeOffIcon,
+	VolumeOnIcon,
+} from '@/components/common/icon';
+import { useState } from 'react';
 
 type Props = {
 	isPause: boolean;
@@ -17,6 +23,8 @@ export default function RoutineControl({
 	onMuteToggle,
 	onEndClick,
 }: Props) {
+	const [mute, setMute] = useState<boolean>(isMute);
+
 	return (
 		<div className="space-x-4">
 			<Button onClick={onEndClick} color={'error'}>
@@ -31,13 +39,25 @@ export default function RoutineControl({
 					<PauseIcon />
 				</Button>
 			)}
-			{isMute ? (
-				<Button onClick={onMuteToggle} color={'warning'}>
-					<VolumeOff />
+			{mute ? (
+				<Button
+					onClick={() => {
+						onMuteToggle();
+						setMute(!mute);
+					}}
+					color={'warning'}
+				>
+					<VolumeOffIcon />
 				</Button>
 			) : (
-				<Button onClick={onMuteToggle} color={'primary'}>
-					<Volume2 />
+				<Button
+					onClick={() => {
+						onMuteToggle();
+						setMute(!mute);
+					}}
+					color={'primary'}
+				>
+					<VolumeOnIcon />
 				</Button>
 			)}
 		</div>
