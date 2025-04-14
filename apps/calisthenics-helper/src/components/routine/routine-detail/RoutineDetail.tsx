@@ -54,10 +54,15 @@ export default function RoutineDetail({ id }: Props) {
 		<>
 			<section className="max-w-screen-xl grid-cols-2 m-auto md:grid gap-x-2">
 				<div className="basis-[60%] w-full">
-					<div className="flex items-center justify-center text-white bg-black h-80">
+					<div
+						className={[
+							'flex items-center justify-center h-48 lg:h-80',
+							imageURL ? '' : 'bg-black text-white',
+						].join(' ')}
+					>
 						{imageURL ? (
 							<div className="relative w-full h-full">
-								<Image src={imageURL} alt={name} fill={true} />
+								<Image src={imageURL} alt={name} fill={true} sizes="450px" />
 							</div>
 						) : (
 							<span className="text-4xl font-bold">{name}</span>

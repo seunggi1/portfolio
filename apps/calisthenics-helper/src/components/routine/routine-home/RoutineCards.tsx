@@ -32,12 +32,18 @@ export default function RoutineCards() {
 					<Link key={routine.id} href={`/routines/${routine.id}`}>
 						<Card>
 							<Card.CardHeader>
-								<div className="text-white bg-black w-full h-[8rem] flex items-center justify-center relative">
+								<div
+									className={[
+										'w-full h-[8rem] flex items-center justify-center relative',
+										routine.imageURL ? '' : 'bg-black text-white',
+									].join(' ')}
+								>
 									{routine.imageURL ? (
 										<Image
 											src={routine.imageURL}
-											alt="doing pull-up man"
+											alt={routine.name}
 											className="absolute"
+											sizes="230px"
 											fill={true}
 										/>
 									) : (
