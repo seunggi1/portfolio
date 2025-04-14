@@ -2,7 +2,7 @@ import { Action, ActionType, Toast } from './types';
 import { useEffect, useState } from 'react';
 
 const defaultDuration = {
-	info: 2000,
+	info: 3000,
 	error: 3000,
 };
 
@@ -23,7 +23,8 @@ const reducer = (state: Toast[], action: Action): Toast[] => {
 	return state;
 };
 
-let listeners: Array<(toast: Toast[]) => void> = [];
+const listeners: Array<(toast: Toast[]) => void> = [];
+
 export let memoryState: Toast[] = [];
 export const dispatch = (action: Action) => {
 	memoryState = reducer(memoryState, action);
@@ -36,7 +37,7 @@ export function useToast() {
 	useEffect(() => {
 		listeners.push(setToasts);
 
-		() => {
+		return () => {
 			const index = listeners.findIndex((v) => v === setToasts);
 			if (index > -1) {
 				listeners.splice(index, 1);

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useToast } from './core';
 import { Toast } from './types';
 
@@ -16,8 +17,15 @@ export function Toaster() {
 }
 
 function ToastItem({ type, message }: Pick<Toast, 'type' | 'message'>) {
+	useEffect(() => {}, []);
+
 	return (
-		<div className={['w-96 text-center', getToastStyleClass(type)].join(' ')}>
+		<div
+			className={[
+				'w-96 text-center animate-fadeout',
+				getToastStyleClass(type),
+			].join(' ')}
+		>
 			<span>{message}</span>
 		</div>
 	);
