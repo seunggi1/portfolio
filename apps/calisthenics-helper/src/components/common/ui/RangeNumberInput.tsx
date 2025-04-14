@@ -21,10 +21,16 @@ export default function RangeNumberInput({
 	onChange,
 	required,
 }: Props) {
-	const [isRangeInput, setIsRangeInput] = useState<boolean>(true);
+	const [isRangeInput, setIsRangeInput] = useState<boolean>(
+		value % step === 0 && value <= max
+	);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		onChange(Math.max(min, +e.target.value));
+		if (e.target.type === 'range') {
+			onChange(Math.max(min, +e.target.value));
+		} else {
+			onChange(e.target.value === '' ? 0 : +e.target.value);
+		}
 	};
 
 	return (
@@ -44,7 +50,7 @@ export default function RangeNumberInput({
 					id={id}
 					type="number"
 					min={min}
-					value={value}
+					value={value === 0 ? '' : value}
 					required={required}
 					onChange={handleChange}
 				/>
