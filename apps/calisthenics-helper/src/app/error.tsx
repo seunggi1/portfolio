@@ -3,11 +3,7 @@
 import { Button } from '@repo/ui/common';
 import Link from 'next/link';
 
-type Props = {
-	error: Error;
-};
-
-export default function error({ error }: Props) {
+export default function error() {
 	return (
 		<section className="flex flex-col items-center justify-center h-full gap-4">
 			<p className="text-2xl font-bold">오류가 발생했어요</p>

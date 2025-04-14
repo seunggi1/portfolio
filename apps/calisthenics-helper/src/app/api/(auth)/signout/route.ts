@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServiceClient } from '@/services';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
 	try {
 		const client = await getServiceClient();
 		const result = await client.signOut();

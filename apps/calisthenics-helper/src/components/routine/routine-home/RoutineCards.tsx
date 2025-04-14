@@ -13,14 +13,8 @@ export default function RoutineCards() {
 	const searchParam = useSearchParams();
 	const categoryID = searchParam.get('category');
 	const searchQuery = searchParam.get('search');
-	const {
-		routines,
-		error,
-		isLoading,
-		isFetching,
-		handleNextPage,
-		hasNextPage,
-	} = useRoutines({ categoryID, searchQuery });
+	const { routines, isLoading, isFetching, handleNextPage, hasNextPage } =
+		useRoutines({ categoryID, searchQuery });
 
 	const { handleRef } = useIntersectionObserver({
 		callback: handleNextPage,

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const MAX_ITEM = 10;
 
@@ -56,9 +56,9 @@ export default function useRoutineSound() {
 			return;
 		}
 
-		let targetCount = count % MAX_ITEM;
+		const targetCount = count % MAX_ITEM;
 		if (countAudio.current[targetCount]) {
-			countAudio.current[targetCount].play().catch((error) => {
+			countAudio.current[targetCount].play().catch(() => {
 				countAudio.current[targetCount]?.pause();
 			});
 		}
@@ -70,7 +70,7 @@ export default function useRoutineSound() {
 		}
 
 		if (statusAudio.current) {
-			statusAudio.current[status].play().catch((error) => {
+			statusAudio.current[status].play().catch(() => {
 				if (statusAudio.current) {
 					statusAudio.current[status].pause();
 				}

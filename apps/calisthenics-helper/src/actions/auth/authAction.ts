@@ -26,10 +26,8 @@ import type {
 	SignUpFormResponse,
 	UpdateDisplayNameResponse,
 	UpdatePasswordResponse,
-	UpdateProfilePasswordData,
 	UpdateProfilePasswordResponse,
 	User,
-	WithdrawData,
 	WithdrawResponse,
 } from '@/types/auth';
 

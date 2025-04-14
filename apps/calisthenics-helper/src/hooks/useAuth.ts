@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { authKeys, fetchUser, signout } from '@/api/auth';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { authKeys, fetchUser } from '@/api/auth';
 import { User } from '@/types/auth';
 
 export default function useAuth() {
@@ -9,7 +9,6 @@ export default function useAuth() {
 	const {
 		data: user,
 		isLoading,
-		error,
 		refetch,
 	} = useQuery<User | null>({
 		queryKey: authKeys.base,
