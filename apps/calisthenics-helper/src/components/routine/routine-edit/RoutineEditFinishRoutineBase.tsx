@@ -4,6 +4,7 @@ import FormGroup from '../../common/ui/FormGroup';
 import RoutineLevel from '../../common/ui/RoutineLevel';
 import RoutineCategories from '../../common/ui/RoutineCategories';
 import PreviewImage from '@/components/common/ui/PreviewImage';
+import Pre from '@/components/common/ui/Pre';
 
 type Props = {
 	routine: NewRoutineBase;
@@ -21,7 +22,7 @@ export default function RoutineEditFinishRoutineBase({
 				<p>{routine.name}</p>
 			</FormGroup>
 			<FormGroup displayName="루틴 설명">
-				<pre className="text-pretty">{routine.description}</pre>
+				<Pre>{routine.description}</Pre>
 			</FormGroup>
 			<FormGroup displayName="루틴 이미지">
 				{routine.image && <PreviewImage image={routine.image} />}
