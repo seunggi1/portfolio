@@ -10,3 +10,5 @@ export { default as MailIcon } from './MailIcon';
 export { default as PenIcon } from './PenIcon';
 export { default as PenOffIcon } from './PenOffIcon';
 export { default as MuscleIcon } from './MuscleIcon';
+export { default as VolumeOnIcon } from './VolumeOnIcon';
+export { default as VolumeOffIcon } from './VolumeOffIcon';
