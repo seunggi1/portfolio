@@ -17,6 +17,7 @@ import RoutineUpdateButton from './RoutineUpdateButton';
 import { toast } from '@/lib/toast/toast';
 import { useRoutineDelete } from '@/hooks/useRoutineDelete';
 import CommentsSkeleton from '../comment/CommentsSkeleton';
+import RoutineDescription from './RoutineDescription';
 
 const Comments = lazy(() => import('../comment/Comments'));
 
@@ -64,6 +65,7 @@ export default function RoutineDetail({ id }: Props) {
 					</div>
 					<div className="flex flex-col gap-1 p-2 mb-4">
 						<RoutineSummary {...routineDetail} />
+						<RoutineDescription description={routineDetail.description} />
 						<RoutineLevel level={difficultyLevel} />
 						<RoutineCategories categoryNames={categoryNames} />
 						<Link href={`/routines/${id}/run`}>
