@@ -21,7 +21,7 @@ export default function RoutineEditFinishRoutineBase({
 				<p>{routine.name}</p>
 			</FormGroup>
 			<FormGroup displayName="루틴 설명">
-				<p>{routine.description}</p>
+				<pre className="text-pretty">{routine.description}</pre>
 			</FormGroup>
 			<FormGroup displayName="루틴 이미지">
 				{routine.image && <PreviewImage image={routine.image} />}
