@@ -2,7 +2,6 @@ import {
 	Children,
 	FC,
 	isValidElement,
-	MouseEvent,
 	ReactElement,
 	ReactNode,
 	useMemo,
