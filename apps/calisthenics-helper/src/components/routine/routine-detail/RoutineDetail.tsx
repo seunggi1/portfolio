@@ -1,7 +1,6 @@
 'use client';
 
 import { lazy, Suspense, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type RoutineDetail } from '@/types/routine';
@@ -18,6 +17,7 @@ import { toast } from '@/lib/toast/toast';
 import { useRoutineDelete } from '@/hooks/useRoutineDelete';
 import CommentsSkeleton from '../comment/CommentsSkeleton';
 import RoutineDescription from './RoutineDescription';
+import ImageContainer from '@/components/common/ui/ImageContainer';
 
 const Comments = lazy(() => import('../comment/Comments'));
 
@@ -54,20 +54,13 @@ export default function RoutineDetail({ id }: Props) {
 		<>
 			<section className="max-w-screen-xl grid-cols-2 m-auto md:grid gap-x-2">
 				<div className="basis-[60%] w-full">
-					<div
-						className={[
-							'flex items-center justify-center h-48 lg:h-80',
-							imageURL ? '' : 'bg-black text-white',
-						].join(' ')}
-					>
-						{imageURL ? (
-							<div className="relative w-full h-full">
-								<Image src={imageURL} alt={name} fill={true} sizes="450px" />
-							</div>
-						) : (
-							<span className="text-4xl font-bold">{name}</span>
-						)}
-					</div>
+					<ImageContainer
+						image={imageURL}
+						alt={name}
+						className="w-full h-48 md:h-80"
+						sizes="450px"
+						fallbackContent={<span className="text-4xl font-bold">{name}</span>}
+					/>
 					<div className="flex flex-col gap-1 p-2 mb-4">
 						<RoutineSummary {...routineDetail} />
 						<RoutineDescription description={routineDetail.description} />

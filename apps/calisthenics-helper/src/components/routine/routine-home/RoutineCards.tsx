@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Card } from '@repo/ui/common';
@@ -8,6 +7,7 @@ import RoutineSummary from '../../common/ui/RoutineSummary';
 import { useIntersectionObserver, useRoutines } from '@/hooks';
 import RoutineCardsSkeleton from './RoutineCardsSkeleton';
 import Loading from '@/components/common/ui/Loading';
+import ImageContainer from '@/components/common/ui/ImageContainer';
 
 export default function RoutineCards() {
 	const searchParam = useSearchParams();
@@ -32,24 +32,13 @@ export default function RoutineCards() {
 					<Link key={routine.id} href={`/routines/${routine.id}`}>
 						<Card>
 							<Card.CardHeader>
-								<div
-									className={[
-										'w-full h-[8rem] flex items-center justify-center relative',
-										routine.imageURL ? '' : 'bg-black text-white',
-									].join(' ')}
-								>
-									{routine.imageURL ? (
-										<Image
-											src={routine.imageURL}
-											alt={routine.name}
-											className="absolute"
-											sizes="230px"
-											fill={true}
-										/>
-									) : (
-										<span>{routine.name}</span>
-									)}
-								</div>
+								<ImageContainer
+									image={routine.imageURL}
+									alt={routine.name}
+									className="w-full h-[8rem]"
+									sizes="230px"
+									fallbackContent={<span>{routine.name}</span>}
+								/>
 							</Card.CardHeader>
 							<Card.CardBody>
 								<RoutineSummary {...routine} />
