@@ -31,6 +31,8 @@ import type {
 	WithdrawResponse,
 } from '@/types/auth';
 
+const SERVER_ERROR_MESSAGE = '서버 에러가 발생했습니다. 잠시 후 시도해주세요';
+
 export async function createUser(
 	prevState: SignUpFormResponse,
 	formData: FormData
@@ -67,17 +69,22 @@ export async function createUser(
 		};
 	}
 
-	if (await checkDisplayName(displayName)) {
-		state.errors.displayName = '이미 존재하는 별명입니다.';
+	try {
+		if (await checkDisplayName(displayName)) {
+			state.errors.displayName = '이미 존재하는 별명입니다.';
+			return state;
+		}
+
+		if (await checkEmail(email)) {
+			state.errors.email = '이미 존재하는 이메일입니다.';
+			return state;
+		}
+
+		state.success = await signUp(displayName, email, password);
+	} catch {
+		state.errors.password = SERVER_ERROR_MESSAGE;
 		return state;
 	}
-
-	if (await checkEmail(email)) {
-		state.errors.email = '이미 존재하는 이메일입니다.';
-		return state;
-	}
-
-	state.success = await signUp(displayName, email, password);
 
 	if (state.success) {
 		state.errors = {};
@@ -107,12 +114,17 @@ export async function requestSignIn(
 		return state;
 	}
 
-	if ((await checkEmail(email)) === false) {
-		state.errors.email = '존재하지않는 계정입니다.';
+	try {
+		if ((await checkEmail(email)) === false) {
+			state.errors.email = '존재하지않는 계정입니다.';
+			return state;
+		}
+
+		state.success = await signIn(email, password);
+	} catch {
+		state.errors.password = SERVER_ERROR_MESSAGE;
 		return state;
 	}
-
-	state.success = await signIn(email, password);
 
 	if (state.success) {
 		state.errors = {};
@@ -147,18 +159,23 @@ export async function resetPasswordAction(
 		return state;
 	}
 
-	if ((await checkEmail(email)) === false) {
-		state.errors.email = '존재하지않는 계정입니다.';
+	try {
+		if ((await checkEmail(email)) === false) {
+			state.errors.email = '존재하지않는 계정입니다.';
+			return state;
+		}
+
+		state.success = await sendResetPasswordEmail(email);
+	} catch {
+		state.errors.email = SERVER_ERROR_MESSAGE;
 		return state;
 	}
-
-	state.success = await sendResetPasswordEmail(email);
 
 	if (state.success) {
 		state.errors = {};
 	} else {
 		state.errors = {
-			email: '서버 오류가 발생했습니다.',
+			email: SERVER_ERROR_MESSAGE,
 		};
 	}
 
@@ -190,16 +207,21 @@ export async function updatePasswordAction(
 		return state;
 	}
 
-	const updateResult = await resetPassword(token, email, password);
+	try {
+		const updateResult = await resetPassword(token, email, password);
 
-	if (updateResult !== 'success') {
-		state.errors.password =
-			updateResult === 'samePassword'
-				? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
-				: '서버 오류가 발생했습니다.';
-	} else {
-		state.success = true;
-		state.errors = {};
+		if (updateResult !== 'success') {
+			state.errors.password =
+				updateResult === 'samePassword'
+					? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
+					: SERVER_ERROR_MESSAGE;
+		} else {
+			state.success = true;
+			state.errors = {};
+		}
+	} catch {
+		state.errors.confirmPassword = SERVER_ERROR_MESSAGE;
+		return state;
 	}
 
 	return state;
@@ -227,11 +249,16 @@ export async function updateDisplayNameAction(
 		return state;
 	}
 
-	const isExist = await checkDisplayName(displayName);
+	try {
+		const isExist = await checkDisplayName(displayName);
 
-	if (isExist) {
-		state.errors.displayName = '이미 존재하는 별명입니다.';
+		if (isExist) {
+			state.errors.displayName = '이미 존재하는 별명입니다.';
 
+			return state;
+		}
+	} catch {
+		state.errors.displayName = SERVER_ERROR_MESSAGE;
 		return state;
 	}
 
@@ -241,7 +268,7 @@ export async function updateDisplayNameAction(
 		state.errors = {};
 	} else {
 		state.errors = {
-			displayName: '서버 오류가 발생했습니다.',
+			displayName: SERVER_ERROR_MESSAGE,
 		};
 	}
 
@@ -280,27 +307,30 @@ export async function updateProfilePasswordAction(
 		return state;
 	}
 
-	const isCurrentPasswordValid = await checkPassword(email, password);
+	try {
+		const isCurrentPasswordValid = await checkPassword(email, password);
 
-	if (!isCurrentPasswordValid) {
-		state.errors.password = '현재 비밀번호가 올바르지 않습니다.';
+		if (!isCurrentPasswordValid) {
+			state.errors.password = '현재 비밀번호가 올바르지 않습니다.';
 
+			return state;
+		}
+
+		const updateResult = await updatePassword(newPassword);
+
+		if (updateResult !== 'success') {
+			state.errors.password =
+				updateResult === 'samePassword'
+					? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
+					: SERVER_ERROR_MESSAGE;
+		} else {
+			state.success = true;
+			state.errors = {};
+		}
+	} catch {
+		state.errors.newConfirmPassword = SERVER_ERROR_MESSAGE;
 		return state;
 	}
-
-	const updateResult = await updatePassword(newPassword);
-
-	if (updateResult !== 'success') {
-		state.errors.password =
-			updateResult === 'samePassword'
-				? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
-				: '서버 오류가 발생했습니다.';
-	} else {
-		state.success = true;
-		state.errors = {};
-	}
-
-	return state;
 
 	return state;
 }
@@ -327,14 +357,19 @@ export async function withdrawAction(
 		return state;
 	}
 
-	state.success = await deleteUser(confirmEmail);
+	try {
+		state.success = await deleteUser(confirmEmail);
 
-	if (state.success) {
-		state.errors = {};
-	} else {
-		state.errors = {
-			confirmEmail: '서버 오류가 발생했습니다.',
-		};
+		if (state.success) {
+			state.errors = {};
+		} else {
+			state.errors = {
+				confirmEmail: SERVER_ERROR_MESSAGE,
+			};
+		}
+	} catch {
+		state.errors.confirmEmail = SERVER_ERROR_MESSAGE;
+		return state;
 	}
 
 	return state;
