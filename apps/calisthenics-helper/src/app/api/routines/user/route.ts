@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { RoutinesByUserRequest, RoutinesResponse } from '@/types/routine';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
-import { getServiceClient } from '@/services';
+import { getRoutinesByUser } from '@/business';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -10,8 +10,7 @@ export async function GET(request: NextRequest) {
 	let routines: RoutinesResponse | null;
 
 	try {
-		const client = await getServiceClient();
-		routines = await client.getRoutinesByUser({
+		routines = await getRoutinesByUser({
 			nextCursor: cursor,
 		});
 

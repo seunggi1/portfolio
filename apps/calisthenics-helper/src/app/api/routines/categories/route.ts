@@ -1,14 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
 import { RoutineCategory } from '@/types/routine';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
+import { getRoutineCategories } from '@/business';
 
 export async function GET() {
 	let categories: RoutineCategory[];
 
 	try {
-		const client = await getServiceClient();
-		categories = await client.getRoutineCategories();
+		categories = await getRoutineCategories();
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}

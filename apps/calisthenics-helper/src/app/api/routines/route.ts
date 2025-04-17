@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
 import type {
 	Routine,
 	RoutinesRequest,
@@ -8,6 +7,7 @@ import type {
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
 import { ValidatorError } from '@/types/error';
+import { createRoutine, getRoutines } from '@/business';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -17,8 +17,7 @@ export async function GET(request: NextRequest) {
 	let routines: RoutinesResponse | null;
 
 	try {
-		const client = await getServiceClient();
-		routines = await client.getRoutines({
+		routines = await getRoutines({
 			nextCursor: cursor,
 			categoryID,
 			searchQuery,
@@ -48,8 +47,7 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const client = await getServiceClient();
-		const result = await client.createRoutine(data);
+		const result = await createRoutine(data);
 
 		return NextResponse.json<Routine['id']>(result);
 	} catch (error) {

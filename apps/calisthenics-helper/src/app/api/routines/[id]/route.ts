@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
+
 import type { Routine, RoutineDetail } from '@/types/routine';
 import { NotFoundError, ValidatorError } from '@/types/error';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
+import { deleteRoutine, getRoutineById, updateRoutine } from '@/business';
 
 export async function GET(
 	_: NextRequest,
@@ -12,8 +13,8 @@ export async function GET(
 	let routine: RoutineDetail | null = null;
 	try {
 		const id = (await params).id;
-		const client = await getServiceClient();
-		routine = await client.getRoutineById(id);
+
+		routine = await getRoutineById(id);
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}
@@ -44,8 +45,7 @@ export async function PUT(
 
 	try {
 		const id = (await params).id;
-		const client = await getServiceClient();
-		const result = await client.updateRoutine({ ...data, id });
+		const result = await updateRoutine({ ...data, id });
 
 		return NextResponse.json<Routine['id']>(result);
 	} catch (error) {
@@ -59,8 +59,8 @@ export async function DELETE(
 ) {
 	try {
 		const id = (await params).id;
-		const client = await getServiceClient();
-		const result = await client.deleteRoutine(id);
+		const result = await deleteRoutine(id);
+
 		return NextResponse.json<boolean>(result);
 	} catch (error) {
 		return handleErrorResponse(error as Error);

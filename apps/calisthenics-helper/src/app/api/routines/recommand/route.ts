@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
+import { getRecommandRoutines } from '@/business';
 
 export const revalidate = 3600;
 
@@ -14,8 +14,7 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
-		const client = await getServiceClient();
-		const data = await client.getRecommandRoutines(new Date().getDay());
+		const data = await getRecommandRoutines();
 
 		const routine = data.find((r) => r.exerciseType === +type);
 
