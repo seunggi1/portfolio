@@ -3,6 +3,7 @@
 import { createContact } from '@/business';
 import { validateContact } from '@/schemas/contact';
 import { ContactResponse } from '@/types/contact';
+import { SERVER_ERROR_MESSAGE } from '@/constants/messages';
 
 export async function createContactAction(
 	prevState: ContactResponse,
@@ -28,11 +29,14 @@ export async function createContactAction(
 		state.errors = errors;
 		return state;
 	}
-
-	state.success = await createContact({
-		title,
-		contents,
-	});
+	try {
+		state.success = await createContact({
+			title,
+			contents,
+		});
+	} catch {
+		state.errors.contents = SERVER_ERROR_MESSAGE;
+	}
 
 	return state;
 }

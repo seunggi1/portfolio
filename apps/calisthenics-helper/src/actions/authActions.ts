@@ -30,8 +30,7 @@ import type {
 	User,
 	WithdrawResponse,
 } from '@/types/auth';
-
-const SERVER_ERROR_MESSAGE = '서버 에러가 발생했습니다. 잠시 후 시도해주세요';
+import { SERVER_ERROR_MESSAGE } from '@/constants/messages';
 
 export async function createUser(
 	prevState: SignUpFormResponse,
