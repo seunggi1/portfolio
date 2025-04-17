@@ -3,8 +3,8 @@
 import { Suspense } from 'react';
 import { Routine } from '@/types/routine';
 import RoutineEdit from './RoutineEdit';
-import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineEditSkeleton from './RoutineEditSkeleton';
+import { useRoutineDetail } from '@/hooks';
 
 type Props = {
 	routineID: Routine['id'];

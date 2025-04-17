@@ -12,9 +12,8 @@ import {
 	RoutineSummary,
 } from '@/components/common/ui';
 import ExerciseSetDetails from './ExerciseSetDetails';
-import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineDetailSkeleton from './RoutineDetailSkeleton';
-import { useAuth, useModal } from '@/hooks';
+import { useAuth, useModal, useRoutineDetail } from '@/hooks';
 import RoutineUpdateButton from './RoutineUpdateButton';
 import { toast } from '@/lib/toast/toast';
 import { useRoutineDelete } from '@/hooks/useRoutineDelete';

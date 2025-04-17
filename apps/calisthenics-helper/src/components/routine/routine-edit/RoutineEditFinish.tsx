@@ -8,7 +8,6 @@ import {
 	useState,
 } from 'react';
 import { useRouter } from 'next/navigation';
-import { useRoutineEdit } from '@/hooks/useRoutineEdit';
 import {
 	NewExercise,
 	NewRoutine,
@@ -18,7 +17,7 @@ import {
 import { Button } from '@repo/ui/common';
 import RoutineEditFinishExercises from './RoutineEditFinishExercises';
 import RoutineEditFinishRoutineBase from './RoutineEditFinishRoutineBase';
-import { useModal } from '@/hooks';
+import { useModal, useRoutineEdit } from '@/hooks';
 import { Loading } from '@/components/common/ui';
 
 type Props = {

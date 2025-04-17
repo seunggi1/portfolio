@@ -4,7 +4,7 @@ import { useActionState } from 'react';
 import type { UpdatePasswordResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 import { FormGroup, Loading } from '@/components/common/ui';
-import useAuthForm from '@/hooks/useAuthForm';
+import { useAuthForm } from '@/hooks';
 
 type Props = {
 	action: (

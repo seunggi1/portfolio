@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { routineKeys } from '@/api/routines';
 import { fetchRoutinesByUser } from '@/api/routines/routines';
 
-export default function useRoutineByUser(email: string) {
+export default function useRoutinesByUser(email: string) {
 	const { data, isLoading, error, isFetching, fetchNextPage, hasNextPage } =
 		useInfiniteQuery({
 			queryKey: routineKeys.listByUser(email),

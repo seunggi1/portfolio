@@ -1,6 +1,6 @@
 'use client';
 
-import useRoutineDetail from '@/hooks/useRoutineDetail';
+import { useRoutineDetail } from '@/hooks';
 import RoutineRunner from './RoutineRunner';
 import RoutineRunnerSkeleton from './RoutineRunnerSkeleton';
 

@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import useRoutineByUser from '@/hooks/useRoutinesByUser';
 import ProfileSkeleton from './ProfileSkeleton';
 import {
 	ImageContainer,
@@ -9,7 +8,7 @@ import {
 	RoutineCategories,
 	RoutineLevel,
 } from '@/components/common/ui';
-import { useIntersectionObserver } from '@/hooks';
+import { useIntersectionObserver, useRoutinesByUser } from '@/hooks';
 import ProfileContainer from './ProfileContainer';
 
 type Props = {
@@ -18,7 +17,7 @@ type Props = {
 
 export default function MyRoutine({ email }: Props) {
 	const { routines, isFetching, hasNextPage, isLoading, handleNextPage } =
-		useRoutineByUser(email);
+		useRoutinesByUser(email);
 
 	const { handleRef } = useIntersectionObserver({
 		callback: handleNextPage,

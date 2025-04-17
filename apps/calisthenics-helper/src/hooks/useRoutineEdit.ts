@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editRoutine, routineKeys } from '@/api/routines';
 import { NewRoutine } from '@/types/routine';
 
-export function useRoutineEdit() {
+export default function useRoutineEdit() {
 	const queryClient = useQueryClient();
 	const { data, mutate, isPending } = useMutation({
 		mutationFn: editRoutine,
