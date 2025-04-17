@@ -22,4 +22,10 @@ export {
 	getRoutineCategories,
 	getRecommandRoutines,
 } from './routineBusiness';
+export {
+	getComments,
+	createComment,
+	updateComment,
+	deleteComment,
+} from './commentBusiness';
 export { createContact } from './contactBusiness';

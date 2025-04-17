@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
 import { Comment, CommentsRequest, CommentsResponse } from '@/types/comment';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { ValidatorError } from '@/types/error';
 import { validateComment } from '@/schemas/comment';
+import { createComment, getComments } from '@/business';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -17,8 +17,7 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
-		const client = await getServiceClient();
-		commentResponse = await client.getComments({
+		commentResponse = await getComments({
 			nextCursor: cursor,
 			routineID,
 		});
@@ -42,8 +41,7 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const client = await getServiceClient();
-		const result = await client.createComment(data);
+		const result = await createComment(data);
 
 		return NextResponse.json<Comment['id']>(result);
 	} catch (error) {
