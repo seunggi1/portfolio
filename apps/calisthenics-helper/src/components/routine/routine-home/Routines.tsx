@@ -1,11 +1,11 @@
-import RoutineBanners from './RoutineBanners';
 import CategoryFilterContainer from './CategoryFilterContainer';
+import RoutineBannersContainer from './RoutineBannersContainer';
 import RoutineCardContainer from './RoutineCardsContainer';
 
 export default function Routines() {
 	return (
 		<>
-			<RoutineBanners />
+			<RoutineBannersContainer />
 			<CategoryFilterContainer />
 			<RoutineCardContainer />
 		</>

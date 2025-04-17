@@ -6,6 +6,7 @@ import type {
 	RoutinesRequest,
 	RoutinesResponse,
 	RoutinesByUserRequest,
+	RecommandRoutine,
 } from '@/types/routine';
 import { HttpClientBuilder } from '../httpClient';
 
@@ -90,6 +91,14 @@ export async function deleteRoutine(
 	const { data } = await HttpClientBuilder.delete(
 		getRoutineURL(routineID)
 	).call<boolean>();
+
+	return data;
+}
+
+export async function getRecommandRoutines(): Promise<RecommandRoutine[]> {
+	const { data } = await HttpClientBuilder.get(getRoutineURL('recommand')).call<
+		RecommandRoutine[]
+	>();
 
 	return data;
 }

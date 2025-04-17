@@ -49,7 +49,11 @@ export async function getRoutineCategories() {
 }
 
 export async function getRecommandRoutines() {
-	const client = await getServiceClient();
+	try {
+		const client = await getServiceClient();
 
-	return client.getRecommandRoutines(new Date().getDay());
+		return client.getRecommandRoutines(new Date().getDay());
+	} catch {
+		return [];
+	}
 }
