@@ -1,5 +1,5 @@
 import { useActionState, useEffect } from 'react';
-import { updateDisplayNameAction } from '@/actions/auth/authAction';
+import { updateDisplayNameAction } from '@/actions';
 import FormGroup from '@/components/common/ui/FormGroup';
 import { UpdateDisplayNameResponse, User } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';

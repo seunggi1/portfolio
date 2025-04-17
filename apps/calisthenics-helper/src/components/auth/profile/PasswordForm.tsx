@@ -1,5 +1,5 @@
 import { useActionState, useEffect } from 'react';
-import { updateProfilePasswordAction } from '@/actions/auth/authAction';
+import { updateProfilePasswordAction } from '@/actions';
 import Loading from '@/components/common/ui/Loading';
 import FormGroup from '@/components/common/ui/FormGroup';
 import { UpdateProfilePasswordResponse } from '@/types/auth';

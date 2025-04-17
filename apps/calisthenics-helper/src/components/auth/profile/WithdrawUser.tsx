@@ -1,4 +1,4 @@
-import { withdrawAction } from '@/actions/auth/authAction';
+import { withdrawAction } from '@/actions/authActions';
 import Loading from '@/components/common/ui/Loading';
 import FormGroup from '@/components/common/ui/FormGroup';
 import { useModal } from '@/hooks';

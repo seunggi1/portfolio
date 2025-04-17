@@ -5,7 +5,7 @@ import { Button, Input, TextArea } from '@repo/ui/common';
 import FormGroup from '../common/ui/FormGroup';
 import { nameofFactory } from '@/utils/type';
 import { ContactResponse } from '@/types/contact';
-import { createContactAction } from '@/actions/contact';
+import { createContactAction } from '@/actions';
 import Loading from '../common/ui/Loading';
 
 export default function Contact() {

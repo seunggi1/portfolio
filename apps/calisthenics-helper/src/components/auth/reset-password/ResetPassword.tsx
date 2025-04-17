@@ -1,4 +1,4 @@
-import { resetPasswordAction } from '@/actions/auth/authAction';
+import { resetPasswordAction } from '@/actions';
 import ResetPasswordForm from './ResetPasswordForm';
 
 export default function ResetPassword() {

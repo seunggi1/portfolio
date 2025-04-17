@@ -1,8 +1,8 @@
 'use server';
 
+import { createContact } from '@/business';
 import { validateContact } from '@/schemas/contact';
 import { ContactResponse } from '@/types/contact';
-import { createContact } from './contactBusiness';
 
 export async function createContactAction(
 	prevState: ContactResponse,

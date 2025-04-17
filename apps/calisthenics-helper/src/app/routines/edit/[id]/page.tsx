@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { canAccessRoutineEdit } from '@/actions/auth/authBusiness';
+import { canAccessRoutineEdit } from '@/business';
 import RoutineUpdateContainer from '@/components/routine/routine-edit/RoutineUpdateContainer';
 
 export const metadata: Metadata = {

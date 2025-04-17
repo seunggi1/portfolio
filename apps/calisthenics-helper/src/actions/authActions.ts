@@ -11,7 +11,7 @@ import {
 	checkPassword,
 	deleteUser,
 	resetPassword,
-} from '@/actions/auth/authBusiness';
+} from '@/business';
 import {
 	validataPassword,
 	validateDisplayName,

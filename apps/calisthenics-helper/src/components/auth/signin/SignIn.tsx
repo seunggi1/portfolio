@@ -1,4 +1,4 @@
-import { sendSignInEmail } from '@/actions/auth';
+import { sendSignInEmail } from '@/actions';
 import SignInForm from './SignInForm';
 
 export default function SignIn() {

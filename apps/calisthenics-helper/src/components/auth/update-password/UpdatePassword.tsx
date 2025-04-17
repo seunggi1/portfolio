@@ -1,4 +1,4 @@
-import { updatePasswordAction } from '@/actions/auth/authAction';
+import { updatePasswordAction } from '@/actions';
 import UpdatePasswordForm from './UpdatePasswordForm';
 
 type Props = {
