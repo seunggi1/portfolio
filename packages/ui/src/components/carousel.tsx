@@ -60,13 +60,17 @@ const Carousel: CarouselComponent = ({
 				{children}
 				<div className="absolute z-10 flex justify-center w-full gap-4 -translate-x-1/2 left-1/2 bottom-5">
 					{carouselItemIDs.map((id, i) => (
-						<a
+						<button
 							key={id}
-							href={`#${id}`}
 							className="p-2 bg-gray-100 opacity-40 w-[35px] rounded-md text-center font-bold"
+							onClick={(e) => {
+								e.preventDefault();
+								const item = document.getElementById(id);
+								item?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+							}}
 						>
 							{i + 1}
-						</a>
+						</button>
 					))}
 				</div>
 			</div>
