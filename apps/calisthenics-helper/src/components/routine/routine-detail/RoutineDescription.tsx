@@ -1,4 +1,4 @@
-import Pre from '@/components/common/ui/Pre';
+import { Pre } from '@/components/common/ui';
 import { RoutineDetail } from '@/types/routine';
 
 type Props = Pick<RoutineDetail, 'description'>;

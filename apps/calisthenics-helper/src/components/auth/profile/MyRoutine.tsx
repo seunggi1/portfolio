@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import useRoutineByUser from '@/hooks/useRoutinesByUser';
 import ProfileSkeleton from './ProfileSkeleton';
-import Loading from '@/components/common/ui/Loading';
-import RoutineLevel from '@/components/common/ui/RoutineLevel';
-import RoutineCategories from '@/components/common/ui/RoutineCategories';
+import {
+	ImageContainer,
+	Loading,
+	RoutineCategories,
+	RoutineLevel,
+} from '@/components/common/ui';
 import { useIntersectionObserver } from '@/hooks';
 import ProfileContainer from './ProfileContainer';
-import ImageContainer from '@/components/common/ui/ImageContainer';
 
 type Props = {
 	email: string;

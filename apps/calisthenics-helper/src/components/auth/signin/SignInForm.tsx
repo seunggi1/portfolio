@@ -4,9 +4,8 @@ import { useActionState } from 'react';
 import Link from 'next/link';
 import type { SignInFormResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
+import { FormGroup, Loading } from '@/components/common/ui';
 import useAuthForm from '@/hooks/useAuthForm';
-import FormGroup from '@/components/common/ui/FormGroup';
-import Loading from '@/components/common/ui/Loading';
 
 type Props = {
 	action: (

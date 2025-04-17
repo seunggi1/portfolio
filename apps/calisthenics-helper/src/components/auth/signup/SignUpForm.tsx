@@ -4,8 +4,7 @@ import { useActionState } from 'react';
 import { SignUpFormResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 import useAuthForm from '@/hooks/useAuthForm';
-import FormGroup from '@/components/common/ui/FormGroup';
-import Loading from '@/components/common/ui/Loading';
+import { FormGroup, Loading } from '@/components/common/ui';
 
 type Props = {
 	action: (

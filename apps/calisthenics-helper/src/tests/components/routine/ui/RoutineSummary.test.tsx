@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeAll, describe, expect, it } from 'vitest';
-import RoutineSummary from '@/components/common/ui/RoutineSummary';
+import { RoutineSummary } from '@/components/common/ui';
 import { Routine } from '@/types/routine';
 
 describe('Routine Summary Tests', () => {
@@ -25,7 +25,6 @@ describe('Routine Summary Tests', () => {
 		render(
 			<RoutineSummary
 				name={name}
-				totalExerciseCount={totalExerciseCount}
 				totalMinutes={totalMinutes}
 				restSeconds={restSeconds}
 				totalSets={totalSets}

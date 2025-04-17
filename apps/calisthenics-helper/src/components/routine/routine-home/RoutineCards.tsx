@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Card } from '@repo/ui/common';
-import RoutineLevel from '../../common/ui/RoutineLevel';
-import RoutineCategories from '../../common/ui/RoutineCategories';
-import RoutineSummary from '../../common/ui/RoutineSummary';
+import {
+	ImageContainer,
+	Loading,
+	RoutineCategories,
+	RoutineLevel,
+	RoutineSummary,
+} from '@/components/common/ui';
 import { useIntersectionObserver, useRoutines } from '@/hooks';
 import RoutineCardsSkeleton from './RoutineCardsSkeleton';
-import Loading from '@/components/common/ui/Loading';
-import ImageContainer from '@/components/common/ui/ImageContainer';
 
 export default function RoutineCards() {
 	const searchParam = useSearchParams();

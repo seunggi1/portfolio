@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import FormGroup from '@/components/common/ui/FormGroup';
+import { FormGroup } from '@/components/common/ui';
 import { Button } from '@repo/ui/common';
 import PasswordForm from './PasswordForm';
 

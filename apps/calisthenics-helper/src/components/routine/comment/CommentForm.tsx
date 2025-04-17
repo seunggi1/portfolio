@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import FormInput from '@/components/common/ui/FormInput';
+import { FormInput } from '@/components/common/ui';
 import { validateComment } from '@/schemas/comment';
 import { CommentEditBase, CommentEditFormData } from '@/types/comment';
 import { nameofFactory } from '@/utils/type';

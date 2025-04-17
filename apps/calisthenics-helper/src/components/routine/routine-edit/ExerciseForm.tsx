@@ -4,9 +4,8 @@ import { Button, Input } from '@repo/ui/common';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newExerciseSchema } from '@/schemas/routine';
-import FormGroup from '../../common/ui/FormGroup';
+import { FormGroup, RangeNumberInput } from '@/components/common/ui';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
-import RangeNumberInput from '@/components/common/ui/RangeNumberInput';
 
 type Props = {
 	defaultValue: Partial<NewExercise>;

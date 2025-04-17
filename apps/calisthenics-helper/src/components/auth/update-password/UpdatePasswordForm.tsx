@@ -3,8 +3,7 @@
 import { useActionState } from 'react';
 import type { UpdatePasswordResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
-import FormGroup from '@/components/common/ui/FormGroup';
-import Loading from '@/components/common/ui/Loading';
+import { FormGroup, Loading } from '@/components/common/ui';
 import useAuthForm from '@/hooks/useAuthForm';
 
 type Props = {

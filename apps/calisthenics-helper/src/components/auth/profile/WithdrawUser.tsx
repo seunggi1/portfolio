@@ -1,11 +1,10 @@
+import { useActionState, useEffect } from 'react';
 import { withdrawAction } from '@/actions/authActions';
-import Loading from '@/components/common/ui/Loading';
-import FormGroup from '@/components/common/ui/FormGroup';
+import { FormGroup, Loading } from '@/components/common/ui';
 import { useModal } from '@/hooks';
 import { WithdrawResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 import { useRouter } from 'next/navigation';
-import { useActionState, useEffect } from 'react';
 
 type Props = {
 	email: string;

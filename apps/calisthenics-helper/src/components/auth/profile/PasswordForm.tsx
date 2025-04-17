@@ -1,7 +1,6 @@
 import { useActionState, useEffect } from 'react';
 import { updateProfilePasswordAction } from '@/actions';
-import Loading from '@/components/common/ui/Loading';
-import FormGroup from '@/components/common/ui/FormGroup';
+import { FormGroup, Loading } from '@/components/common/ui';
 import { UpdateProfilePasswordResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 

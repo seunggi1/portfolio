@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef } from 'react';
 import { NewRoutine } from '@/types/routine';
-import PreviewImage from '@/components/common/ui/PreviewImage';
+import { PreviewImage } from '@/components/common/ui';
 import { Button, Input } from '@repo/ui/common';
 
 type Props = {

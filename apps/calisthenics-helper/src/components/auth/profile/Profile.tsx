@@ -1,8 +1,8 @@
 'use client';
 
 import ProfileSkeleton from './ProfileSkeleton';
-import FormGroup from '@/components/common/ui/FormGroup';
 import { useAuth } from '@/hooks';
+import { FormGroup } from '@/components/common/ui';
 import EditableDisplayName from './EditableDisplayName';
 import EditableProfilePassword from './EditablePassword';
 import WithdrawUser from './WithdrawUser';

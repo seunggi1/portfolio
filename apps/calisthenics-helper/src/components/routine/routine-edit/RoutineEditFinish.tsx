@@ -19,7 +19,7 @@ import { Button } from '@repo/ui/common';
 import RoutineEditFinishExercises from './RoutineEditFinishExercises';
 import RoutineEditFinishRoutineBase from './RoutineEditFinishRoutineBase';
 import { useModal } from '@/hooks';
-import Loading from '@/components/common/ui/Loading';
+import { Loading } from '@/components/common/ui';
 
 type Props = {
 	newRoutine: NewRoutine;

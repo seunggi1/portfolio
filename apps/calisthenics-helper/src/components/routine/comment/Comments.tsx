@@ -7,9 +7,9 @@ import {
 	useComments,
 	useIntersectionObserver,
 } from '@/hooks';
+import { Loading } from '@/components/common/ui';
 import CommentForm from './CommentForm';
 import EditableCommentItem from './EditableCommentItem';
-import Loading from '@/components/common/ui/Loading';
 
 type Props = {
 	routineID: Routine['id'];

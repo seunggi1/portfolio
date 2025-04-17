@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Button } from '@repo/ui/common';
 import { DeleteIcon } from '@/components/common/icon';
 import { NewExercise } from '@/types/routine';
-import DragContainer from '../../common/ui/DragContainer';
-import FormGroup from '../../common/ui/FormGroup';
+import { DragContainer, FormGroup } from '@/components/common/ui';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RoutineEditFormText from './RoutineEditFormText';
 

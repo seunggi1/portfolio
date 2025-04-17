@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type RoutineDetail } from '@/types/routine';
 import { Button } from '@repo/ui/common';
-import RoutineSummary from '../../common/ui/RoutineSummary';
-import RoutineLevel from '../../common/ui/RoutineLevel';
-import RoutineCategories from '../../common/ui/RoutineCategories';
+import {
+	ImageContainer,
+	RoutineCategories,
+	RoutineLevel,
+	RoutineSummary,
+} from '@/components/common/ui';
 import ExerciseSetDetails from './ExerciseSetDetails';
 import useRoutineDetail from '@/hooks/useRoutineDetail';
 import RoutineDetailSkeleton from './RoutineDetailSkeleton';
@@ -17,7 +20,6 @@ import { toast } from '@/lib/toast/toast';
 import { useRoutineDelete } from '@/hooks/useRoutineDelete';
 import CommentsSkeleton from '../comment/CommentsSkeleton';
 import RoutineDescription from './RoutineDescription';
-import ImageContainer from '@/components/common/ui/ImageContainer';
 
 const Comments = lazy(() => import('../comment/Comments'));
 

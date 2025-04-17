@@ -5,11 +5,10 @@ import { RoutineCategory, RoutineFormData } from '@/types/routine';
 import { routineEditSchema } from '@/schemas/routine';
 import { Button, Input, TextArea } from '@repo/ui/common';
 import RoutineCategorySelect from './RoutineCategorySelector';
-import FormGroup from '../../common/ui/FormGroup';
+import { FormGroup, RangeNumberInput } from '@/components/common/ui';
 import RoutineLevelSelector from './RoutineLevelSelector';
 import RoutineEditFormHeading from './RoutineEditFormHeading';
 import RoutineImageUploader from './RoutineImageUploader';
-import RangeNumberInput from '@/components/common/ui/RangeNumberInput';
 
 type Props = {
 	routineCategories: RoutineCategory[];

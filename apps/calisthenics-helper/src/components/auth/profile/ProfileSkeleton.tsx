@@ -1,4 +1,4 @@
-import FormGroup from '@/components/common/ui/FormGroup';
+import { FormGroup } from '@/components/common/ui';
 import { Skeleton } from '@repo/ui/common';
 
 export default function ProfileSkeleton() {

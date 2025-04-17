@@ -2,11 +2,10 @@
 
 import { useActionState } from 'react';
 import { Button, Input, TextArea } from '@repo/ui/common';
-import FormGroup from '../common/ui/FormGroup';
+import { FormGroup, Loading } from '../common/ui';
 import { nameofFactory } from '@/utils/type';
 import { ContactResponse } from '@/types/contact';
 import { createContactAction } from '@/actions';
-import Loading from '../common/ui/Loading';
 
 export default function Contact() {
 	const [{ success, errors, inputs }, formAction, isPending] = useActionState<
