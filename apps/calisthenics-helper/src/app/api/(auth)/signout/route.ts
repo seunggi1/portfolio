@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
+import { signOut } from '@/business';
 
 export async function GET() {
 	try {
-		const client = await getServiceClient();
-		const result = await client.signOut();
+		const result = await signOut();
 
 		if (!result) {
 			throw new Error('server error');

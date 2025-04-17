@@ -11,6 +11,8 @@ export {
 	signUp,
 	updatePassword,
 	updateUserDisplayName,
+	verifyToken,
+	getUser,
 } from './authBusiness';
 export {
 	getRoutines,

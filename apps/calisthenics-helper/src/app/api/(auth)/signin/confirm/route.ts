@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { ValidatorError } from '@/types/error';
+import { verifyToken } from '@/business';
 
 export async function GET(request: NextRequest) {
 	const token = request.nextUrl.searchParams.get('token_hash');
@@ -11,8 +11,7 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
-		const client = await getServiceClient();
-		const result = await client.verifyToken(token);
+		const result = await verifyToken(token);
 
 		return NextResponse.redirect(
 			new URL(result ? '/' : '/signin', request.url)

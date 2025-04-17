@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getServiceClient } from '@/services';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { User } from '@/types/auth';
+import { getUser } from '@/business';
 
 export async function GET() {
 	try {
-		const client = await getServiceClient();
-		const result = await client.getUser();
+		const result = await getUser();
 
 		return NextResponse.json<User | null>(result);
 	} catch (error) {

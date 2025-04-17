@@ -44,9 +44,8 @@ export async function signIn(
 
 export async function signOut(): Promise<boolean> {
 	const client = await getServiceClient();
-	await client.signOut();
 
-	return true;
+	return client.signOut();
 }
 
 export async function sendResetPasswordEmail(email: string): Promise<boolean> {
@@ -114,4 +113,16 @@ export async function canAccessRoutineEdit(id: Routine['id']) {
 	}
 
 	return routine.userID === user.id;
+}
+
+export async function verifyToken(token: string) {
+	const client = await getServiceClient();
+
+	return client.verifyToken(token);
+}
+
+export async function getUser() {
+	const client = await getServiceClient();
+
+	return client.getUser();
 }
