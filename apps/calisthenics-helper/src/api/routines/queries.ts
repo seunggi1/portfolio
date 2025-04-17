@@ -8,9 +8,10 @@ export const routineKeys = {
 		[routineKeys.base, routineKeys.listBase, categoryID, searchQuery] as const,
 	detail: (id: string) => [routineKeys.base, id] as const,
 	categories: () => [routineKeys.base, 'categories'] as const,
-	listByUser: () => [
+	listByUser: (email: string) => [
 		routineKeys.base,
 		routineKeys.listBase,
 		routineKeys.userListBase,
+		email,
 	],
 };

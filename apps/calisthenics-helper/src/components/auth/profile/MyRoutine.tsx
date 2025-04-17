@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import useRoutineByUser from '@/hooks/useRoutinesByUser';
 import ProfileSkeleton from './ProfileSkeleton';
 import Loading from '@/components/common/ui/Loading';
@@ -9,10 +8,15 @@ import RoutineLevel from '@/components/common/ui/RoutineLevel';
 import RoutineCategories from '@/components/common/ui/RoutineCategories';
 import { useIntersectionObserver } from '@/hooks';
 import ProfileContainer from './ProfileContainer';
+import ImageContainer from '@/components/common/ui/ImageContainer';
 
-export default function MyRoutine() {
+type Props = {
+	email: string;
+};
+
+export default function MyRoutine({ email }: Props) {
 	const { routines, isFetching, hasNextPage, isLoading, handleNextPage } =
-		useRoutineByUser();
+		useRoutineByUser(email);
 
 	const { handleRef } = useIntersectionObserver({
 		callback: handleNextPage,
@@ -28,18 +32,13 @@ export default function MyRoutine() {
 						<article key={r.id} className="mb-2">
 							<Link className="flex gap-2" href={`/routines/${r.id}`}>
 								<div>
-									<div className="flex items-center justify-center text-white bg-black rounded-md w-[125px] h-[125px] relative border-primary border-2 overflow-hidden  ">
-										{r.imageURL ? (
-											<Image
-												className="relative"
-												src={r.imageURL}
-												alt={`${r.name} image`}
-												fill={true}
-											/>
-										) : (
-											<span>{r.name}</span>
-										)}
-									</div>
+									<ImageContainer
+										className="w-[125px] h-[125px] rounded-md overflow-hidden"
+										image={r.imageURL}
+										alt={`${r.name} image`}
+										fallbackContent={<span>{r.name}</span>}
+										sizes="125px"
+									/>
 								</div>
 								<div className="flex flex-col overflow-hidden ">
 									<h2 className="font-bold truncate">{r.name}</h2>
