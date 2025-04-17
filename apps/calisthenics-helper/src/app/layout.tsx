@@ -2,12 +2,8 @@ import './globals.css';
 import '@repo/ui/styles.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Karla } from 'next/font/google';
 import Layout from '@/components/layout/Layout';
-
-const karla = Karla({
-	subsets: ['latin'],
-});
+import { roboto } from '@/styles/fonts';
 
 export const metadata: Metadata = {
 	title: {
@@ -25,7 +21,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang="kr"
-			className={`${karla.className} antialiased`}
+			className={`${roboto.className} antialiased`}
 			data-theme="corporate"
 		>
 			<Layout>{children}</Layout>

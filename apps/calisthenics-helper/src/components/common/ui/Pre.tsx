@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { roboto } from '@/styles/fonts';
 
 type Props = {
 	children: ReactNode;
@@ -6,8 +7,6 @@ type Props = {
 
 export default function Pre({ children }: Props) {
 	return (
-		<pre className="font-['Karla','Karla_Fallback'] text-md text-pretty">
-			{children}
-		</pre>
+		<pre className={`${roboto.className} text-md text-pretty`}>{children}</pre>
 	);
 }
