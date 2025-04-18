@@ -1,4 +1,4 @@
-import { getServiceClient } from '@/services';
+import { getServiceClient } from '@/infra';
 import { ResetPasswordResult, UpdatePasswordResult, User } from '@/types/auth';
 import { Routine } from '@/types/routine';
 
