@@ -1,3 +1,5 @@
+import { FormResponse } from './common';
+
 export type User = {
 	id: string;
 	displayName: string;
@@ -5,68 +7,42 @@ export type User = {
 	password: string;
 };
 
-export type SignUpData = Partial<
-	Pick<User, 'email' | 'displayName' | 'password'> & { confirmPassword: string }
->;
-
-export type SignUpFormResponse = {
-	success: boolean;
-	errors: SignUpData;
-	inputs: SignUpData;
+export type SignUpData = Pick<User, 'email' | 'displayName' | 'password'> & {
+	confirmPassword: string;
 };
+export type SignUpFormResponse = FormResponse<SignUpData>;
 
-export type SignInData = Partial<Pick<User, 'email' | 'password'>>;
+export type SignInData = Pick<User, 'email' | 'password'>;
+export type SignInFormResponse = FormResponse<SignInData>;
 
-export type SignInFormResponse = {
-	success: boolean;
-	errors: SignInData;
-	inputs: SignInData;
-};
-
-export type ResetEmailData = Partial<Pick<User, 'email'>>;
-
-export type ResetEmailResponse = {
-	success: boolean;
-	errors: ResetEmailData;
-	inputs: ResetEmailData;
-};
+export type ResetEmailData = Pick<User, 'email'>;
+export type ResetEmailResponse = FormResponse<ResetEmailData>;
 
 export type UpdatePasswordData = Pick<
 	SignUpData,
 	'password' | 'confirmPassword'
 >;
+export type UpdatePasswordResponse = FormResponse<UpdatePasswordData>;
 
-export type UpdatePasswordResponse = {
-	success: boolean;
-	errors: UpdatePasswordData;
-	inputs: UpdatePasswordData;
+export type UpdateDisplayNameData = Pick<User, 'displayName'>;
+export type UpdateDisplayNameResponse = FormResponse<UpdateDisplayNameData>;
+
+export type UpdateProfilePasswordData = Pick<User, 'password'> & {
+	newPassword: string;
+	newConfirmPassword: string;
 };
+export type UpdateProfilePasswordResponse =
+	FormResponse<UpdateProfilePasswordData>;
 
-export type UpdateDisplayNameData = Partial<Pick<User, 'displayName'>>;
-
-export type UpdateDisplayNameResponse = {
-	success: boolean;
-	errors: UpdateDisplayNameData;
-	inputs: UpdateDisplayNameData;
-};
-
-export type UpdateProfilePasswordData = Partial<
-	Pick<User, 'password'> & { newPassword: string; newConfirmPassword: string }
->;
-
-export type UpdateProfilePasswordResponse = {
-	success: boolean;
-	errors: UpdateProfilePasswordData;
-	inputs: UpdateProfilePasswordData;
-};
-
-export type WithdrawData = { confirmEmail?: User['email'] };
-
-export type WithdrawResponse = {
-	success: boolean;
-	errors: WithdrawData;
-	inputs: WithdrawData;
-};
+export type WithdrawData = { confirmEmail: User['email'] };
+export type WithdrawResponse = FormResponse<WithdrawData>;
 
 export type UpdatePasswordResult = 'success' | 'samePassword' | 'serverError';
 export type ResetPasswordResult = UpdatePasswordResult | 'tokenError';
+
+export type Contact = {
+	title: string;
+	contents: string;
+};
+
+export type ContactResponse = FormResponse<Contact>;

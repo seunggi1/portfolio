@@ -1,12 +1,8 @@
+import { FormResponse } from './common';
+
 export type Contact = {
 	title: string;
 	contents: string;
 };
 
-type ContactData = Partial<Contact>;
-
-export type ContactResponse = {
-	success: boolean;
-	inputs: ContactData;
-	errors: ContactData;
-};
+export type ContactResponse = FormResponse<Contact>;
