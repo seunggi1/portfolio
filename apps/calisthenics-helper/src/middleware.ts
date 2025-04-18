@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateSession } from './business/authBusiness';
+import { updateSession } from './lib/service/supabase/middleware';
 
 const AUTH_URL_PATHS = ['/profile', '/routines/edit', '/contact'];
 

@@ -1,7 +1,9 @@
-import { signOut } from '@/business';
+import { createAuthBusiness } from '@/business';
 import { redirect } from 'next/navigation';
 
 export default async function SignoutPage() {
-	await signOut();
+	const authBusiness = await createAuthBusiness();
+	await authBusiness.signOut();
+
 	redirect('/');
 }

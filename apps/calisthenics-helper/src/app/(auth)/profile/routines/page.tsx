@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import MyRoutine from '@/components/auth/profile/MyRoutine';
 import { redirect } from 'next/navigation';
-import { getUser } from '@/business';
+import { createAuthBusiness } from '@/business';
 import { UnauthorizedError } from '@/types/error';
 import { User } from '@/types/auth';
 
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
 export default async function MyRoutinePage() {
 	let email: User['email'] | undefined;
 	try {
-		const user = await getUser();
+		const authBusiness = await createAuthBusiness();
+		const user = await authBusiness.getUser();
 
 		if (!user) {
 			throw new UnauthorizedError('Invalid user');

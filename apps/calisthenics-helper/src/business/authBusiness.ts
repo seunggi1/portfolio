@@ -1,145 +1,104 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { getServiceClient } from '@/lib/service';
 import { ResetPasswordResult, UpdatePasswordResult, User } from '@/types/auth';
 import { Routine } from '@/types/routine';
 
-export async function checkDisplayName(displayName: string): Promise<boolean> {
-	const client = await getServiceClient();
+export class AuthBusiness {
+	constructor(private client: ServiceClient) {}
 
-	return client.checkDisplayNameExists(displayName);
-}
-
-export async function checkEmail(email: string): Promise<boolean> {
-	const client = await getServiceClient();
-
-	return client.checkEmailExists(email);
-}
-
-export async function checkPassword(
-	email: User['email'],
-	password: User['password']
-): Promise<boolean> {
-	const client = await getServiceClient();
-
-	return client.signIn(email, password);
-}
-
-export async function signUp(
-	displayName: string,
-	email: string,
-	password: string
-): Promise<boolean> {
-	const client = await getServiceClient();
-
-	return client.signUp(email, displayName, password);
-}
-
-export async function signIn(
-	email: string,
-	password: string
-): Promise<boolean> {
-	const client = await getServiceClient();
-
-	return client.signIn(email, password);
-}
-
-export async function signOut(): Promise<boolean> {
-	const client = await getServiceClient();
-
-	return client.signOut();
-}
-
-export async function sendResetPasswordEmail(email: string): Promise<boolean> {
-	const client = await getServiceClient();
-
-	return await client.resetPasswordForEmail(email);
-}
-
-export async function resetPassword(
-	token: string,
-	email: string,
-	password: string
-): Promise<ResetPasswordResult> {
-	const client = await getServiceClient();
-
-	const canLogin = await client.signIn(email, password);
-
-	if (canLogin) {
-		await client.signOut();
-		return 'samePassword';
+	async checkDisplayName(displayName: string): Promise<boolean> {
+		return this.client.checkDisplayNameExists(displayName);
 	}
 
-	const codeResult = await client.verifyToken(token);
-
-	if (!codeResult) {
-		return 'tokenError';
+	async checkEmail(email: string): Promise<boolean> {
+		return this.client.checkEmailExists(email);
 	}
 
-	return await client.updatePassword(password);
-}
-
-export async function updatePassword(
-	password: string
-): Promise<UpdatePasswordResult> {
-	const client = await getServiceClient();
-
-	return await client.updatePassword(password);
-}
-
-export async function updateUserDisplayName(displayName: User['displayName']) {
-	const client = await getServiceClient();
-
-	return await client.updateDisplayName(displayName);
-}
-
-export async function deleteUser(email: User['email']) {
-	const client = await getServiceClient();
-
-	return await client.deleteUser(email);
-}
-
-export async function canAccessRoutineEdit(id: Routine['id']) {
-	const client = await getServiceClient();
-
-	const user = await client.getUser();
-
-	if (!user) {
-		return false;
+	async checkPassword(
+		email: User['email'],
+		password: User['password']
+	): Promise<boolean> {
+		return this.client.signIn(email, password);
 	}
 
-	const routine = await client.getRoutineById(id);
-
-	if (!routine) {
-		return false;
+	async signUp(
+		displayName: string,
+		email: string,
+		password: string
+	): Promise<boolean> {
+		return this.client.signUp(email, displayName, password);
 	}
 
-	return routine.userID === user.id;
-}
-
-export async function verifyToken(token: string) {
-	const client = await getServiceClient();
-
-	return client.verifyToken(token);
-}
-
-export async function getUser() {
-	const client = await getServiceClient();
-
-	return client.getUser();
-}
-
-export async function updateSession(request: NextRequest) {
-	const supabaseResponse = NextResponse.next({
-		request,
-	});
-
-	const user = await getUser();
-
-	if (!user) {
-		const url = request.nextUrl.clone();
-		url.pathname = '/signin';
-		return NextResponse.redirect(url);
+	async signIn(email: string, password: string): Promise<boolean> {
+		return this.client.signIn(email, password);
 	}
 
-	return supabaseResponse;
+	async signOut(): Promise<boolean> {
+		return this.client.signOut();
+	}
+
+	async sendResetPasswordEmail(email: string): Promise<boolean> {
+		return this.client.resetPasswordForEmail(email);
+	}
+
+	async resetPassword(
+		token: string,
+		email: string,
+		password: string
+	): Promise<ResetPasswordResult> {
+		const canLogin = await this.client.signIn(email, password);
+
+		if (canLogin) {
+			await this.client.signOut();
+			return 'samePassword';
+		}
+
+		const codeResult = this.client.verifyToken(token);
+
+		if (!codeResult) {
+			return 'tokenError';
+		}
+
+		return await this.client.updatePassword(password);
+	}
+
+	async updatePassword(password: string): Promise<UpdatePasswordResult> {
+		return await this.client.updatePassword(password);
+	}
+
+	async updateUserDisplayName(displayName: User['displayName']) {
+		return await this.client.updateDisplayName(displayName);
+	}
+
+	async deleteUser(email: User['email']) {
+		return await this.client.deleteUser(email);
+	}
+
+	async canAccessRoutineEdit(id: Routine['id']) {
+		const user = await this.client.getUser();
+
+		if (!user) {
+			return false;
+		}
+
+		const routine = await this.client.getRoutineById(id);
+
+		if (!routine) {
+			return false;
+		}
+
+		return routine.userID === user.id;
+	}
+
+	async verifyToken(token: string) {
+		return this.client.verifyToken(token);
+	}
+
+	async getUser() {
+		return this.client.getUser();
+	}
+}
+
+export async function createAuthBusiness() {
+	return new AuthBusiness(await getServiceClient());
 }

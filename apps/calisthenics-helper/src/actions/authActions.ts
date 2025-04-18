@@ -1,17 +1,6 @@
 'use server';
 
-import {
-	checkDisplayName,
-	checkEmail,
-	signUp,
-	signIn,
-	sendResetPasswordEmail,
-	updatePassword,
-	updateUserDisplayName,
-	checkPassword,
-	deleteUser,
-	resetPassword,
-} from '@/business';
+import { createAuthBusiness } from '@/business';
 import {
 	validataPassword,
 	validateDisplayName,
@@ -68,18 +57,20 @@ export async function signUpAction(
 		};
 	}
 
+	const authBusiness = await createAuthBusiness();
+
 	try {
-		if (await checkDisplayName(displayName)) {
+		if (await authBusiness.checkDisplayName(displayName)) {
 			state.errors.displayName = '이미 존재하는 별명입니다.';
 			return state;
 		}
 
-		if (await checkEmail(email)) {
+		if (await authBusiness.checkEmail(email)) {
 			state.errors.email = '이미 존재하는 이메일입니다.';
 			return state;
 		}
 
-		state.success = await signUp(displayName, email, password);
+		state.success = await authBusiness.signUp(displayName, email, password);
 	} catch {
 		state.errors.password = SERVER_ERROR_MESSAGE;
 		return state;
@@ -113,13 +104,15 @@ export async function signInAction(
 		return state;
 	}
 
+	const authBusiness = await createAuthBusiness();
+
 	try {
-		if ((await checkEmail(email)) === false) {
+		if ((await authBusiness.checkEmail(email)) === false) {
 			state.errors.email = '존재하지않는 계정입니다.';
 			return state;
 		}
 
-		state.success = await signIn(email, password);
+		state.success = await authBusiness.signIn(email, password);
 	} catch {
 		state.errors.password = SERVER_ERROR_MESSAGE;
 		return state;
@@ -158,13 +151,15 @@ export async function resetPasswordAction(
 		return state;
 	}
 
+	const authBusiness = await createAuthBusiness();
+
 	try {
-		if ((await checkEmail(email)) === false) {
+		if ((await authBusiness.checkEmail(email)) === false) {
 			state.errors.email = '존재하지않는 계정입니다.';
 			return state;
 		}
 
-		state.success = await sendResetPasswordEmail(email);
+		state.success = await authBusiness.sendResetPasswordEmail(email);
 	} catch {
 		state.errors.email = SERVER_ERROR_MESSAGE;
 		return state;
@@ -207,7 +202,12 @@ export async function updatePasswordAction(
 	}
 
 	try {
-		const updateResult = await resetPassword(token, email, password);
+		const authBusiness = await createAuthBusiness();
+		const updateResult = await authBusiness.resetPassword(
+			token,
+			email,
+			password
+		);
 
 		if (updateResult !== 'success') {
 			state.errors.password =
@@ -249,7 +249,8 @@ export async function updateDisplayNameAction(
 	}
 
 	try {
-		const isExist = await checkDisplayName(displayName);
+		const authBusiness = await createAuthBusiness();
+		const isExist = await authBusiness.checkDisplayName(displayName);
 
 		if (isExist) {
 			state.errors.displayName = '이미 존재하는 별명입니다.';
@@ -261,7 +262,8 @@ export async function updateDisplayNameAction(
 		return state;
 	}
 
-	state.success = await updateUserDisplayName(displayName);
+	const authBusiness = await createAuthBusiness();
+	state.success = await authBusiness.updateUserDisplayName(displayName);
 
 	if (state.success) {
 		state.errors = {};
@@ -307,7 +309,11 @@ export async function updateProfilePasswordAction(
 	}
 
 	try {
-		const isCurrentPasswordValid = await checkPassword(email, password);
+		const authBusiness = await createAuthBusiness();
+		const isCurrentPasswordValid = await authBusiness.checkPassword(
+			email,
+			password
+		);
 
 		if (!isCurrentPasswordValid) {
 			state.errors.password = '현재 비밀번호가 올바르지 않습니다.';
@@ -315,7 +321,7 @@ export async function updateProfilePasswordAction(
 			return state;
 		}
 
-		const updateResult = await updatePassword(newPassword);
+		const updateResult = await authBusiness.updatePassword(newPassword);
 
 		if (updateResult !== 'success') {
 			state.errors.password =
@@ -357,7 +363,8 @@ export async function withdrawAction(
 	}
 
 	try {
-		state.success = await deleteUser(confirmEmail);
+		const authBusiness = await createAuthBusiness();
+		state.success = await authBusiness.deleteUser(confirmEmail);
 
 		if (state.success) {
 			state.errors = {};

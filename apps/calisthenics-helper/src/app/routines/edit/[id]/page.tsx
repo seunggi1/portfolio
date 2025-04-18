@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { canAccessRoutineEdit } from '@/business';
+import { createAuthBusiness } from '@/business';
 import RoutineUpdateContainer from '@/components/routine/routine-edit/RoutineUpdateContainer';
 
 export const metadata: Metadata = {
@@ -13,7 +13,8 @@ type Props = {
 
 export default async function RoutineUpdatePage({ params }: Props) {
 	const { id } = await params;
-	const canAccess = await canAccessRoutineEdit(id);
+	const authBusiness = await createAuthBusiness();
+	const canAccess = await authBusiness.canAccessRoutineEdit(id);
 
 	if (!canAccess) {
 		return redirect('/403');
