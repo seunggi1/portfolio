@@ -1,26 +1,26 @@
 import { getServiceClient } from '@/lib/service';
+import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { Comment, CommentsRequest, UpdateComment } from '@/types/comment';
 
-export async function getComments(request: CommentsRequest) {
-	const client = await getServiceClient();
+export class CommentBusiness {
+	constructor(private client: ServiceClient) {}
+	async getComments(request: CommentsRequest) {
+		return this.client.getComments(request);
+	}
 
-	return client.getComments(request);
+	async createComment(comment: Comment) {
+		return this.client.createComment(comment);
+	}
+
+	async updateComment(updateComment: UpdateComment) {
+		return this.client.updateComment(updateComment);
+	}
+
+	async deleteComment(id: Comment['id']) {
+		return this.client.deleteComment(id);
+	}
 }
 
-export async function createComment(comment: Comment) {
-	const client = await getServiceClient();
-
-	return client.createComment(comment);
-}
-
-export async function updateComment(updateComment: UpdateComment) {
-	const client = await getServiceClient();
-
-	return client.updateComment(updateComment);
-}
-
-export async function deleteComment(id: Comment['id']) {
-	const client = await getServiceClient();
-
-	return client.deleteComment(id);
+export async function createCommentBusiness() {
+	return new CommentBusiness(await getServiceClient());
 }

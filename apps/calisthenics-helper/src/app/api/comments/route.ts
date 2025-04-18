@@ -3,7 +3,7 @@ import { Comment, CommentsRequest, CommentsResponse } from '@/types/comment';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { ValidatorError } from '@/types/error';
 import { validateComment } from '@/schemas/comment';
-import { createComment, getComments } from '@/business';
+import { createCommentBusiness } from '@/business';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -17,7 +17,8 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
-		commentResponse = await getComments({
+		const commentBusiness = await createCommentBusiness();
+		commentResponse = await commentBusiness.getComments({
 			nextCursor: cursor,
 			routineID,
 		});
@@ -41,7 +42,8 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const result = await createComment(data);
+		const commentBusiness = await createCommentBusiness();
+		const result = await commentBusiness.createComment(data);
 
 		return NextResponse.json<Comment['id']>(result);
 	} catch (error) {
