@@ -1,15 +1,12 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { createClient } from '@/infra/supabase/server';
+import { getUser } from '@/business';
 
 export async function updateSession(request: NextRequest) {
 	const supabaseResponse = NextResponse.next({
 		request,
 	});
 
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getUser();
 
 	if (!user) {
 		const url = request.nextUrl.clone();
