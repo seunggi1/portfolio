@@ -4,7 +4,7 @@ import type { Routine, RoutineDetail } from '@/types/routine';
 import { NotFoundError, ValidatorError } from '@/types/error';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
-import { deleteRoutine, getRoutineById, updateRoutine } from '@/business';
+import { createRoutineBusiness } from '@/business';
 
 export async function GET(
 	_: NextRequest,
@@ -13,8 +13,8 @@ export async function GET(
 	let routine: RoutineDetail | null = null;
 	try {
 		const id = (await params).id;
-
-		routine = await getRoutineById(id);
+		const routineBusiness = await createRoutineBusiness();
+		routine = await routineBusiness.getRoutineById(id);
 	} catch (error) {
 		return handleErrorResponse(error as Error);
 	}
@@ -45,7 +45,8 @@ export async function PUT(
 
 	try {
 		const id = (await params).id;
-		const result = await updateRoutine({ ...data, id });
+		const routineBusiness = await createRoutineBusiness();
+		const result = await routineBusiness.updateRoutine({ ...data, id });
 
 		return NextResponse.json<Routine['id']>(result);
 	} catch (error) {
@@ -59,7 +60,8 @@ export async function DELETE(
 ) {
 	try {
 		const id = (await params).id;
-		const result = await deleteRoutine(id);
+		const routineBusiness = await createRoutineBusiness();
+		const result = await routineBusiness.deleteRoutine(id);
 
 		return NextResponse.json<boolean>(result);
 	} catch (error) {

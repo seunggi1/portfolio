@@ -7,7 +7,7 @@ import type {
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
 import { ValidatorError } from '@/types/error';
-import { createRoutine, getRoutines } from '@/business';
+import { createRoutineBusiness } from '@/business';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -17,7 +17,8 @@ export async function GET(request: NextRequest) {
 	let routines: RoutinesResponse | null;
 
 	try {
-		routines = await getRoutines({
+		const routineBusiness = await createRoutineBusiness();
+		routines = await routineBusiness.getRoutines({
 			nextCursor: cursor,
 			categoryID,
 			searchQuery,
@@ -47,7 +48,8 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const result = await createRoutine(data);
+		const routineBusiness = await createRoutineBusiness();
+		const result = await routineBusiness.createRoutine(data);
 
 		return NextResponse.json<Routine['id']>(result);
 	} catch (error) {

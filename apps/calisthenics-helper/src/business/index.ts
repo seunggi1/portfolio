@@ -1,14 +1,5 @@
 export { createAuthBusiness } from './authBusiness';
-export {
-	getRoutines,
-	getRoutineById,
-	getRoutinesByUser,
-	createRoutine,
-	updateRoutine,
-	deleteRoutine,
-	getRoutineCategories,
-	getRecommandRoutines,
-} from './routineBusiness';
+export { createRoutineBusiness } from './routineBusiness';
 export {
 	getComments,
 	createComment,

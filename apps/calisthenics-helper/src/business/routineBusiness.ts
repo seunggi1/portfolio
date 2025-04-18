@@ -1,4 +1,5 @@
 import { getServiceClient } from '@/lib/service';
+import { ServiceClient } from '@/lib/service/base/serviceClient';
 import {
 	NewRoutine,
 	Routine,
@@ -6,54 +7,46 @@ import {
 	RoutinesRequest,
 } from '@/types/routine';
 
-export async function getRoutines(request: RoutinesRequest) {
-	const client = await getServiceClient();
+export class RoutineBusiness {
+	constructor(private client: ServiceClient) {}
 
-	return client.getRoutines(request);
-}
-
-export async function getRoutineById(id: Routine['id']) {
-	const client = await getServiceClient();
-
-	return client.getRoutineById(id);
-}
-
-export async function getRoutinesByUser(request: RoutinesByUserRequest) {
-	const client = await getServiceClient();
-
-	return client.getRoutinesByUser(request);
-}
-
-export async function createRoutine(newRoutine: NewRoutine) {
-	const client = await getServiceClient();
-
-	return client.createRoutine(newRoutine);
-}
-
-export async function updateRoutine(updateRoution: NewRoutine) {
-	const client = await getServiceClient();
-
-	return client.updateRoutine(updateRoution);
-}
-
-export async function deleteRoutine(id: Routine['id']) {
-	const client = await getServiceClient();
-
-	return client.deleteRoutine(id);
-}
-
-export async function getRoutineCategories() {
-	const client = await getServiceClient();
-
-	return client.getRoutineCategories();
-}
-
-export async function getRecommandRoutines() {
-	try {
-		const client = await getServiceClient();
-
-		return client.getRecommandRoutines(new Date().getDay());
-	} catch {
-		return [];
+	async getRoutines(request: RoutinesRequest) {
+		return this.client.getRoutines(request);
 	}
+
+	async getRoutineById(id: Routine['id']) {
+		return this.client.getRoutineById(id);
+	}
+
+	async getRoutinesByUser(request: RoutinesByUserRequest) {
+		return this.client.getRoutinesByUser(request);
+	}
+
+	async createRoutine(newRoutine: NewRoutine) {
+		return this.client.createRoutine(newRoutine);
+	}
+
+	async updateRoutine(updateRoution: NewRoutine) {
+		return this.client.updateRoutine(updateRoution);
+	}
+
+	async deleteRoutine(id: Routine['id']) {
+		return this.client.deleteRoutine(id);
+	}
+
+	async getRoutineCategories() {
+		return this.client.getRoutineCategories();
+	}
+
+	async getRecommandRoutines() {
+		try {
+			return this.client.getRecommandRoutines(new Date().getDay());
+		} catch {
+			return [];
+		}
+	}
+}
+
+export async function createRoutineBusiness() {
+	return new RoutineBusiness(await getServiceClient());
 }
