@@ -1,9 +1,9 @@
 'use server';
 
-import { createContact } from '@/business';
 import { validateContact } from '@/schemas/contact';
 import { ContactResponse } from '@/types/contact';
 import { SERVER_ERROR_MESSAGE } from '@/constants/messages';
+import { createContactBusiness } from '@/business';
 
 export async function createContactAction(
 	prevState: ContactResponse,
@@ -30,7 +30,8 @@ export async function createContactAction(
 		return state;
 	}
 	try {
-		state.success = await createContact({
+		const contactBusiness = await createContactBusiness();
+		state.success = await contactBusiness.createContact({
 			title,
 			contents,
 		});

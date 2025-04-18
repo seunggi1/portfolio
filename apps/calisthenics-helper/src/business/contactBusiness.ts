@@ -1,8 +1,15 @@
 import { getServiceClient } from '@/lib/service';
+import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { Contact } from '@/types/contact';
 
-export async function createContact(contact: Contact) {
-	const client = await getServiceClient();
+export class ContactBusiness {
+	constructor(private client: ServiceClient) {}
 
-	return client.createContact(contact);
+	async createContact(contact: Contact) {
+		return this.client.createContact(contact);
+	}
+}
+
+export async function createContactBusiness() {
+	return new ContactBusiness(await getServiceClient());
 }
