@@ -1,3 +1,4 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { getServiceClient } from '@/lib/service';
 import { ResetPasswordResult, UpdatePasswordResult, User } from '@/types/auth';
 import { Routine } from '@/types/routine';
@@ -125,4 +126,20 @@ export async function getUser() {
 	const client = await getServiceClient();
 
 	return client.getUser();
+}
+
+export async function updateSession(request: NextRequest) {
+	const supabaseResponse = NextResponse.next({
+		request,
+	});
+
+	const user = await getUser();
+
+	if (!user) {
+		const url = request.nextUrl.clone();
+		url.pathname = '/signin';
+		return NextResponse.redirect(url);
+	}
+
+	return supabaseResponse;
 }
