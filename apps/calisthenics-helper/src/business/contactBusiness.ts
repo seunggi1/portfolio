@@ -1,4 +1,4 @@
-import { getServiceClient } from '@/infra';
+import { getServiceClient } from '@/lib/service';
 import { Contact } from '@/types/contact';
 
 export async function createContact(contact: Contact) {

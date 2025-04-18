@@ -1,4 +1,4 @@
-import { getServiceClient } from '@/infra';
+import { getServiceClient } from '@/lib/service';
 import {
 	NewRoutine,
 	Routine,

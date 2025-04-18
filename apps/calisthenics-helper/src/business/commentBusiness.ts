@@ -1,4 +1,4 @@
-import { getServiceClient } from '@/infra';
+import { getServiceClient } from '@/lib/service';
 import { Comment, CommentsRequest, UpdateComment } from '@/types/comment';
 
 export async function getComments(request: CommentsRequest) {
