@@ -32,7 +32,7 @@ import type {
 } from '@/types/auth';
 import { SERVER_ERROR_MESSAGE } from '@/constants/messages';
 
-export async function createUser(
+export async function signUpAction(
 	prevState: SignUpFormResponse,
 	formData: FormData
 ): Promise<SignUpFormResponse> {
@@ -91,7 +91,7 @@ export async function createUser(
 	return state;
 }
 
-export async function requestSignIn(
+export async function signInAction(
 	prevState: SignInFormResponse,
 	formData: FormData
 ): Promise<SignInFormResponse> {

@@ -1,6 +1,6 @@
 export {
-	createUser,
-	requestSignIn as sendSignInEmail,
+	signUpAction,
+	signInAction,
 	resetPasswordAction,
 	updateDisplayNameAction,
 	updatePasswordAction,

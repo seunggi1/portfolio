@@ -1,6 +1,6 @@
-import { sendSignInEmail } from '@/actions';
+import { signInAction } from '@/actions';
 import SignInForm from './SignInForm';
 
 export default function SignIn() {
-	return <SignInForm action={sendSignInEmail} />;
+	return <SignInForm action={signInAction} />;
 }
