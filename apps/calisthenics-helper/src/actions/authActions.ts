@@ -16,7 +16,7 @@ import {
 	validataPassword,
 	validateDisplayName,
 	validateProfilePassword,
-	validateSignInData,
+	validateEmail,
 	validateSignUpData,
 	validateWithdraw,
 } from '@/schemas/auth';
@@ -105,10 +105,10 @@ export async function requestSignIn(
 		inputs: { email, password },
 	};
 
-	const errors = validateSignInData({ email, password });
+	const emailError = validateEmail(email);
 
-	if (errors) {
-		state.errors = errors;
+	if (emailError) {
+		state.errors.email = emailError;
 
 		return state;
 	}
@@ -150,10 +150,10 @@ export async function resetPasswordAction(
 		inputs: { email },
 	};
 
-	const errors = validateSignInData({ email });
+	const emailError = validateEmail(email);
 
-	if (errors) {
-		state.errors = errors;
+	if (emailError) {
+		state.errors.email = emailError;
 
 		return state;
 	}

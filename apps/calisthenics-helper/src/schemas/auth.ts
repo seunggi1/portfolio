@@ -1,7 +1,5 @@
 import { z } from 'zod';
 import {
-	SignInData,
-	SignInFormResponse,
 	SignUpData,
 	SignUpFormResponse,
 	UpdateDisplayNameData,
@@ -39,7 +37,7 @@ const signUpUser = z.object({
 	confirmPassword: z.string(),
 });
 
-const signInUser = signUpUser.pick({ email: true });
+const userEmail = signUpUser.pick({ email: true });
 
 export function validateSignUpData(
 	data: SignUpData
@@ -65,10 +63,8 @@ export function validateSignUpData(
 	);
 }
 
-export function validateSignInData(
-	data: SignInData
-): SignInFormResponse['errors'] | null {
-	const result = signInUser.safeParse(data);
+export function validateEmail(email: User['email']): string | null {
+	const result = userEmail.safeParse(email);
 
 	if (result.success) {
 		return null;
@@ -76,9 +72,7 @@ export function validateSignInData(
 
 	const format = result.error.flatten();
 
-	return {
-		email: format.fieldErrors.email?.join(' '),
-	};
+	return format.fieldErrors.email?.join(' ') ?? null;
 }
 
 export function validataPassword(data: UpdatePasswordData) {
