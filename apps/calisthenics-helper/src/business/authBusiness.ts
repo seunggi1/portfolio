@@ -2,6 +2,8 @@ import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { getServiceClient } from '@/lib/service';
 import {
 	ResetPasswordResult,
+	SignInData,
+	SignInFormResponse,
 	SignUpData,
 	SignUpFormResponse,
 	UpdatePasswordResult,
@@ -25,7 +27,7 @@ export class AuthBusiness {
 		email: User['email'],
 		password: User['password']
 	): Promise<boolean> {
-		return this.client.signIn(email, password);
+		return this.client.signIn({ email, password });
 	}
 
 	async signUp({
@@ -57,8 +59,26 @@ export class AuthBusiness {
 		return result;
 	}
 
-	async signIn(email: string, password: string): Promise<boolean> {
-		return this.client.signIn(email, password);
+	async signIn({
+		email,
+		password,
+	}: SignInData): Promise<Pick<SignInFormResponse, 'success' | 'errors'>> {
+		const result: Pick<SignInFormResponse, 'success' | 'errors'> = {
+			success: false,
+			errors: {},
+		};
+
+		if ((await this.checkEmail(email)) === false) {
+			result.errors.password = authErrorMessages.AUTH_ERROR;
+			return result;
+		}
+
+		result.success = await this.client.signIn({
+			email,
+			password,
+		});
+
+		return result;
 	}
 
 	async signOut(): Promise<boolean> {
@@ -74,7 +94,7 @@ export class AuthBusiness {
 		email: string,
 		password: string
 	): Promise<ResetPasswordResult> {
-		const canLogin = await this.client.signIn(email, password);
+		const canLogin = await this.client.signIn({ email, password });
 
 		if (canLogin) {
 			await this.client.signOut();

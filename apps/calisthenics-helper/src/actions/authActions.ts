@@ -37,7 +37,7 @@ export async function signUpAction(
 		confirmPassword: formData.get('confirm-password') as string,
 	};
 
-	let state: SignUpFormResponse = {
+	const state: SignUpFormResponse = {
 		success: prevState.success,
 		inputs: { displayName, email, password, confirmPassword },
 		errors: {},
@@ -97,15 +97,12 @@ export async function signInAction(
 		return state;
 	}
 
-	const authBusiness = await createAuthBusiness();
-
 	try {
-		if ((await authBusiness.checkEmail(email)) === false) {
-			state.errors.password = authErrorMessages.AUTH_ERROR;
-			return state;
-		}
+		const authBusiness = await createAuthBusiness();
 
-		state.success = await authBusiness.signIn(email, password);
+		const result = await authBusiness.signIn({ email, password });
+		state.success = result.success;
+		state.errors = result.errors;
 	} catch {
 		state.errors.password = authErrorMessages.SERVER_ERROR;
 		return state;

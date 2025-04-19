@@ -10,7 +10,12 @@ import {
 	RoutinesByUserRequest,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
-import { SignUpData, UpdatePasswordResult, User } from '@/types/auth';
+import {
+	SignInData,
+	SignUpData,
+	UpdatePasswordResult,
+	User,
+} from '@/types/auth';
 import { UnauthorizedError, ValidatorError } from '@/types/error';
 import {
 	CommentsResponse,
@@ -405,7 +410,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		return error === null;
 	}
 
-	async signIn(email: string, password: string): Promise<boolean> {
+	async signIn({ email, password }: SignInData): Promise<boolean> {
 		const { error } = await this.client.auth.signInWithPassword({
 			email,
 			password,

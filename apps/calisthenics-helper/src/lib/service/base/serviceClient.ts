@@ -43,7 +43,7 @@ export interface ServiceClient {
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
 	checkEmailExists: (searchEmail: string) => Promise<boolean>;
 	signUp: (signUpData: SignUpData) => Promise<boolean>;
-	signIn: (email: string, password: string) => Promise<boolean>;
+	signIn: (signInData: SignInData) => Promise<boolean>;
 	resetPasswordForEmail: (email: string) => Promise<boolean>;
 	verifyToken: (token: string) => Promise<boolean>;
 	updatePassword: (password: string) => Promise<UpdatePasswordResult>;
