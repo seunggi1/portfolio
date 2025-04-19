@@ -7,6 +7,10 @@ export type User = {
 	password: string;
 };
 
+export type RequiredUserData<T> = T & {
+	user: User;
+};
+
 export type SignUpFormData = Pick<
 	User,
 	'email' | 'displayName' | 'password'

@@ -11,6 +11,7 @@ import {
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import {
+	RequiredUserData,
 	SignInData,
 	SignUpData,
 	UpdatePasswordResult,
@@ -100,13 +101,8 @@ export class SupabaseServiceClient implements ServiceClient {
 
 	async getRoutinesByUser({
 		nextCursor,
-	}: RoutinesByUserRequest): Promise<RoutinesResponse | null> {
-		const user = await this.getUser();
-
-		if (!user) {
-			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
-		}
-
+		user,
+	}: RequiredUserData<RoutinesByUserRequest>): Promise<RoutinesResponse | null> {
 		const { data, error } = await this.client
 			.rpc('routines_by_user', {
 				target_user_id: user.id,

@@ -1,4 +1,5 @@
 import {
+	RequiredUserData,
 	SignInData,
 	SignUpData,
 	UpdatePasswordResult,
@@ -28,7 +29,7 @@ export interface ServiceClient {
 		routineRequest: RoutinesRequest
 	) => Promise<RoutinesResponse | null>;
 	getRoutinesByUser: (
-		routineRequest: RoutinesByUserRequest
+		data: RequiredUserData<RoutinesByUserRequest>
 	) => Promise<RoutinesResponse | null>;
 	getRoutineById: (Id: string) => Promise<RoutineDetail | null>;
 	getRecommandRoutines: (day: number) => Promise<RecommandRoutine[]>;
