@@ -55,3 +55,11 @@ export const contactErrorMessages = {
 	MIN_TITLE_ERROR: '제목은 최소 2글자 이상이어야 합니다.',
 	MIN_CONTENTS_ERROR: '내용은 최소 5글자 이상이어야 합니다.',
 } as const;
+
+export const clientHttpErrorMessages = {
+	INPUT_ERROR: '입력값이 올바르지 않습니다.',
+	NOT_FOUND_ERROR: '존재하지 않는 데이터입니다. 메인 화면으로 이동합니다.',
+	UNAUTHORIZED_ERROR:
+		'유저 인증정보가 올바르지 않습니다. 로그인 페이지로 이동합니다.',
+	SERVER_ERROR: '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+} as const;
