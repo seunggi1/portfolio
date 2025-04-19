@@ -292,13 +292,10 @@ export class SupabaseServiceClient implements ServiceClient {
 		return data;
 	}
 
-	async updateComment(updateComment: UpdateComment): Promise<boolean> {
-		const user = await this.getUser();
-
-		if (!user) {
-			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
-		}
-
+	async updateComment({
+		updateComment,
+		user,
+	}: RequiredUserData<{ updateComment: UpdateComment }>): Promise<boolean> {
 		const { error } = await this.client.rpc('update_comment', {
 			update_id: updateComment.id,
 			update_comment: updateComment.comment,

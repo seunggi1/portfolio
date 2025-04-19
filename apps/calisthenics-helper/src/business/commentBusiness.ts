@@ -24,7 +24,16 @@ export class CommentBusiness {
 	}
 
 	async updateComment(updateComment: UpdateComment) {
-		return this.client.updateComment(updateComment);
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return this.client.updateComment({
+			user,
+			updateComment,
+		});
 	}
 
 	async deleteComment(id: Comment['id']) {
