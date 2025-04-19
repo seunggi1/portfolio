@@ -309,13 +309,10 @@ export class SupabaseServiceClient implements ServiceClient {
 
 		return !error;
 	}
-	async deleteComment(commentID: Comment['id']): Promise<boolean> {
-		const user = await this.getUser();
-
-		if (!user) {
-			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
-		}
-
+	async deleteComment({
+		commentID,
+		user,
+	}: RequiredUserData<{ commentID: Comment['id'] }>): Promise<boolean> {
 		const { error } = await this.client.rpc('delete_comment', {
 			delete_id: commentID,
 			request_user_id: user.id,

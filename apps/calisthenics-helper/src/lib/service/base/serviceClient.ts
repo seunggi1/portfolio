@@ -50,7 +50,9 @@ export interface ServiceClient {
 	updateComment: (
 		data: RequiredUserData<{ updateComment: UpdateComment }>
 	) => Promise<boolean>;
-	deleteComment: (commentID: Comment['id']) => Promise<boolean>;
+	deleteComment: (
+		data: RequiredUserData<{ commentID: Comment['id'] }>
+	) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
 	checkEmailExists: (searchEmail: string) => Promise<boolean>;
 	signUp: (signUpData: SignUpData) => Promise<boolean>;

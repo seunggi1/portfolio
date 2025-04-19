@@ -37,7 +37,16 @@ export class CommentBusiness {
 	}
 
 	async deleteComment(id: Comment['id']) {
-		return this.client.deleteComment(id);
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return this.client.deleteComment({
+			commentID: id,
+			user,
+		});
 	}
 }
 
