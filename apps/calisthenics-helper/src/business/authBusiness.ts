@@ -1,7 +1,14 @@
 import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { getServiceClient } from '@/lib/service';
-import { ResetPasswordResult, UpdatePasswordResult, User } from '@/types/auth';
+import {
+	ResetPasswordResult,
+	SignUpData,
+	SignUpFormResponse,
+	UpdatePasswordResult,
+	User,
+} from '@/types/auth';
 import { Routine } from '@/types/routine';
+import { authErrorMessages } from '@/constants/messages';
 
 export class AuthBusiness {
 	constructor(private client: ServiceClient) {}
@@ -21,12 +28,33 @@ export class AuthBusiness {
 		return this.client.signIn(email, password);
 	}
 
-	async signUp(
-		displayName: string,
-		email: string,
-		password: string
-	): Promise<boolean> {
-		return this.client.signUp(email, displayName, password);
+	async signUp({
+		displayName,
+		email,
+		password,
+	}: SignUpData): Promise<Pick<SignUpFormResponse, 'success' | 'errors'>> {
+		const result: Pick<SignUpFormResponse, 'success' | 'errors'> = {
+			success: false,
+			errors: {},
+		};
+
+		if (await this.checkDisplayName(displayName)) {
+			result.errors.displayName = authErrorMessages.EXISTS_DISPLAY_NAME_ERROR;
+			return result;
+		}
+
+		if (await this.checkEmail(email)) {
+			result.errors.email = authErrorMessages.EXISTS_EMAIL_ERROR;
+			return result;
+		}
+
+		result.success = await this.client.signUp({
+			displayName,
+			email,
+			password,
+		});
+
+		return result;
 	}
 
 	async signIn(email: string, password: string): Promise<boolean> {

@@ -1,4 +1,9 @@
-import { UpdatePasswordResult, User } from '@/types/auth';
+import {
+	SignInData,
+	SignUpData,
+	UpdatePasswordResult,
+	User,
+} from '@/types/auth';
 import {
 	Comment,
 	CommentsRequest,
@@ -37,11 +42,7 @@ export interface ServiceClient {
 	deleteComment: (commentID: Comment['id']) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;
 	checkEmailExists: (searchEmail: string) => Promise<boolean>;
-	signUp: (
-		email: string,
-		displayName: string,
-		password: string
-	) => Promise<boolean>;
+	signUp: (signUpData: SignUpData) => Promise<boolean>;
 	signIn: (email: string, password: string) => Promise<boolean>;
 	resetPasswordForEmail: (email: string) => Promise<boolean>;
 	verifyToken: (token: string) => Promise<boolean>;

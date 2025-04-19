@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-	SignUpData,
+	SignUpFormData,
 	SignUpFormResponse,
 	UpdateDisplayNameData,
 	UpdatePasswordData,
@@ -41,7 +41,7 @@ const signUpUser = z.object({
 const userEmail = signUpUser.pick({ email: true });
 
 export function validateSignUpData(
-	data: SignUpData
+	data: SignUpFormData
 ): SignUpFormResponse['errors'] | null {
 	const passwordResult = validataPassword(data);
 

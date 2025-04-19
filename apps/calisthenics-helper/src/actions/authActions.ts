@@ -37,7 +37,7 @@ export async function signUpAction(
 		confirmPassword: formData.get('confirm-password') as string,
 	};
 
-	const state: SignUpFormResponse = {
+	let state: SignUpFormResponse = {
 		success: prevState.success,
 		inputs: { displayName, email, password, confirmPassword },
 		errors: {},
@@ -57,20 +57,12 @@ export async function signUpAction(
 		};
 	}
 
-	const authBusiness = await createAuthBusiness();
-
 	try {
-		if (await authBusiness.checkDisplayName(displayName)) {
-			state.errors.displayName = authErrorMessages.EXISTS_DISPLAY_NAME_ERROR;
-			return state;
-		}
+		const authBusiness = await createAuthBusiness();
+		const result = await authBusiness.signUp({ email, displayName, password });
 
-		if (await authBusiness.checkEmail(email)) {
-			state.errors.email = authErrorMessages.EXISTS_EMAIL_ERROR;
-			return state;
-		}
-
-		state.success = await authBusiness.signUp(displayName, email, password);
+		state.success = result.success;
+		state.errors = result.errors;
 	} catch {
 		state.errors.password = authErrorMessages.SERVER_ERROR;
 		return state;

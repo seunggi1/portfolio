@@ -7,10 +7,15 @@ export type User = {
 	password: string;
 };
 
-export type SignUpData = Pick<User, 'email' | 'displayName' | 'password'> & {
+export type SignUpFormData = Pick<
+	User,
+	'email' | 'displayName' | 'password'
+> & {
 	confirmPassword: string;
 };
-export type SignUpFormResponse = FormResponse<SignUpData>;
+export type SignUpFormResponse = FormResponse<SignUpFormData>;
+
+export type SignUpData = Pick<User, 'email' | 'displayName' | 'password'>;
 
 export type SignInData = Pick<User, 'email' | 'password'>;
 export type SignInFormResponse = FormResponse<SignInData>;
@@ -19,7 +24,7 @@ export type ResetEmailData = Pick<User, 'email'>;
 export type ResetEmailResponse = FormResponse<ResetEmailData>;
 
 export type UpdatePasswordData = Pick<
-	SignUpData,
+	SignUpFormData,
 	'password' | 'confirmPassword'
 >;
 export type UpdatePasswordResponse = FormResponse<UpdatePasswordData>;
