@@ -20,12 +20,13 @@ import {
 	UpdateComment,
 } from '@/types/comment';
 import { Contact } from '@/types/contact';
+import { environments } from '@/constants/environments';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
 
 	getImageBucketName() {
-		return process.env.SUPABASE_BUCKET_NAME ?? 'image';
+		return environments.SUPABASE_BUCKET_NAME;
 	}
 
 	async uploadImage(file: File) {
@@ -378,7 +379,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const { error } = await this.client.auth.signInWithOtp({
 			email,
 			options: {
-				emailRedirectTo: process.env.SITE_URL,
+				emailRedirectTo: environments.SITE_URL,
 			},
 		});
 
@@ -418,7 +419,7 @@ export class SupabaseServiceClient implements ServiceClient {
 
 	async resetPasswordForEmail(email: string): Promise<boolean> {
 		const { error } = await this.client.auth.resetPasswordForEmail(email, {
-			redirectTo: process.env.SITE_URL,
+			redirectTo: environments.SITE_URL,
 		});
 
 		if (error) {

@@ -1,9 +1,10 @@
 import { ServiceClient } from './base/serviceClient';
 import { SupabaseServiceClient } from './supabase/supabaseServiceClient';
 import { createClient as createSupabaseClient } from './supabase/server';
+import { environments } from '@/constants/environments';
 
 export async function getServiceClient(): Promise<ServiceClient> {
-	const service = process.env.DB_SERVICE || 'supabase';
+	const service = environments.DB_SERVICE;
 
 	switch (service) {
 		case 'supabase':
