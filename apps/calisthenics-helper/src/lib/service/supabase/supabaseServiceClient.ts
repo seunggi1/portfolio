@@ -224,8 +224,10 @@ export class SupabaseServiceClient implements ServiceClient {
 		return data;
 	}
 
-	async deleteRoutine(routineID: Routine['id']): Promise<boolean> {
-		const user = await this.getUser();
+	async deleteRoutine({
+		user,
+		routineID,
+	}: RequiredUserData<{ routineID: Routine['id'] }>): Promise<boolean> {
 		const originData = await this.getRoutineById(routineID);
 
 		if (!user || !originData) {

@@ -54,7 +54,16 @@ export class RoutineBusiness {
 	}
 
 	async deleteRoutine(id: Routine['id']) {
-		return this.client.deleteRoutine(id);
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new ValidatorError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return this.client.deleteRoutine({
+			routineID: id,
+			user,
+		});
 	}
 
 	async getRoutineCategories() {
