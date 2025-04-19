@@ -16,3 +16,31 @@ export const authErrorMessages = {
 	NOT_MATCH_PASSWORD_ERROR: '비밀번호가 일치하지 않습니다.',
 	SAME_PASSWORD_ERROR: '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.',
 } as const;
+
+export const routineErrorMessages = {
+	MIN_NAME_ERROR: '루틴 이름은 최소 3글자 이상 이어야 합니다.',
+	MAX_NAME_ERROR: '루틴 이름은 최대 8글자까지 가능합니다.',
+	MIN_DIFFICULTY_LEVEL_ERROR: '루틴 레벨은 1 이상 이어야 합니다.',
+	MAX_DIFFICULTY_LEVEL_ERROR: '루틴 레벨은 5를 초과할 수 없습니다.',
+	MIN_REST_SECONDS_ERROR: '휴식 시간(초)은 최소 10초 이상 이어야 합니다.',
+	MAX_REST_SECONDS_ERROR:
+		'휴식 시간(초)은 최대 5분(300초)를 초과할 수 없습니다.',
+	MIN_TOTAL_SETS_ERROR: '세트 수는 최소 1 이상 이어야 합니다.',
+	MIN_CATEGORY_ERROR: '최소 1개 이상 카테고리를 선택해야 합니다.',
+	MIN_DESCRIPTION_ERROR: '루틴 설명은 최소 5글자 이상 이어야 합니다.',
+	EXTENSION_IMAGE_ERROR:
+		'업로드 가능한 이미지 파일 확장자는 .jpg, .jpeg, .png 입니다.',
+	MAX_SIZE_IMAGE_ERROR: '이미지 업로드 용량을 초과했습니다.',
+} as const;
+
+export const exerciseErrorMessages = {
+	MIN_NAME_ERROR: '운동 이름은 최소 2글자 이상 이어야 합니다.',
+	MIN_SECONDS_PER_REP_ERROR:
+		'1회당 반복 시간(초)는 최소 1초 이상 이어야 합니다.',
+	MAX_SECONDS_PER_REP_ERROR:
+		'1회당 반복 시간(초)는 최대 10초를 초과할 수 없습니다.',
+	MIN_REPETITION_COUNT_ERROR: '운동 반복 횟수는 최소 1회 이상 이어야 합니다. ',
+	MIN_NEXT_DELAY_SECONDS_ERROR:
+		'다음 운동 준비 시간은 최소 5초 이상 이어야 합니다.',
+	MIN_EXERCISES_ERROR: '최소 1개 이상에 운동이 필요합니다.',
+} as const;

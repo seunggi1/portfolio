@@ -1,40 +1,44 @@
-import { NewExercise, NewRoutine, RoutineFormData } from '@/types/routine';
 import { z } from 'zod';
+import {
+	exerciseErrorMessages,
+	routineErrorMessages,
+} from '@/constants/messages';
+import { NewExercise, NewRoutine, RoutineFormData } from '@/types/routine';
 
 export const routineEditSchema: z.ZodType<RoutineFormData> = z.object({
 	name: z
 		.string()
 		.min(3, {
-			message: '루틴 이름은 최소 3글자 이상 이어야 합니다.',
+			message: routineErrorMessages.MIN_NAME_ERROR,
 		})
 		.max(15, {
-			message: '루틴 이름은 최대 8글자까지 가능합니다.',
+			message: routineErrorMessages.MAX_NAME_ERROR,
 		}),
 	difficultyLevel: z
 		.number()
 		.min(1, {
-			message: '루틴 레벨은 1 이상 이어야 합니다.',
+			message: routineErrorMessages.MIN_DIFFICULTY_LEVEL_ERROR,
 		})
 		.max(5, {
-			message: '루틴 레벨은 5를 초과할 수 없습니다.',
+			message: routineErrorMessages.MAX_DIFFICULTY_LEVEL_ERROR,
 		}),
 	restSeconds: z
 		.number()
 		.min(10, {
-			message: '휴식 시간(초)은 최소 10초 이상 이어야 합니다.',
+			message: routineErrorMessages.MIN_REST_SECONDS_ERROR,
 		})
 		.max(300, {
-			message: '휴식 시간(초)은 최대 5분(300초)를 초과할 수 없습니다.',
+			message: routineErrorMessages.MAX_REST_SECONDS_ERROR,
 		}),
 	totalSets: z.number().min(1, {
-		message: '세트 수는 최소 1이상 이어야 합니다.',
+		message: routineErrorMessages.MIN_TOTAL_SETS_ERROR,
 	}),
 	categoryIDs: z.array(z.string()).nonempty({
-		message: '최소 1개 이상 카테고리를 선택해야 합니다.',
+		message: routineErrorMessages.MIN_CATEGORY_ERROR,
 	}),
 	description: z
 		.string()
-		.min(5, { message: '설명은 최소 5글자 이상 이어야 합니다.' }),
+		.min(5, { message: routineErrorMessages.MIN_DESCRIPTION_ERROR }),
 	image: z.union([
 		z.string(),
 		z
@@ -42,12 +46,11 @@ export const routineEditSchema: z.ZodType<RoutineFormData> = z.object({
 			.refine(
 				(file) => ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type),
 				{
-					message:
-						'업로드 가능한 이미지 파일 확장자는 .jpg, .jpeg, .png만 가능합니다.',
+					message: routineErrorMessages.EXTENSION_IMAGE_ERROR,
 				}
 			)
 			.refine((file) => file.size <= 1024 * 100 * 2.5, {
-				message: '이미지 업로드 용량을 초과했습니다.',
+				message: routineErrorMessages.MAX_SIZE_IMAGE_ERROR,
 			})
 			.nullable()
 			.optional(),
@@ -56,21 +59,21 @@ export const routineEditSchema: z.ZodType<RoutineFormData> = z.object({
 
 export const newExerciseSchema: z.ZodType<NewExercise> = z.object({
 	name: z.string().min(2, {
-		message: '운동 이름은 최소 2글자 이상 이어야 합니다.',
+		message: exerciseErrorMessages.MIN_NAME_ERROR,
 	}),
 	secondsPerRep: z
 		.number()
 		.min(1, {
-			message: '1회당 반복 시간(초)는 최소 1초 이상 이어야 합니다.',
+			message: exerciseErrorMessages.MIN_SECONDS_PER_REP_ERROR,
 		})
 		.max(10, {
-			message: '1회당 반복 시간(초)는 최대 10초를 초과할 수 없습니다.',
+			message: exerciseErrorMessages.MAX_SECONDS_PER_REP_ERROR,
 		}),
 	repetitionCount: z.number().min(1, {
-		message: '운동 반복 횟수는 최소 1회 이상 이어야 합니다. ',
+		message: exerciseErrorMessages.MIN_REPETITION_COUNT_ERROR,
 	}),
 	nextDelaySeconds: z.number().min(5, {
-		message: '다음 운동 준비 시간은 최소 5초 이상 이어야 합니다.',
+		message: exerciseErrorMessages.MIN_NEXT_DELAY_SECONDS_ERROR,
 	}),
 	order: z.number(),
 });
@@ -78,7 +81,7 @@ export const newExerciseSchema: z.ZodType<NewExercise> = z.object({
 const exercises = z.object({
 	exercises: newExerciseSchema
 		.array()
-		.min(1, { message: '최소 1개 이상에 운동이 필요합니다.' }),
+		.min(1, { message: exerciseErrorMessages.MIN_EXERCISES_ERROR }),
 });
 
 const fullRoutineData = z.intersection(routineEditSchema, exercises);
