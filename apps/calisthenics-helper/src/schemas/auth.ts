@@ -7,32 +7,33 @@ import {
 	UpdateProfilePasswordData,
 	User,
 } from '@/types/auth';
+import { authErrorMessages } from '@/constants/messages';
 
 const signUpUser = z.object({
 	displayName: z
 		.string()
 		.min(3, {
-			message: '별명은 최소 3글자 이상 이어야 합니다.',
+			message: authErrorMessages.MIN_DISPLAY_NAME_ERROR,
 		})
 		.max(8, {
-			message: '별명은 최대 8글자까지 가능합니다.',
+			message: authErrorMessages.MAX_DISPLAY_NAME_ERROR,
 		}),
 	email: z.string().email({
-		message: '이메일 형식이 올바르지않습니다.',
+		message: authErrorMessages.EMAIL_ERROR,
 	}),
 	password: z
 		.string()
 		.min(6, {
-			message: '비밀번호는 최소 6자 이상 이어야 합니다.',
+			message: authErrorMessages.MIN_PASSWORD_ERROR,
 		})
 		.max(15, {
-			message: '비밀번호는 최대 15자 까지 가능합니다.',
+			message: authErrorMessages.MAX_PASSWORD_ERROR,
 		})
 		.regex(/[\w\S]/, {
-			message: '비밀번호는 소문자, 대문자, 숫자, 특수문자로 이루어져야 합니다.',
+			message: authErrorMessages.BASE_CHARACTER_PASSWORD_ERROR,
 		})
 		.regex(/[^\w]/, {
-			message: '비밀번호에 특수문자가 포함되어야 합니다.',
+			message: authErrorMessages.SPECIAL_CHARACTER_PASSWORD_ERROR,
 		}),
 	confirmPassword: z.string(),
 });
@@ -42,12 +43,13 @@ const userEmail = signUpUser.pick({ email: true });
 export function validateSignUpData(
 	data: SignUpData
 ): SignUpFormResponse['errors'] | null {
-	const result = signUpUser
-		.refine((data) => data.password === data.confirmPassword, {
-			message: '비밀번호가 일치하지 않습니다.',
-			path: ['confirmPassword'],
-		})
-		.safeParse(data);
+	const passwordResult = validataPassword(data);
+
+	if (passwordResult) {
+		return passwordResult;
+	}
+
+	const result = signUpUser.safeParse(data);
 
 	if (result.success) {
 		return null;
@@ -79,7 +81,7 @@ export function validataPassword(data: UpdatePasswordData) {
 	const result = signUpUser
 		.pick({ password: true, confirmPassword: true })
 		.refine((data) => data.password === data.confirmPassword, {
-			message: '비밀번호가 일치하지 않습니다.',
+			message: authErrorMessages.NOT_MATCH_PASSWORD_ERROR,
 			path: ['confirmPassword'],
 		})
 		.safeParse(data);
@@ -125,7 +127,7 @@ export function validateProfilePassword(data: UpdateProfilePasswordData) {
 	return {
 		password:
 			data.password === data.newPassword
-				? '현재 비밀번호와 새 비밀번호는 달라야합니다.'
+				? authErrorMessages.NEW_PASSWORD_ERROR
 				: undefined,
 		newPassword: newPasswordResult?.password,
 		newConfirmPassword: newPasswordResult?.confirmPassword,
@@ -146,7 +148,7 @@ export function validateWithdraw(
 	if (result.success) {
 		if (email !== confirmEmail) {
 			return {
-				confirmEmail: '이메일 형식이 올바르지 않습니다.',
+				confirmEmail: authErrorMessages.EMAIL_ERROR,
 			};
 		}
 		return null;

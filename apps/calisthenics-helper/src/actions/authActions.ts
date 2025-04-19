@@ -19,7 +19,7 @@ import type {
 	User,
 	WithdrawResponse,
 } from '@/types/auth';
-import { SERVER_ERROR_MESSAGE } from '@/constants/messages';
+import { authErrorMessages } from '@/constants/messages';
 
 export async function signUpAction(
 	prevState: SignUpFormResponse,
@@ -61,24 +61,25 @@ export async function signUpAction(
 
 	try {
 		if (await authBusiness.checkDisplayName(displayName)) {
-			state.errors.displayName = '이미 존재하는 별명입니다.';
+			state.errors.displayName = authErrorMessages.EXISTS_DISPLAY_NAME_ERROR;
 			return state;
 		}
 
 		if (await authBusiness.checkEmail(email)) {
-			state.errors.email = '이미 존재하는 이메일입니다.';
+			state.errors.email = authErrorMessages.EXISTS_EMAIL_ERROR;
 			return state;
 		}
 
 		state.success = await authBusiness.signUp(displayName, email, password);
 	} catch {
-		state.errors.password = SERVER_ERROR_MESSAGE;
+		state.errors.password = authErrorMessages.SERVER_ERROR;
 		return state;
 	}
 
 	if (state.success) {
 		state.errors = {};
 	}
+
 	return state;
 }
 
@@ -108,22 +109,20 @@ export async function signInAction(
 
 	try {
 		if ((await authBusiness.checkEmail(email)) === false) {
-			state.errors.email = '존재하지않는 계정입니다.';
+			state.errors.password = authErrorMessages.AUTH_ERROR;
 			return state;
 		}
 
 		state.success = await authBusiness.signIn(email, password);
 	} catch {
-		state.errors.password = SERVER_ERROR_MESSAGE;
+		state.errors.password = authErrorMessages.SERVER_ERROR;
 		return state;
 	}
 
 	if (state.success) {
 		state.errors = {};
 	} else {
-		state.errors = {
-			password: '계정 정보가 올바르지 않습니다.',
-		};
+		state.errors.password = authErrorMessages.AUTH_ERROR;
 	}
 
 	return state;
@@ -155,22 +154,20 @@ export async function resetPasswordAction(
 
 	try {
 		if ((await authBusiness.checkEmail(email)) === false) {
-			state.errors.email = '존재하지않는 계정입니다.';
+			state.errors.email = authErrorMessages.AUTH_ERROR;
 			return state;
 		}
 
 		state.success = await authBusiness.sendResetPasswordEmail(email);
 	} catch {
-		state.errors.email = SERVER_ERROR_MESSAGE;
+		state.errors.email = authErrorMessages.SERVER_ERROR;
 		return state;
 	}
 
 	if (state.success) {
 		state.errors = {};
 	} else {
-		state.errors = {
-			email: SERVER_ERROR_MESSAGE,
-		};
+		state.errors.email = authErrorMessages.AUTH_ERROR;
 	}
 
 	return state;
@@ -212,14 +209,14 @@ export async function updatePasswordAction(
 		if (updateResult !== 'success') {
 			state.errors.password =
 				updateResult === 'samePassword'
-					? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
-					: SERVER_ERROR_MESSAGE;
+					? authErrorMessages.SAME_PASSWORD_ERROR
+					: authErrorMessages.SERVER_ERROR;
 		} else {
 			state.success = true;
 			state.errors = {};
 		}
 	} catch {
-		state.errors.confirmPassword = SERVER_ERROR_MESSAGE;
+		state.errors.confirmPassword = authErrorMessages.SERVER_ERROR;
 		return state;
 	}
 
@@ -253,12 +250,12 @@ export async function updateDisplayNameAction(
 		const isExist = await authBusiness.checkDisplayName(displayName);
 
 		if (isExist) {
-			state.errors.displayName = '이미 존재하는 별명입니다.';
+			state.errors.displayName = authErrorMessages.EXISTS_DISPLAY_NAME_ERROR;
 
 			return state;
 		}
 	} catch {
-		state.errors.displayName = SERVER_ERROR_MESSAGE;
+		state.errors.displayName = authErrorMessages.SERVER_ERROR;
 		return state;
 	}
 
@@ -269,7 +266,7 @@ export async function updateDisplayNameAction(
 		state.errors = {};
 	} else {
 		state.errors = {
-			displayName: SERVER_ERROR_MESSAGE,
+			displayName: authErrorMessages.SERVER_ERROR,
 		};
 	}
 
@@ -316,7 +313,7 @@ export async function updateProfilePasswordAction(
 		);
 
 		if (!isCurrentPasswordValid) {
-			state.errors.password = '현재 비밀번호가 올바르지 않습니다.';
+			state.errors.password = authErrorMessages.CURRENT_PASSWORD_ERROR;
 
 			return state;
 		}
@@ -326,14 +323,14 @@ export async function updateProfilePasswordAction(
 		if (updateResult !== 'success') {
 			state.errors.password =
 				updateResult === 'samePassword'
-					? '이전 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.'
-					: SERVER_ERROR_MESSAGE;
+					? authErrorMessages.SAME_PASSWORD_ERROR
+					: authErrorMessages.SERVER_ERROR;
 		} else {
 			state.success = true;
 			state.errors = {};
 		}
 	} catch {
-		state.errors.newConfirmPassword = SERVER_ERROR_MESSAGE;
+		state.errors.newConfirmPassword = authErrorMessages.SERVER_ERROR;
 		return state;
 	}
 
@@ -370,11 +367,11 @@ export async function withdrawAction(
 			state.errors = {};
 		} else {
 			state.errors = {
-				confirmEmail: SERVER_ERROR_MESSAGE,
+				confirmEmail: authErrorMessages.SERVER_ERROR,
 			};
 		}
 	} catch {
-		state.errors.confirmEmail = SERVER_ERROR_MESSAGE;
+		state.errors.confirmEmail = authErrorMessages.SERVER_ERROR;
 		return state;
 	}
 

@@ -2,7 +2,7 @@
 
 import { validateContact } from '@/schemas/contact';
 import { ContactResponse } from '@/types/contact';
-import { SERVER_ERROR_MESSAGE } from '@/constants/messages';
+import { authErrorMessages } from '@/constants/messages';
 import { createContactBusiness } from '@/business';
 
 export async function createContactAction(
@@ -36,7 +36,7 @@ export async function createContactAction(
 			contents,
 		});
 	} catch {
-		state.errors.contents = SERVER_ERROR_MESSAGE;
+		state.errors.contents = authErrorMessages.SERVER_ERROR;
 	}
 
 	return state;
