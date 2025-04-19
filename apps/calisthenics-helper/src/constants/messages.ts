@@ -44,3 +44,9 @@ export const exerciseErrorMessages = {
 		'다음 운동 준비 시간은 최소 5초 이상 이어야 합니다.',
 	MIN_EXERCISES_ERROR: '최소 1개 이상에 운동이 필요합니다.',
 } as const;
+
+export const commentErrorMessages = {
+	MIN_COMMENT_ERROR: '댓글은 최소 1글자 이상 이어야 합니다',
+	MIN_RECOMMENDATION_ERROR: '추천 점수는 1점 이상 이어야 합니다',
+	MAX_RECOMMENDATION_ERROR: '추천 점수는 5점을 초과할 수 없습니다.',
+} as const;

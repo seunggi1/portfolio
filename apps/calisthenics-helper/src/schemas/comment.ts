@@ -1,15 +1,16 @@
 import { z } from 'zod';
 import { CommentEditBase, CommentEditErrors } from '@/types/comment';
+import { commentErrorMessages } from '@/constants/messages';
 
 const comment: z.ZodType<CommentEditBase> = z.object({
 	comment: z
 		.string()
-		.min(1, { message: '댓글은 최소 1글자 이상 이어야 합니다' }),
+		.min(1, { message: commentErrorMessages.MIN_COMMENT_ERROR }),
 	recommendation: z
 		.number()
-		.min(1, { message: '추천 점수는 1점 이상 이어야 합니다' })
+		.min(1, { message: commentErrorMessages.MIN_RECOMMENDATION_ERROR })
 		.max(5, {
-			message: '추천 점수는 5점을 초과할 수 없습니다.',
+			message: commentErrorMessages.MAX_RECOMMENDATION_ERROR,
 		}),
 });
 
