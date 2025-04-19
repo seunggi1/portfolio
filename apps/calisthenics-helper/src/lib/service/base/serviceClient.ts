@@ -44,7 +44,9 @@ export interface ServiceClient {
 		data: RequiredUserData<{ routineID: Routine['id'] }>
 	) => Promise<boolean>;
 	getComments: (commentsRequest: CommentsRequest) => Promise<CommentsResponse>;
-	createComment: (newComment: NewComment) => Promise<Comment['id']>;
+	createComment: (
+		data: RequiredUserData<{ newComment: NewComment }>
+	) => Promise<Comment['id']>;
 	updateComment: (updateComment: UpdateComment) => Promise<boolean>;
 	deleteComment: (commentID: Comment['id']) => Promise<boolean>;
 	checkDisplayNameExists: (searchDisplayName: string) => Promise<boolean>;

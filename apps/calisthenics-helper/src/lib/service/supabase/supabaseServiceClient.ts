@@ -272,13 +272,10 @@ export class SupabaseServiceClient implements ServiceClient {
 		};
 	}
 
-	async createComment(newComment: NewComment): Promise<Comment['id']> {
-		const user = await this.getUser();
-
-		if (!user) {
-			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
-		}
-
+	async createComment({
+		newComment,
+		user,
+	}: RequiredUserData<{ newComment: NewComment }>): Promise<Comment['id']> {
 		const { data, error } = await this.client
 			.rpc('create_comment', {
 				routine_id: newComment.routineID,

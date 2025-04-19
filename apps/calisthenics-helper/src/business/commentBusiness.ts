@@ -1,6 +1,8 @@
+import { serverHttpErrorMessages } from '@/constants/messages';
 import { getServiceClient } from '@/lib/service';
 import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { Comment, CommentsRequest, UpdateComment } from '@/types/comment';
+import { UnauthorizedError } from '@/types/error';
 
 export class CommentBusiness {
 	constructor(private client: ServiceClient) {}
@@ -9,7 +11,16 @@ export class CommentBusiness {
 	}
 
 	async createComment(comment: Comment) {
-		return this.client.createComment(comment);
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return this.client.createComment({
+			newComment: comment,
+			user,
+		});
 	}
 
 	async updateComment(updateComment: UpdateComment) {
