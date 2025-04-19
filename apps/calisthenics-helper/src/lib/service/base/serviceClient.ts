@@ -37,7 +37,9 @@ export interface ServiceClient {
 	createRoutine: (
 		data: RequiredUserData<{ newRoutine: NewRoutine }>
 	) => Promise<Routine['id']>;
-	updateRoutine: (updateRoutine: NewRoutine) => Promise<Routine['id']>;
+	updateRoutine: (
+		data: RequiredUserData<{ updateRoutine: NewRoutine }>
+	) => Promise<Routine['id']>;
 	deleteRoutine: (routineID: Routine['id']) => Promise<boolean>;
 	getComments: (commentsRequest: CommentsRequest) => Promise<CommentsResponse>;
 	createComment: (newComment: NewComment) => Promise<Comment['id']>;

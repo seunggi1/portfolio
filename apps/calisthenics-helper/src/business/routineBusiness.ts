@@ -43,8 +43,14 @@ export class RoutineBusiness {
 		});
 	}
 
-	async updateRoutine(updateRoution: NewRoutine) {
-		return this.client.updateRoutine(updateRoution);
+	async updateRoutine(updateRoutine: NewRoutine) {
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new ValidatorError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return this.client.updateRoutine({ updateRoutine, user });
 	}
 
 	async deleteRoutine(id: Routine['id']) {

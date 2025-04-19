@@ -178,11 +178,13 @@ export class SupabaseServiceClient implements ServiceClient {
 		return data;
 	}
 
-	async updateRoutine(updateRoutine: NewRoutine): Promise<Routine['id']> {
-		const user = await this.getUser();
+	async updateRoutine({
+		updateRoutine,
+		user,
+	}: RequiredUserData<{ updateRoutine: NewRoutine }>): Promise<Routine['id']> {
 		const originData = await this.getRoutineById(updateRoutine.id);
 
-		if (!user || !originData) {
+		if (!originData) {
 			throw new ValidatorError(serverHttpErrorMessages.INPUT_ERROR);
 		}
 
