@@ -50,3 +50,8 @@ export const commentErrorMessages = {
 	MIN_RECOMMENDATION_ERROR: '추천 점수는 1점 이상 이어야 합니다',
 	MAX_RECOMMENDATION_ERROR: '추천 점수는 5점을 초과할 수 없습니다.',
 } as const;
+
+export const contactErrorMessages = {
+	MIN_TITLE_ERROR: '제목은 최소 2글자 이상이어야 합니다.',
+	MIN_CONTENTS_ERROR: '내용은 최소 5글자 이상이어야 합니다.',
+} as const;
