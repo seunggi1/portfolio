@@ -148,13 +148,10 @@ export class SupabaseServiceClient implements ServiceClient {
 		return data || [];
 	}
 
-	async createRoutine(newRoutine: NewRoutine): Promise<Routine['id']> {
-		const user = await this.getUser();
-
-		if (!user) {
-			throw new ValidatorError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
-		}
-
+	async createRoutine({
+		newRoutine,
+		user,
+	}: RequiredUserData<{ newRoutine: NewRoutine }>): Promise<Routine['id']> {
 		let uploadImageURL: string | null = null;
 		if (newRoutine.image && newRoutine.image instanceof File) {
 			uploadImageURL = await this.uploadImage(newRoutine.image);

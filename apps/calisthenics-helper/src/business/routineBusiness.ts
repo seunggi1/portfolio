@@ -1,7 +1,7 @@
 import { serverHttpErrorMessages } from '@/constants/messages';
 import { getServiceClient } from '@/lib/service';
 import { ServiceClient } from '@/lib/service/base/serviceClient';
-import { UnauthorizedError } from '@/types/error';
+import { UnauthorizedError, ValidatorError } from '@/types/error';
 import {
 	NewRoutine,
 	Routine,
@@ -31,7 +31,16 @@ export class RoutineBusiness {
 	}
 
 	async createRoutine(newRoutine: NewRoutine) {
-		return this.client.createRoutine(newRoutine);
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new ValidatorError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return this.client.createRoutine({
+			newRoutine,
+			user,
+		});
 	}
 
 	async updateRoutine(updateRoution: NewRoutine) {
