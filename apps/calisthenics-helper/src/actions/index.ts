@@ -1,7 +1,7 @@
 export {
 	signUpAction,
 	signInAction,
-	resetPasswordAction,
+	resetPasswordEmailAction as resetPasswordAction,
 	updateDisplayNameAction,
 	updatePasswordAction,
 	updateProfilePasswordAction,

@@ -10,7 +10,7 @@ import {
 	validateWithdraw,
 } from '@/schemas/auth';
 import type {
-	ResetEmailResponse,
+	ResetPasswordEmailResponse,
 	SignInFormResponse,
 	SignUpFormResponse,
 	UpdateDisplayNameResponse,
@@ -117,15 +117,15 @@ export async function signInAction(
 	return state;
 }
 
-export async function resetPasswordAction(
-	prevState: ResetEmailResponse,
+export async function resetPasswordEmailAction(
+	prevState: ResetPasswordEmailResponse,
 	formData: FormData
-): Promise<ResetEmailResponse> {
-	const { email }: ResetEmailResponse['inputs'] = {
+): Promise<ResetPasswordEmailResponse> {
+	const { email }: ResetPasswordEmailResponse['inputs'] = {
 		email: formData.get('email') as string,
 	};
 
-	const state: ResetEmailResponse = {
+	const state: ResetPasswordEmailResponse = {
 		success: prevState.success,
 		errors: {},
 		inputs: { email },
@@ -139,15 +139,12 @@ export async function resetPasswordAction(
 		return state;
 	}
 
-	const authBusiness = await createAuthBusiness();
-
 	try {
-		if ((await authBusiness.checkEmail(email)) === false) {
-			state.errors.email = authErrorMessages.AUTH_ERROR;
-			return state;
-		}
+		const authBusiness = await createAuthBusiness();
 
-		state.success = await authBusiness.sendResetPasswordEmail(email);
+		const result = await authBusiness.sendResetPasswordEmail(email);
+		state.success = result.success;
+		state.errors = result.errors;
 	} catch {
 		state.errors.email = authErrorMessages.SERVER_ERROR;
 		return state;
@@ -189,11 +186,11 @@ export async function updatePasswordAction(
 
 	try {
 		const authBusiness = await createAuthBusiness();
-		const updateResult = await authBusiness.resetPassword(
+		const updateResult = await authBusiness.resetPassword({
 			token,
 			email,
-			password
-		);
+			password,
+		});
 
 		if (updateResult !== 'success') {
 			state.errors.password =

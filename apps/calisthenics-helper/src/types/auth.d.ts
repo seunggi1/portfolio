@@ -20,8 +20,12 @@ export type SignUpData = Pick<User, 'email' | 'displayName' | 'password'>;
 export type SignInData = Pick<User, 'email' | 'password'>;
 export type SignInFormResponse = FormResponse<SignInData>;
 
-export type ResetEmailData = Pick<User, 'email'>;
-export type ResetEmailResponse = FormResponse<ResetEmailData>;
+export type ResetPasswordEmailData = Pick<User, 'email'>;
+export type ResetPasswordEmailResponse = FormResponse<ResetPasswordEmailData>;
+
+export type ResetPasswordData = Pick<User, 'email' | 'password'> & {
+	token: string;
+};
 
 export type UpdatePasswordData = Pick<
 	SignUpFormData,

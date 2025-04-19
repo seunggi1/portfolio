@@ -1,6 +1,8 @@
 import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { getServiceClient } from '@/lib/service';
 import {
+	ResetPasswordData,
+	ResetPasswordEmailResponse,
 	ResetPasswordResult,
 	SignInData,
 	SignInFormResponse,
@@ -85,15 +87,29 @@ export class AuthBusiness {
 		return this.client.signOut();
 	}
 
-	async sendResetPasswordEmail(email: string): Promise<boolean> {
-		return this.client.resetPasswordForEmail(email);
+	async sendResetPasswordEmail(
+		email: string
+	): Promise<Pick<ResetPasswordEmailResponse, 'success' | 'errors'>> {
+		const result: Pick<ResetPasswordEmailResponse, 'success' | 'errors'> = {
+			success: false,
+			errors: {},
+		};
+
+		if ((await this.checkEmail(email)) === false) {
+			result.errors.email = authErrorMessages.AUTH_ERROR;
+			return result;
+		}
+
+		result.success = await this.client.resetPasswordForEmail(email);
+
+		return result;
 	}
 
-	async resetPassword(
-		token: string,
-		email: string,
-		password: string
-	): Promise<ResetPasswordResult> {
+	async resetPassword({
+		email,
+		password,
+		token,
+	}: ResetPasswordData): Promise<ResetPasswordResult> {
 		const canLogin = await this.client.signIn({ email, password });
 
 		if (canLogin) {
@@ -101,7 +117,7 @@ export class AuthBusiness {
 			return 'samePassword';
 		}
 
-		const codeResult = this.client.verifyToken(token);
+		const codeResult = await this.client.verifyToken(token);
 
 		if (!codeResult) {
 			return 'tokenError';

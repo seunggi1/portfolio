@@ -1,20 +1,20 @@
 'use client';
 
 import { useActionState } from 'react';
-import type { ResetEmailResponse } from '@/types/auth';
+import type { ResetPasswordEmailResponse } from '@/types/auth';
 import { Button, Input } from '@repo/ui/common';
 import { FormGroup, Loading } from '@/components/common/ui';
 
 type Props = {
 	action: (
-		state: ResetEmailResponse,
+		state: ResetPasswordEmailResponse,
 		formData: FormData
-	) => Promise<ResetEmailResponse>;
+	) => Promise<ResetPasswordEmailResponse>;
 };
 
 export default function ResetPasswordForm({ action }: Props) {
 	const [{ success, errors, inputs }, formAction, isPending] = useActionState<
-		ResetEmailResponse,
+		ResetPasswordEmailResponse,
 		FormData
 	>(action, { success: false, errors: {}, inputs: {} });
 
