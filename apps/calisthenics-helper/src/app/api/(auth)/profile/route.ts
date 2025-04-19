@@ -1,4 +1,4 @@
-import { createAuthBusiness } from './../../../../business/authBusiness';
+import { createAuthBusiness } from '@/business';
 import { NextResponse } from 'next/server';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { User } from '@/types/auth';

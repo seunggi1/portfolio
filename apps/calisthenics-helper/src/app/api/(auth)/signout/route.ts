@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { createAuthBusiness } from '@/business';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export async function GET() {
 	try {
@@ -8,7 +9,7 @@ export async function GET() {
 		const result = await authBusiness.signOut();
 
 		if (!result) {
-			throw new Error('server error');
+			throw new Error(serverHttpErrorMessages.SERVER_ERROR);
 		}
 
 		return NextResponse.json<boolean>(true);

@@ -4,6 +4,7 @@ import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { ValidatorError } from '@/types/error';
 import { validateComment } from '@/schemas/comment';
 import { createCommentBusiness } from '@/business';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -13,7 +14,9 @@ export async function GET(request: NextRequest) {
 	let commentResponse: CommentsResponse | null;
 
 	if (!routineID) {
-		return handleErrorResponse(new ValidatorError('Invalid routine'));
+		return handleErrorResponse(
+			new ValidatorError(serverHttpErrorMessages.INPUT_ERROR)
+		);
 	}
 
 	try {
@@ -24,7 +27,7 @@ export async function GET(request: NextRequest) {
 		});
 
 		if (!commentResponse) {
-			throw new Error('Server Error');
+			throw new Error(serverHttpErrorMessages.SERVER_ERROR);
 		}
 
 		return NextResponse.json<CommentsResponse>(commentResponse);
@@ -38,7 +41,9 @@ export async function POST(request: NextRequest) {
 	const inputError = validateComment(data);
 
 	if (inputError) {
-		return handleErrorResponse(new ValidatorError('Invalid input data'));
+		return handleErrorResponse(
+			new ValidatorError(serverHttpErrorMessages.INPUT_ERROR)
+		);
 	}
 
 	try {

@@ -21,6 +21,7 @@ import {
 } from '@/types/comment';
 import { Contact } from '@/types/contact';
 import { environments } from '@/constants/environments';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export class SupabaseServiceClient implements ServiceClient {
 	constructor(private client: SupabaseClient) {}
@@ -35,7 +36,7 @@ export class SupabaseServiceClient implements ServiceClient {
 			.upload(file.lastModified + file.name, file);
 
 		if (error) {
-			throw new ValidatorError('Invalid image file');
+			throw new ValidatorError(serverHttpErrorMessages.UPLOAD_IMAGE_ERROR);
 		}
 
 		return this.getImagePublicURL(data.path);
@@ -50,7 +51,7 @@ export class SupabaseServiceClient implements ServiceClient {
 			.remove([this.getImageOriginName(image)]);
 
 		if (error) {
-			throw new Error('Image delete error');
+			throw new Error(serverHttpErrorMessages.DELETE_IMAGE_ERROR);
 		}
 
 		return !!data[0];
@@ -98,7 +99,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user) {
-			throw new UnauthorizedError('Invalid user');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		const { data, error } = await this.client
@@ -150,7 +151,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user) {
-			throw new ValidatorError('invalid user');
+			throw new ValidatorError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		let uploadImageURL: string | null = null;
@@ -184,11 +185,11 @@ export class SupabaseServiceClient implements ServiceClient {
 		const originData = await this.getRoutineById(updateRoutine.id);
 
 		if (!user || !originData) {
-			throw new ValidatorError('Invalid Request');
+			throw new ValidatorError(serverHttpErrorMessages.INPUT_ERROR);
 		}
 
 		if (user.id !== originData.userID) {
-			throw new UnauthorizedError('Unauthorized request');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		let uploadImageURL: string | null = null;
@@ -228,11 +229,11 @@ export class SupabaseServiceClient implements ServiceClient {
 		const originData = await this.getRoutineById(routineID);
 
 		if (!user || !originData) {
-			throw new ValidatorError('Invalid Request');
+			throw new ValidatorError(serverHttpErrorMessages.INPUT_ERROR);
 		}
 
 		if (user.id !== originData.userID) {
-			throw new UnauthorizedError('Unauthorized request');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		await this.deleteImage(originData.imageURL);
@@ -273,7 +274,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user) {
-			throw new UnauthorizedError('Invalid user');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		const { data, error } = await this.client
@@ -286,7 +287,7 @@ export class SupabaseServiceClient implements ServiceClient {
 			.single<Comment['id']>();
 
 		if (!data || error) {
-			throw new Error('Comment did not create');
+			throw new Error(serverHttpErrorMessages.CREATE_COMMENT_ERROR);
 		}
 
 		return data;
@@ -296,7 +297,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user) {
-			throw new UnauthorizedError('Invalid user');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		const { error } = await this.client.rpc('update_comment', {
@@ -316,7 +317,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user) {
-			throw new UnauthorizedError('Invalid user');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		const { error } = await this.client.rpc('delete_comment', {
@@ -490,7 +491,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user) {
-			throw new UnauthorizedError('Invalid User');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		const { error } = await this.client.auth.updateUser({
@@ -516,7 +517,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user || user.email !== email) {
-			throw new UnauthorizedError('Invalid User');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		const { error } = await this.client.rpc('delete_user', {
@@ -534,7 +535,7 @@ export class SupabaseServiceClient implements ServiceClient {
 		const user = await this.getUser();
 
 		if (!user) {
-			throw new UnauthorizedError('Invalid User');
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
 		}
 
 		const { error } = await this.client.rpc('create_contact', {

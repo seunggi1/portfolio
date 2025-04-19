@@ -63,3 +63,14 @@ export const clientHttpErrorMessages = {
 		'유저 인증정보가 올바르지 않습니다. 로그인 페이지로 이동합니다.',
 	SERVER_ERROR: '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
 } as const;
+
+export const serverHttpErrorMessages = {
+	INPUT_ERROR: 'Invalid input',
+	NOT_FOUND_ERROR: 'Not found resource',
+	UNAUTHORIZED_ERROR: 'Unauthorized user',
+	SERVER_ERROR: 'Internal server error',
+	UPLOAD_IMAGE_ERROR: 'Invalid image file',
+	DELETE_IMAGE_ERROR: 'Image delete error',
+	CREATE_COMMENT_ERROR: 'Comment did not create',
+	TOKEN_ERROR: 'Invalid token',
+};

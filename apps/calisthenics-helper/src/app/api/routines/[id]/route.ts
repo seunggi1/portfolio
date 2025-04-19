@@ -5,6 +5,7 @@ import { NotFoundError, ValidatorError } from '@/types/error';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
 import { createRoutineBusiness } from '@/business';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export async function GET(
 	_: NextRequest,
@@ -20,7 +21,9 @@ export async function GET(
 	}
 
 	if (!routine) {
-		return handleErrorResponse(new NotFoundError('routine not found'));
+		return handleErrorResponse(
+			new NotFoundError(serverHttpErrorMessages.NOT_FOUND_ERROR)
+		);
 	}
 
 	return NextResponse.json<RoutineDetail>(routine);
@@ -40,7 +43,9 @@ export async function PUT(
 	const inputError = validateFullRoutineData(data);
 
 	if (inputError) {
-		return handleErrorResponse(new ValidatorError('Invalid input data'));
+		return handleErrorResponse(
+			new ValidatorError(serverHttpErrorMessages.INPUT_ERROR)
+		);
 	}
 
 	try {

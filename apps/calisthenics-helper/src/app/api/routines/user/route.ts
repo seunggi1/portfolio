@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { RoutinesByUserRequest, RoutinesResponse } from '@/types/routine';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { createRoutineBusiness } from '@/business';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest) {
 		});
 
 		if (!routines) {
-			throw new Error('Server Error');
+			throw new Error(serverHttpErrorMessages.SERVER_ERROR);
 		}
 
 		return NextResponse.json<RoutinesResponse>(routines);

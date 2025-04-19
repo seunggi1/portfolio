@@ -3,6 +3,7 @@ import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { ValidatorError } from '@/types/error';
 import { validateComment } from '@/schemas/comment';
 import { createCommentBusiness } from '@/business';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export async function PUT(
 	request: NextRequest,
@@ -12,7 +13,9 @@ export async function PUT(
 	const inputError = validateComment(data);
 
 	if (inputError) {
-		return handleErrorResponse(new ValidatorError('Invalid input data'));
+		return handleErrorResponse(
+			new ValidatorError(serverHttpErrorMessages.INPUT_ERROR)
+		);
 	}
 
 	try {

@@ -8,6 +8,7 @@ import { handleErrorResponse } from '@/utils/serverErrorHandler';
 import { validateFullRoutineData } from '@/schemas/routine';
 import { ValidatorError } from '@/types/error';
 import { createRoutineBusiness } from '@/business';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
 		});
 
 		if (!routines) {
-			throw new Error('Server Error');
+			throw new Error(serverHttpErrorMessages.SERVER_ERROR);
 		}
 
 		return NextResponse.json<RoutinesResponse>(routines);
@@ -44,7 +45,9 @@ export async function POST(request: NextRequest) {
 
 	const inputError = validateFullRoutineData(data);
 	if (inputError) {
-		return handleErrorResponse(new ValidatorError('Invalid input data'));
+		return handleErrorResponse(
+			new ValidatorError(serverHttpErrorMessages.INPUT_ERROR)
+		);
 	}
 
 	try {

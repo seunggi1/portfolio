@@ -7,13 +7,14 @@ import {
 	ValidatorError,
 } from '@/types/error';
 import { HttpStatus } from './httpStatus';
+import { serverHttpErrorMessages } from '@/constants/messages';
 
 export function handleErrorResponse(error: unknown): NextResponse {
 	if (error instanceof ValidatorError) {
 		return NextResponse.json<ErrorResult>(
 			{
 				name: error.name,
-				error: 'Input not valid',
+				error: serverHttpErrorMessages.INPUT_ERROR,
 				details: error.message,
 			},
 			{ status: HttpStatus.BadRequest }
@@ -25,7 +26,7 @@ export function handleErrorResponse(error: unknown): NextResponse {
 		return NextResponse.json<ErrorResult>(
 			{
 				name: error.name,
-				error: 'Not found resource',
+				error: serverHttpErrorMessages.NOT_FOUND_ERROR,
 				details: error.message,
 			},
 			{ status: HttpStatus.NotFound }
@@ -36,7 +37,7 @@ export function handleErrorResponse(error: unknown): NextResponse {
 		return NextResponse.json<ErrorResult>(
 			{
 				name: error.name,
-				error: 'Unauthorized user',
+				error: serverHttpErrorMessages.UNAUTHORIZED_ERROR,
 				details: error.message,
 			},
 			{ status: HttpStatus.Unauthorized }
@@ -46,7 +47,7 @@ export function handleErrorResponse(error: unknown): NextResponse {
 	return NextResponse.json<ErrorResult>(
 		{
 			name: ErrorName.serverError,
-			error: 'Internal Server Error',
+			error: serverHttpErrorMessages.SERVER_ERROR,
 			details: (error as Error).message,
 		},
 		{ status: HttpStatus.InternalServerError }
