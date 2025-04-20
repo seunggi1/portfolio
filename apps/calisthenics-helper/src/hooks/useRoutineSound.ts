@@ -16,6 +16,7 @@ function getAudio(name: string | number): HTMLAudioElement {
 export default function useRoutineSound() {
 	const countAudio = useRef<HTMLAudioElement[]>([]);
 	const statusAudio = useRef<StatusAudio | null>(null);
+	const beepAudio = useRef<HTMLAudioElement>(null);
 	const isMute = useRef<boolean>(false);
 
 	useEffect(() => {
@@ -26,6 +27,8 @@ export default function useRoutineSound() {
 		}
 
 		countAudio.current = temp;
+
+		beepAudio.current = getAudio('beep-sound');
 
 		statusAudio.current = {
 			rest: getAudio('rest'),
@@ -42,6 +45,8 @@ export default function useRoutineSound() {
 			countAudio.current.forEach((a) => {
 				a.pause();
 			});
+
+			beepAudio.current?.pause();
 
 			if (statusAudio.current) {
 				Object.values(statusAudio.current).forEach((a) => {
@@ -78,6 +83,18 @@ export default function useRoutineSound() {
 		}
 	};
 
+	const playBeep = () => {
+		if (isMute.current) {
+			return;
+		}
+
+		if (beepAudio.current) {
+			beepAudio.current.play().catch(() => {
+				beepAudio.current?.pause();
+			});
+		}
+	};
+
 	const handleMuteToggle = () => {
 		isMute.current = !isMute.current;
 	};
@@ -85,6 +102,7 @@ export default function useRoutineSound() {
 	return {
 		playCount,
 		playStatus,
+		playBeep,
 		isMute: isMute.current,
 		handleMuteToggle,
 	};

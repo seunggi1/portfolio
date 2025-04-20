@@ -31,10 +31,12 @@ export default function useRoutineRunner(
 	const [routineState, setRoutineState] = useState<RoutineState>(
 		routineController.createState()
 	);
-	const { playCount, playStatus, isMute, handleMuteToggle } = useRoutineSound();
+	const { playCount, playStatus, playBeep, isMute, handleMuteToggle } =
+		useRoutineSound();
 	const [routineRunStep, setRoutineRunStep] = useState<RoutineRunStep>(
 		routineController.getRoutineRunStep()
 	);
+	const beepSeconds = useRef<number>(0);
 
 	const {
 		latestSeconds,
@@ -56,23 +58,36 @@ export default function useRoutineRunner(
 			setRoutineState(nextRoutineState);
 			setRoutineRunStep(routineController.getRoutineRunStep());
 			if (
-				(nextRoutineState.state.status === 'delay' ||
-					nextRoutineState.state.status === 'rest') &&
-				!nextRoutineState.isEnd
+				nextRoutineState.state.status === 'delay' ||
+				nextRoutineState.state.status === 'rest'
 			) {
 				playStatus(nextRoutineState.state.status);
 			}
 			onTimerReset(nextRoutineState.state.totalSeconds);
 		},
-		onInterval: () => {
-			if (routineState.isEnd || routineState.state.status !== 'exercise') {
+		onInterval: (remainSeconds: number) => {
+			if (routineState.isEnd) {
 				return;
 			}
-			const nextState = routineController.nextExerciseCount();
-			const state = nextState.state as ExerciseState;
-			playCount(state.count);
-			setRoutineState(nextState);
-			onTimerIntervalReset(state.secondsPerRep);
+
+			if (
+				routineState.state.status === 'delay' ||
+				routineState.state.status === 'rest'
+			) {
+				const seconds = Math.ceil(remainSeconds);
+				if (beepSeconds.current !== seconds && seconds >= 1 && seconds <= 5) {
+					beepSeconds.current = seconds;
+					playBeep();
+				}
+			}
+
+			if (routineState.state.status === 'exercise') {
+				const nextState = routineController.nextExerciseCount();
+				const state = nextState.state as ExerciseState;
+				playCount(state.count);
+				setRoutineState(nextState);
+				onTimerIntervalReset(state.secondsPerRep);
+			}
 		},
 	});
 

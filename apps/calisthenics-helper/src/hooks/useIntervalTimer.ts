@@ -3,7 +3,7 @@ import { getRemainSecondsFromUnixTime, getUnixTime } from '@/utils/time';
 
 type Props = {
 	initIntervalSeconds: number;
-	onInterval: () => void;
+	onInterval: (remainSeconds: number) => void;
 	initExpireSeconds: number;
 	onExpire: () => void;
 	initPause: boolean;
@@ -41,13 +41,13 @@ export default function useIntervalTimer({
 				intervalExpireUnixTime.current
 			);
 
+			const remainSeconds = getRemainSecondsFromUnixTime(expireUnixTime);
 			if (remainIntervalSeconds <= 0) {
-				onInterval();
+				onInterval(remainSeconds);
 			} else {
 				intervalLatestSeconds.current = remainIntervalSeconds;
 			}
 
-			const remainSeconds = getRemainSecondsFromUnixTime(expireUnixTime);
 			if (remainSeconds <= 0) {
 				onExpire();
 			} else {
