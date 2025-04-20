@@ -1,35 +1,19 @@
 'use client';
 
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useModal } from '@/hooks';
 import { SearchIcon } from '@/components/common/icon';
 import SearchInput from './SearchInput';
 import { Button } from '@repo/ui/common';
+import useRoutineSearch from '@/hooks/useRoutineSearch';
 
 export default function SearchBar() {
-	const [search, setSearch] = useState<string>('');
-	const { Modal, showModal, hideModal } = useModal();
-	const router = useRouter();
-
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setSearch(e.target.value);
-	};
-
-	const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
-		const target = e.target;
-		if (target instanceof HTMLInputElement && e.key === 'Enter') {
-			router.push(`/?search=${target.value}`);
-			setSearch(target.value);
-			hideModal();
-		}
-	};
-
-	const handleSearchClear = () => {
-		setSearch('');
-		router.push(`/`);
-		hideModal();
-	};
+	const {
+		search,
+		handleChange,
+		Modal,
+		handleKeyUp,
+		handleSearchClear,
+		showModal,
+	} = useRoutineSearch();
 
 	return (
 		<div className="absolute left-1/2 -translate-x-1/2 w-[50%]">
@@ -44,7 +28,7 @@ export default function SearchBar() {
 			<div className="flex justify-center lg:hidden">
 				<Button
 					color="ghost"
-					onClick={() => showModal()}
+					onClick={showModal}
 					className="hover:text-primary lg:!hidden"
 				>
 					<SearchIcon />
