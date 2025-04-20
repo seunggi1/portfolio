@@ -10,11 +10,12 @@ import {
 } from '@/components/common/ui';
 import { useIntersectionObserver, useRoutines } from '@/hooks';
 import RoutineCardsSkeleton from './RoutineCardsSkeleton';
+import { routineSearchParam } from '@/constants/routines';
 
 export default function RoutineCards() {
 	const searchParam = useSearchParams();
-	const categoryID = searchParam.get('category');
-	const searchQuery = searchParam.get('search');
+	const categoryID = searchParam.get(routineSearchParam.categoryID);
+	const searchQuery = searchParam.get(routineSearchParam.searchQuery);
 	const { routines, isLoading, isFetching, handleNextPage, hasNextPage } =
 		useRoutines({ categoryID, searchQuery });
 
