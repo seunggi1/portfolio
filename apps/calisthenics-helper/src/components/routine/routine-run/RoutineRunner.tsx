@@ -32,7 +32,7 @@ export default function RoutineRunner({ routineDetail }: Props) {
 				className={`flex flex-col items-center justify-center gap-4 h-full`}
 			>
 				{isEnd ? (
-					<RoutineEnd />
+					<RoutineEnd routineID={routineDetail.id} />
 				) : (
 					<>
 						<RoutineInfo state={state} />
