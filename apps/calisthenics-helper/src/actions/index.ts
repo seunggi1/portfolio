@@ -8,3 +8,4 @@ export {
 	withdrawAction,
 } from './authActions';
 export { createContactAction } from './contactActions';
+export { saveCompletedRoutineAction } from './routineActions';

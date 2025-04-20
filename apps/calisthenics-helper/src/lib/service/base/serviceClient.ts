@@ -22,6 +22,7 @@ import type {
 	RoutinesRequest,
 	RecommandRoutine,
 	RoutinesByUserRequest,
+	CompletedRoutine,
 } from '@/types/routine';
 
 export interface ServiceClient {
@@ -65,4 +66,7 @@ export interface ServiceClient {
 	updateDisplayName: (displayName: User['displayName']) => Promise<boolean>;
 	deleteUser: (email: User['email']) => Promise<boolean>;
 	createContact: (contact: Contact) => Promise<boolean>;
+	saveCompletedRoutine: (
+		data: RequiredUserData<CompletedRoutine>
+	) => Promise<boolean>;
 }

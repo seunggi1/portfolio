@@ -3,6 +3,7 @@ import { getServiceClient } from '@/lib/service';
 import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { UnauthorizedError, ValidatorError } from '@/types/error';
 import {
+	CompletedRoutine,
 	NewRoutine,
 	Routine,
 	RoutinesByUserRequest,
@@ -76,6 +77,16 @@ export class RoutineBusiness {
 		} catch {
 			return [];
 		}
+	}
+
+	async saveCompletedRoutine({ routineID }: CompletedRoutine) {
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return this.client.saveCompletedRoutine({ routineID, user });
 	}
 }
 

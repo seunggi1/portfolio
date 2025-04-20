@@ -108,3 +108,11 @@ export type RecommandRoutine = {
 	routineID: Routine['id'];
 	exerciseType: number;
 };
+
+export type CompletedRoutine = {
+	routineID: Routine['id'];
+};
+
+export type CompletedRoutineResponse = CompletedRoutine & {
+	status?: 'success' | 'error';
+};

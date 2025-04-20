@@ -8,6 +8,7 @@ import {
 	RoutinesRequest,
 	RecommandRoutine,
 	RoutinesByUserRequest,
+	CompletedRoutine,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import {
@@ -535,6 +536,18 @@ export class SupabaseServiceClient implements ServiceClient {
 		if (error) {
 			throw new Error(error.message);
 		}
+
+		return !error;
+	}
+
+	async saveCompletedRoutine({
+		routineID,
+		user,
+	}: RequiredUserData<CompletedRoutine>): Promise<boolean> {
+		const { error } = await this.client.rpc('save_completed_routine', {
+			user_id: user.id,
+			routine_id: routineID,
+		});
 
 		return !error;
 	}
