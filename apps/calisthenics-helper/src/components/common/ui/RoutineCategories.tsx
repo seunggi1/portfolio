@@ -5,13 +5,7 @@ type Props = Pick<Routine, 'categoryNames'>;
 
 export default function RoutineCategories({ categoryNames }: Props) {
 	const categories = categoryNames.map((categoryName) => (
-		<Button
-			key={categoryName}
-			color="secondary"
-			borderRadius="full"
-			size="xs"
-			className="max-w-10"
-		>
+		<Button key={categoryName} color="secondary" borderRadius="full" size="xs">
 			{categoryName}
 		</Button>
 	));
