@@ -56,3 +56,15 @@ export function getBeforeDate(dateString: string) {
 
 	return secondsToBeforeDateString(afterSeconds);
 }
+
+export function addDay(date: Date, addDays: number) {
+	const addDate = new Date(date);
+
+	addDate.setDate(date.getDate() + addDays);
+
+	return addDate;
+}
+
+export function getDateString(date: Date) {
+	return date.toISOString().split('T')[0];
+}
