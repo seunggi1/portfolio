@@ -8,6 +8,7 @@ import {
 	Routine,
 	RoutinesByUserRequest,
 	RoutinesRequest,
+	UserStatsRequest,
 } from '@/types/routine';
 
 export class RoutineBusiness {
@@ -87,6 +88,20 @@ export class RoutineBusiness {
 		}
 
 		return this.client.saveCompletedRoutine({ routineID, user });
+	}
+
+	async getUserStats({ startDate, endDate }: UserStatsRequest) {
+		const user = await this.client.getUser();
+
+		if (!user) {
+			throw new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR);
+		}
+
+		return await this.client.getUserStats({
+			user,
+			startDate,
+			endDate,
+		});
 	}
 }
 

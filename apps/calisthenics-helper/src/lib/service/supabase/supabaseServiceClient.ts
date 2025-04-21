@@ -9,6 +9,8 @@ import {
 	RecommandRoutine,
 	RoutinesByUserRequest,
 	CompletedRoutine,
+	UserStatsRequest,
+	UserStatsResult,
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import {
@@ -550,5 +552,21 @@ export class SupabaseServiceClient implements ServiceClient {
 		});
 
 		return !error;
+	}
+
+	async getUserStats({
+		startDate,
+		endDate,
+		user,
+	}: RequiredUserData<UserStatsRequest>): Promise<UserStatsResult[]> {
+		const { data } = await this.client
+			.rpc('get_user_stats', {
+				target_user_id: user.id,
+				start_date: startDate,
+				end_date: endDate,
+			})
+			.returns<UserStatsResult[]>();
+
+		return data ?? [];
 	}
 }

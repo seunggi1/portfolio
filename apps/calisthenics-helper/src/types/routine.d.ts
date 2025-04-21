@@ -116,3 +116,13 @@ export type CompletedRoutine = {
 export type CompletedRoutineResponse = CompletedRoutine & {
 	status?: 'success' | 'error';
 };
+
+export type UserStatsRequest = {
+	startDate: string;
+	endDate: string;
+};
+
+export type UserStatsResult = {
+	name: string;
+	count: number;
+};

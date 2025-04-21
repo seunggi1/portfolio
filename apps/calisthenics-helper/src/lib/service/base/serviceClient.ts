@@ -23,6 +23,8 @@ import type {
 	RecommandRoutine,
 	RoutinesByUserRequest,
 	CompletedRoutine,
+	UserStatsResult,
+	UserStatsRequest,
 } from '@/types/routine';
 
 export interface ServiceClient {
@@ -69,4 +71,7 @@ export interface ServiceClient {
 	saveCompletedRoutine: (
 		data: RequiredUserData<CompletedRoutine>
 	) => Promise<boolean>;
+	getUserStats: (
+		data: RequiredUserData<UserStatsRequest>
+	) => Promise<UserStatsResult[]>;
 }
