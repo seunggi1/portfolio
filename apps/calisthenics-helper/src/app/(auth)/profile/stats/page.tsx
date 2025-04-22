@@ -1,10 +1,15 @@
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
 import { createRoutineBusiness } from '@/business';
 import MyStats from '@/components/auth/profile/MyStats';
 import { UnauthorizedError } from '@/types/error';
 import { UserStatsResult } from '@/types/routine';
 import { addDay, getDateString } from '@/utils/time';
 import { myStatsSearchParam } from '@/constants/profiles';
+
+export const metadata: Metadata = {
+	title: '운동 통계',
+};
 
 type SearchParams = Promise<{ [key: string]: string | undefined }>;
 
