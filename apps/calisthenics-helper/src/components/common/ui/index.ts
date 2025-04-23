@@ -10,3 +10,4 @@ export { default as RangeStepInput } from './RangeStepInput';
 export { default as RoutineCategories } from './RoutineCategories';
 export { default as RoutineLevel } from './RoutineLevel';
 export { default as RoutineSummary } from './RoutineSummary';
+export { default as AuthForm } from './AuthForm';
