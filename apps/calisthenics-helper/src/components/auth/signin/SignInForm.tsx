@@ -33,6 +33,7 @@ export default function SignInForm({ action }: Props) {
 					className="grow"
 					placeholder="abcd1234@site.com"
 					required
+					autoComplete="email"
 					defaultValue={inputs.email}
 				/>
 			</FormGroup>
@@ -49,6 +50,7 @@ export default function SignInForm({ action }: Props) {
 					className="grow"
 					placeholder=""
 					required
+					autoComplete="current-password"
 					defaultValue={inputs.password}
 				/>
 			</FormGroup>

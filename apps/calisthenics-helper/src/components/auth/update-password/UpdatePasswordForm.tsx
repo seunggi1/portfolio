@@ -36,6 +36,7 @@ export default function UpdatePasswordForm({ action }: Props) {
 					className="grow"
 					placeholder=""
 					required
+					autoComplete="new-password"
 					defaultValue={inputs.password}
 				/>
 			</FormGroup>
@@ -51,6 +52,7 @@ export default function UpdatePasswordForm({ action }: Props) {
 					className="grow"
 					placeholder=""
 					required
+					autoComplete="new-password"
 					defaultValue={inputs.confirmPassword}
 				/>
 			</FormGroup>

@@ -33,6 +33,7 @@ export default function ResetPasswordForm({ action }: Props) {
 					name="email"
 					className="grow"
 					placeholder="abcd1234@site.com"
+					autoComplete="off"
 					defaultValue={inputs.email}
 				/>
 			</FormGroup>

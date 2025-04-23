@@ -38,6 +38,7 @@ export default function SignUpForm({ action }: Props) {
 					minLength={3}
 					maxLength={8}
 					required
+					autoComplete="off"
 					defaultValue={inputs.displayName}
 				/>
 			</FormGroup>
@@ -49,6 +50,7 @@ export default function SignUpForm({ action }: Props) {
 					className="grow"
 					placeholder="abcd1234@site.com"
 					required
+					autoComplete="email"
 					defaultValue={inputs.email}
 				/>
 			</FormGroup>
@@ -65,6 +67,7 @@ export default function SignUpForm({ action }: Props) {
 					className="grow"
 					placeholder=""
 					required
+					autoComplete="new-password"
 					defaultValue={inputs.password}
 				/>
 			</FormGroup>
@@ -80,6 +83,7 @@ export default function SignUpForm({ action }: Props) {
 					className="grow"
 					placeholder=""
 					required
+					autoComplete="new-password"
 					defaultValue={inputs.confirmPassword}
 				/>
 			</FormGroup>
