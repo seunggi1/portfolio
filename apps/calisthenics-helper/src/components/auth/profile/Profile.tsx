@@ -15,7 +15,7 @@ export default function Profile() {
 		<ProfileContainer path="profile">
 			{isLoading && <ProfileSkeleton />}
 			{!isLoading && (
-				<div className="py-4 bg-white rounded-lg">
+				<>
 					<FormGroup displayName="이메일">
 						<span>{user?.email}</span>
 					</FormGroup>
@@ -27,7 +27,7 @@ export default function Profile() {
 					{user?.email && (
 						<WithdrawUser email={user.email} onWithdraw={refetch} />
 					)}
-				</div>
+				</>
 			)}
 		</ProfileContainer>
 	);

@@ -18,9 +18,11 @@ export default function EditablePassword({ email }: Props) {
 		<PasswordForm email={email} onSubmit={handleSubmit} />
 	) : (
 		<FormGroup displayName="비밀번호 변경">
-			<Button color="primary" onClick={() => setIsEdit(true)}>
-				비밀번호 변경
-			</Button>
+			<div>
+				<Button color="primary" onClick={() => setIsEdit(true)}>
+					비밀번호 변경
+				</Button>
+			</div>
 		</FormGroup>
 	);
 }

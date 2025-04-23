@@ -20,10 +20,12 @@ export default function EditableDisplayName({ displayName, onSubmit }: Props) {
 		<DisplayNameForm displayName={displayName} onSubmit={handleSubmit} />
 	) : (
 		<FormGroup displayName="별명">
-			<span>{displayName}</span>
-			<Button color="primary" size="sm" onClick={() => setIsEdit(true)}>
-				변경하기
-			</Button>
+			<span className="mr-4">{displayName}</span>
+			<div>
+				<Button color="primary" size="sm" onClick={() => setIsEdit(true)}>
+					변경하기
+				</Button>
+			</div>
 		</FormGroup>
 	);
 }

@@ -33,7 +33,7 @@ export default function ProfileContainer({ path, children }: Props) {
 						</li>
 					</ul>
 				</div>
-				{children}
+				<div className="py-4 px-2 bg-white rounded-lg">{children}</div>
 			</div>
 		</section>
 	);

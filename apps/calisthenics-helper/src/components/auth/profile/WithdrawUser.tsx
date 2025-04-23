@@ -33,10 +33,14 @@ export default function WithdrawUser({ email, onWithdraw }: Props) {
 	}, [success, router, hideModal, onWithdraw]);
 
 	return (
-		<div className="p-4">
-			<Button className="w-full" color="error" onClick={() => showModal()}>
-				회원 탈퇴
-			</Button>
+		<div>
+			<FormGroup displayName="회원탈퇴" addDivider={false}>
+				<div>
+					<Button color="error" onClick={() => showModal()}>
+						회원 탈퇴
+					</Button>
+				</div>
+			</FormGroup>
 			<Modal title={`회원 탈퇴를 위해 이메일 주소를 입력해주세요.`}>
 				<form action={formAction} className="w-full">
 					<FormGroup

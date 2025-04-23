@@ -12,10 +12,8 @@ type Props = {
 export default function MyStats({ stats, startDate, endDate }: Props) {
 	return (
 		<ProfileContainer path="stats">
-			<div className="bg-white rounded-lg ">
-				<DatePicker startDate={startDate} endDate={endDate} />
-				<MyStatsChart stats={stats} />
-			</div>
+			<DatePicker startDate={startDate} endDate={endDate} />
+			<MyStatsChart stats={stats} />
 		</ProfileContainer>
 	);
 }
