@@ -10,9 +10,10 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@repo/ui": "workspace:*",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"@repo/ui": "workspace:*"
+		"recharts": "^2.15.3"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.22.0",
