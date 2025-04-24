@@ -4,4 +4,5 @@ export const environments = {
 	SUPABASE_BUCKET_NAME: process.env.SUPABASE_BUCKET_NAME ?? 'image',
 	DB_SERVICE: process.env.DB_SERVICE || 'supabase',
 	SITE_URL: process.env.SITE_URL,
+	ADMIN_CLIENT_URL: process.env.ADMIN_CLIENT_URL || '',
 } as const;

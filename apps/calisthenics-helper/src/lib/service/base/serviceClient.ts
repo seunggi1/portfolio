@@ -1,7 +1,11 @@
 import {
+	AdminSignIn,
 	RequiredUserData,
 	SignInData,
 	SignUpData,
+	Stats,
+	StatsRequest,
+	StatsResult,
 	UpdatePasswordResult,
 	User,
 } from '@/types/auth';
@@ -74,4 +78,6 @@ export interface ServiceClient {
 	getUserStats: (
 		data: RequiredUserData<UserStatsRequest>
 	) => Promise<UserStatsResult[]>;
+	getTotalStats: (data: StatsRequest) => Promise<StatsResult | null>;
+	checkAdminCredential: (data: AdminSignIn) => Promise<boolean>;
 }

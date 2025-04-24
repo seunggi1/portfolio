@@ -14,11 +14,14 @@ import {
 } from '@/types/routine';
 import { ServiceClient } from '../base/serviceClient';
 import {
+	AdminSignIn,
 	RequiredUserData,
 	SignInData,
 	SignUpData,
+	StatsRequest,
 	UpdatePasswordResult,
 	User,
+	StatsResult,
 } from '@/types/auth';
 import { UnauthorizedError, ValidatorError } from '@/types/error';
 import {
@@ -568,5 +571,28 @@ export class SupabaseServiceClient implements ServiceClient {
 			.returns<UserStatsResult[]>();
 
 		return data ?? [];
+	}
+
+	async getTotalStats({ startDate, endDate }: StatsRequest) {
+		const { data } = await this.client
+			.rpc('get_daily_routine_and_user_counts', {
+				start_date: startDate,
+				end_date: endDate,
+			})
+			.returns<StatsResult>();
+		console.log(data);
+
+		return data;
+	}
+
+	async checkAdminCredential({ id, password }: AdminSignIn) {
+		const { data } = await this.client
+			.rpc('check_admin_credentials', {
+				id,
+				password,
+			})
+			.returns<boolean>();
+
+		return data === true;
 	}
 }

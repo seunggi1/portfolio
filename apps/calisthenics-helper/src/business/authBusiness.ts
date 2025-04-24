@@ -1,6 +1,7 @@
 import { ServiceClient } from '@/lib/service/base/serviceClient';
 import { getServiceClient } from '@/lib/service';
 import {
+	AdminSignIn,
 	ResetPasswordData,
 	ResetPasswordEmailResponse,
 	ResetPasswordResult,
@@ -8,6 +9,7 @@ import {
 	SignInFormResponse,
 	SignUpData,
 	SignUpFormResponse,
+	StatsRequest,
 	UpdatePasswordResult,
 	User,
 } from '@/types/auth';
@@ -160,6 +162,14 @@ export class AuthBusiness {
 
 	async getUser() {
 		return this.client.getUser();
+	}
+
+	async getTotalStats(data: StatsRequest) {
+		return this.client.getTotalStats(data);
+	}
+
+	async checkAdminCredential(data: AdminSignIn) {
+		return this.client.checkAdminCredential(data);
 	}
 }
 

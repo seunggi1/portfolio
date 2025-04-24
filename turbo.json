@@ -10,7 +10,8 @@
 				"DB_SERVICE",
 				"SUPABASE_ANON_KEY",
 				"SUPABASE_URL",
-				"SUPABASE_BUCKET_NAME"
+				"SUPABASE_BUCKET_NAME",
+				"ADMIN_CLIENT_URL"
 			]
 		},
 		"lint": {},
