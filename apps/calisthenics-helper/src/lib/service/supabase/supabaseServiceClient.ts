@@ -580,7 +580,6 @@ export class SupabaseServiceClient implements ServiceClient {
 				end_date: endDate,
 			})
 			.returns<StatsResult>();
-		console.log(data);
 
 		return data;
 	}

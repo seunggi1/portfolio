@@ -3,7 +3,6 @@ import {
 	RequiredUserData,
 	SignInData,
 	SignUpData,
-	Stats,
 	StatsRequest,
 	StatsResult,
 	UpdatePasswordResult,
