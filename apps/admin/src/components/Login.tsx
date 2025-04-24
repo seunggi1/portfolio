@@ -24,7 +24,7 @@ export default function Login({ onSuccess }: Props) {
 			if (result) {
 				onSuccess();
 			} else {
-				setError('올바르지않은 인증 정보 입니다.');
+				setError('인증 정보가 올바르지 않습니다.');
 			}
 		});
 	};
