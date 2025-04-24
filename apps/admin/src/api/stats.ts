@@ -5,7 +5,7 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 export async function getStats({
 	startDate,
 	endDate,
-}: StatsRequest): Promise<StatsResult> {
+}: StatsRequest): Promise<StatsResult & StatsRequest> {
 	const response = await fetch(
 		`${SERVER_URL}/api/admin/stats?startDate=${startDate}&endDate=${endDate}`,
 		{
@@ -15,7 +15,7 @@ export async function getStats({
 
 	const result = await response.json();
 	console.log(result);
-	return result.data ?? { stats: [] };
+	return { ...result.data, startDate, endDate };
 }
 
 export async function login(request: AdminSignIn) {

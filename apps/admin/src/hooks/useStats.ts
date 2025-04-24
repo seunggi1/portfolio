@@ -4,7 +4,7 @@ import { StatsRequest, StatsResult } from '@/types/stats';
 import { useEffect, useState } from 'react';
 
 export default function useStats() {
-	const [data, setData] = useState<StatsResult>();
+	const [data, setData] = useState<StatsResult & StatsRequest>();
 
 	useEffect(() => {
 		getStats({

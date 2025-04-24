@@ -19,6 +19,8 @@ export default function Dashboard() {
 				data={
 					data?.stats.map((s) => ({ date: s.date, count: s.userCount })) ?? []
 				}
+				startDate={data?.startDate ?? ''}
+				endDate={data?.endDate ?? ''}
 				label="회원 가입 수"
 			/>
 			<Chart
@@ -27,6 +29,8 @@ export default function Dashboard() {
 					data?.stats?.map((s) => ({ date: s.date, count: s.routineCount })) ??
 					[]
 				}
+				startDate={data?.startDate ?? ''}
+				endDate={data?.endDate ?? ''}
 				label="루틴 등록 수"
 			/>
 		</div>

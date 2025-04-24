@@ -9,20 +9,27 @@ import {
 	YAxis,
 } from 'recharts';
 import Container from './Container';
+import { StatsRequest } from '@/types/stats';
 
 type Props = {
 	data: { date: string; count: number }[];
 	chartName: string;
 	label: string;
-};
+} & StatsRequest;
 
-export default function Chart({ data, chartName, label }: Props) {
+export default function Chart({
+	data,
+	chartName,
+	label,
+	startDate,
+	endDate,
+}: Props) {
 	return (
 		<Container className="h-full">
 			<div className="p-4">
 				<h2 className="text-lg text-gray-600">{chartName}</h2>
 				<span className="text-sm text-gray-400">
-					{'2025-01-01'} - {'2025-01-01'}
+					{startDate} - {endDate}
 				</span>
 			</div>
 			<ResponsiveContainer width="100%" height={500}>
