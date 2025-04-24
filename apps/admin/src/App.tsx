@@ -1,19 +1,21 @@
-import { Button } from '@repo/ui/common';
 import { useState } from 'react';
+import Dashboard from './components/Dashboard';
+import Login from './components/Login';
+import { useSession } from '@/hooks/useSession';
 
 function App() {
-	const [count, setCount] = useState(0);
+	const { login, saveLogin } = useSession();
+	const [isLogin, setIsLogin] = useState<boolean>(login);
+
+	const handleOnSuccess = () => {
+		saveLogin();
+		setIsLogin(true);
+	};
 
 	return (
-		<>
-			<div>
-				<span className="text-5xl text-primary">Test</span>
-			</div>
-			<h1>Vite + React</h1>
-			<Button onClick={() => setCount((count) => count + 1)}>
-				count is {count}
-			</Button>
-		</>
+		<div className="w-full h-screen" data-theme="corporate">
+			{isLogin ? <Dashboard /> : <Login onSuccess={() => handleOnSuccess()} />}
+		</div>
 	);
 }
 
