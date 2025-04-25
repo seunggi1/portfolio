@@ -266,6 +266,15 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
 
+  packages/utils:
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../config-typescript
+
 packages:
 
   /@alloc/quick-lru@5.2.0:
