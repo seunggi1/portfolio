@@ -1,4 +1,4 @@
-import { getRemainSecondsFromUnixTime, getUnixTime } from '@/utils/time';
+import { getRemainSecondsFromUnixTime, getUnixTime } from '@repo/utils';
 import { describe, expect, it, vi } from 'vitest';
 
 describe('time util test', () => {

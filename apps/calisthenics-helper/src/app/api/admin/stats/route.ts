@@ -1,6 +1,6 @@
 import { createAuthBusiness } from '@/business';
 import { handleErrorResponse } from '@/utils/serverErrorHandler';
-import { addDay, getDateString } from '@/utils/time';
+import { addDay, getDateString } from '@repo/utils';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {

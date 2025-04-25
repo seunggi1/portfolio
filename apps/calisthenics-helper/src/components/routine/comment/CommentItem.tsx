@@ -1,5 +1,5 @@
 import { Button } from '@repo/ui/common';
-import { getBeforeDate } from '@/utils/time';
+import { getBeforeDate } from '@repo/utils';
 import CommentRecommandation from './CommentRecommandation';
 import CommentContent from './CommentContent';
 import CommentAvatar from './CommentAvatar';
