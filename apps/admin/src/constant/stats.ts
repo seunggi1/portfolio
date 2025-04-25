@@ -1,4 +1,4 @@
-import { addDay, getDateString } from '@/util/time';
+import { addDay, getDateString } from '@repo/utils';
 
 export const DEFAULT_DATE = {
 	start: getDateString(addDay(new Date(), -30)),
