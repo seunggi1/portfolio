@@ -7,7 +7,7 @@ type Props = {
 
 export default function TotalStatsInfo({ totalStats }: Props) {
 	return (
-		<div className="flex w-3/4 gap-4">
+		<div className="flex flex-col w-3/4 gap-4 md:flex-row">
 			<div className="bg-sky-100 basis-1/2 h-[170px] rounded-md p-4">
 				<UserIcon />
 				<p className="text-xl font-bold">{totalStats.totalUserCount}</p>

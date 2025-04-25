@@ -14,7 +14,7 @@ export async function getStats({
 	);
 
 	const result = await response.json();
-	console.log(result);
+
 	return { ...result.data, startDate, endDate };
 }
 
@@ -29,6 +29,6 @@ export async function login(request: AdminSignIn) {
 	});
 
 	const data = await response.json();
-	console.log(data);
+
 	return data.success ? true : false;
 }

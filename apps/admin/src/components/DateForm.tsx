@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { StatsRequest } from '@/types/stats';
 import { Button } from '@repo/ui/common';
 import Container from './Container';
@@ -9,6 +10,8 @@ type Props = {
 };
 
 export default function DatePickerForm({ onSubmit }: Props) {
+	const [error, setError] = useState<string>();
+
 	return (
 		<Container className="p-2 mt-8">
 			<h1 className="p-2 text-2xl font-bold text-center">
@@ -20,10 +23,17 @@ export default function DatePickerForm({ onSubmit }: Props) {
 					e.preventDefault();
 
 					const formData = new FormData(e.target as HTMLFormElement);
-					onSubmit({
+					const date = {
 						startDate: formData.get('start-date') as string,
 						endDate: formData.get('end-date') as string,
-					});
+					};
+
+					if (date.startDate <= date.endDate) {
+						onSubmit(date);
+						setError('');
+					} else {
+						setError('검색 일자가 올바르지 않습니다.');
+					}
 				}}
 			>
 				<label htmlFor="start-date">시작일</label>
@@ -40,6 +50,7 @@ export default function DatePickerForm({ onSubmit }: Props) {
 					required
 					defaultValue={DEFAULT_DATE.end}
 				/>
+				{error && <span className="text-error">{error}</span>}
 				<Button type="submit">검색</Button>
 			</form>
 		</Container>
