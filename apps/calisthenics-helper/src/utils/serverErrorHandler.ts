@@ -22,7 +22,6 @@ export function handleErrorResponse(error: unknown): NextResponse {
 	}
 
 	if (error instanceof NotFoundError) {
-		console.log(error.name);
 		return NextResponse.json<ErrorResult>(
 			{
 				name: error.name,

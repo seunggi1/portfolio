@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
 
 		return NextResponse.json<RoutinesResponse>(routines);
 	} catch (error) {
-		console.log(error);
 		return handleErrorResponse(error as Error);
 	}
 }
