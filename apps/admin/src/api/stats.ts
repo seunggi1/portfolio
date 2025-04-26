@@ -19,7 +19,6 @@ export async function getStats({
 }
 
 export async function login(request: AdminSignIn) {
-	console.log(request);
 	const response = await fetch(`${SERVER_URL}/api/admin`, {
 		body: JSON.stringify(request),
 		method: 'POST',
