@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
 	UnauthorizedError,
 	ErrorName,
@@ -8,6 +8,7 @@ import {
 } from '@/types/error';
 import { HttpStatus } from './httpStatus';
 import { serverHttpErrorMessages } from '@/constants/messages';
+import { environments } from '@/constants/environments';
 
 export function handleErrorResponse(error: unknown): NextResponse {
 	if (error instanceof ValidatorError) {
@@ -51,4 +52,8 @@ export function handleErrorResponse(error: unknown): NextResponse {
 		},
 		{ status: HttpStatus.InternalServerError }
 	);
+}
+
+export function IsAdminClient(request: NextRequest) {
+	return request.headers.get('origin') === environments.ADMIN_CLIENT_URL;
 }

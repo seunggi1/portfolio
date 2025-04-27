@@ -1,9 +1,17 @@
 import { createAuthBusiness } from '@/business';
-import { handleErrorResponse } from '@/utils/serverErrorHandler';
+import { serverHttpErrorMessages } from '@/constants/messages';
+import { UnauthorizedError } from '@/types/error';
+import { handleErrorResponse, IsAdminClient } from '@/utils/serverErrorHandler';
 import { addDay, getDateString } from '@repo/utils';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
+	if (!IsAdminClient(request)) {
+		throw handleErrorResponse(
+			new UnauthorizedError(serverHttpErrorMessages.UNAUTHORIZED_ERROR)
+		);
+	}
+
 	const params = request.nextUrl.searchParams;
 
 	try {
