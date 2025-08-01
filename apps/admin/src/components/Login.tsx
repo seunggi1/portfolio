@@ -1,6 +1,6 @@
 import { FormEvent, useState, useTransition } from 'react';
 import { login } from '@/api/stats';
-import { Button, Input } from '@repo/ui/common';
+import { Button, Input, Loading } from '@repo/ui/common';
 
 type Props = {
 	onSuccess: () => void;
@@ -56,7 +56,7 @@ export default function Login({ onSuccess }: Props) {
 				/>
 				{error && <span className="text-error">{error}</span>}
 				<Button disabled={isPending} type="submit">
-					로그인
+					{isPending ? <Loading /> : '로그인'}
 				</Button>
 			</form>
 		</section>
