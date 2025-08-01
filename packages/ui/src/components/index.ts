@@ -7,3 +7,4 @@ export { default as Carousel } from './carousel';
 export { default as Avatar } from './avatar';
 export { default as Input } from './input';
 export { default as TextArea } from './textarea';
+export { default as Loading } from './loading';
